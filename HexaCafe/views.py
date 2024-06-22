@@ -1,8 +1,9 @@
-from django.shortcuts import render
-from .forms import SignUpForm
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import ProductForm
+from .forms import SignUpForm
+from .forms import LoginForm
 
 
 def register(request):
