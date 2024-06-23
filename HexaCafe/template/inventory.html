@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Inventory List</title>
+    </head>
+    <body>
+        <h1>Inventory List</h1>
+        <table> 
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for material in raw_materials %}
+                <tr>
+                    <td>{{ material.name }}</td>
+                    <td>{{ material.name }}</td>
+                    <td><a href = "url 'upadate_inventory' material.pk %}">Update</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
