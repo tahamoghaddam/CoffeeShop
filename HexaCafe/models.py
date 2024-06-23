@@ -15,9 +15,6 @@ class Product(models.Model):
     category = models.CharField(max_length=100)
     ingredients = models.ManyToManyField(Ingredient, through='ProductIngredient')
 
-    def __str__(self):
-        return self.name
-
 class ProductIngredient(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
