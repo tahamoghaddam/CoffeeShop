@@ -6,6 +6,8 @@ from .forms import SignUpForm
 from .forms import LoginForm
 from .models import Product, Order
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
+from django.db import transaction
 
 
 def register(request):
@@ -81,3 +83,24 @@ def update_inventory(request, pk):
     else:
         form = IngredientForm(instance=Ingredient)
     return render(request, 'update_inventory.html', {'form': form})
+
+
+
+def create_order(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+    
+    # Check if there are enough ingredients
+    for pi in product.productingredient_set.all():
+        if pi.ingredient.quantity < pi.quantity:
+            raise ValidationError(f"Not enough {pi.ingredient.name} to fulfill the order for {product.name}")
+
+    # If all ingredients are available, proceed with the order
+    with transaction.atomic():
+        for pi in product.productingredient_set.all():
+            pi.ingredient.quantity -= pi.quantity
+            pi.ingredient.save()
+
+        # Create the order (Order model not shown, assuming you have one)
+        order = Order.objects.create(product=product, user=request.user)
+
+    return redirect('order_success')
