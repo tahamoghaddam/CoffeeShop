@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import ProductForm
 from .forms import SignUpForm
 from .forms import LoginForm
+from .models import Product, Order
+from django.http import HttpResponse
 
 
 def register(request):
@@ -46,7 +48,21 @@ def add_product(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('product_list')  # Redirect to a list of products or a success page
+            return redirect('product_list')  
     else:
         form = ProductForm()
     return render(request, 'add_product.html', {'form': form})
+
+def cart_view(request):
+    
+    products = Product.objects.all()
+    if request.method == 'POST':
+        delivery_method = request.POST.get('delivery_method')
+        product_ids = request.POST.getlist('products')
+        selected_products = Product.objects.filter(id__in=product_ids)
+        total_price = sum(product.price for product in selected_products)
+        order = Order.objects.create(delivery_method=delivery_method, total_price=total_price)
+        order.products.set(selected_products)
+        return HttpResponse("Order placed successfully!")
+    
+    return render(request, 'shop/cart.html', {'products': products})
