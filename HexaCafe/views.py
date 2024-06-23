@@ -66,3 +66,18 @@ def cart_view(request):
         return HttpResponse("Order placed successfully!")
     
     return render(request, 'shop/cart.html', {'products': products})
+
+def inventory_list(request):
+    Ingredients = Ingredient.objects.all()
+    return render(request, 'inventory_list.html', {'raw_materials': Ingredients})
+
+def update_inventory(request, pk):
+    Ingredient = get_object_or_404(Ingredient, pk=pk)
+    if request.method == "POST":
+        form = IngredientForm(request.POST, instance=Ingredient)
+        if form.is_valid():
+            form.save()
+            return redirect('inventory_list')
+    else:
+        form = IngredientForm(instance=Ingredient)
+    return render(request, 'update_inventory.html', {'form': form})

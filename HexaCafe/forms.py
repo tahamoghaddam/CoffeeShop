@@ -31,3 +31,9 @@ class ProductForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['name', 'quantity']
+
