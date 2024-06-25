@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProductForm, ProductIngredientFormSet
 from .models import Product, Ingredient
 
-def register(request):
+def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -24,7 +24,7 @@ def register(request):
         # eror field
     else:
         form = SignUpForm()
-    return render(request, "user/register.html", {"form": form})
+    return render(request, "user/signup.html", {"form": form})
 
 
 
@@ -63,7 +63,7 @@ def add_product(request):
         product_form = ProductForm()
         formset = ProductIngredientFormSet()
 
-    return render(request, 'add_product.html', {'product_form': product_form, 'formset': formset})
+    return render(request, 'addproduct.html', {'product_form': product_form, 'formset': formset})
 
 
 def process_order(product_id, quantity_ordered):
@@ -76,24 +76,24 @@ def process_order(product_id, quantity_ordered):
 def get_popular_products():
     return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
 
-def cart_view(request):
+def shoppingcart(request):
     
     products = Product.objects.all()
     if request.method == 'POST':
         delivery_method = request.POST.get('delivery_method')
         product_ids = request.POST.getlist('products')
         selected_products = Product.objects.filter(id__in=product_ids)
-        # tital price
+        # total price
         total_price = sum(product.price for product in selected_products)
         order = Order.objects.create(delivery_method=delivery_method, total_price=total_price)
         order.products.set(selected_products)
         return HttpResponse("Order placed successfully!")
     
-    return render(request, 'shop/cart.html', {'products': products})
+    return render(request, 'shop/shoppingcart.html', {'products': products})
 
 def inventory_list(request):
     Ingredients = Ingredient.objects.all()
-    return render(request, 'inventory_list.html', {'raw_materials': Ingredients})
+    return render(request, 'inventory.html', {'raw_materials': Ingredients})
 
 def update_inventory(request, pk):
     Ingredient = get_object_or_404(Ingredient, pk=pk)
@@ -101,28 +101,11 @@ def update_inventory(request, pk):
         form = IngredientForm(request.POST, instance=Ingredient)
         if form.is_valid():
             form.save()
-            return redirect('inventory_list')
+            return redirect('inventory')
     else:
         form = IngredientForm(instance=Ingredient)
     return render(request, 'update_inventory.html', {'form': form})
 
 
 
-def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, pk=product_id)
-    
-    # Check if there are enough ingredients
-    for pi in product.productingredient_set.all():
-        if pi.ingredient.quantity < pi.quantity:
-            raise ValidationError(f"Not enough {pi.ingredient.name} to fulfill the order for {product.name}")
 
-    # If all ingredients are available, proceed with the order
-    with transaction.atomic():
-        for pi in product.productingredient_set.all():
-            pi.ingredient.quantity -= pi.quantity
-            pi.ingredient.save()
-
-        # Create the order (Order model not shown, assuming you have one)
-        order = Order.objects.create(product=product, user=request.user)
-
-    return redirect('order_success')
