@@ -5,13 +5,12 @@ from django.core.exceptions import ValidationError
 from .forms import ProductForm
 from .forms import SignUpForm
 from .forms import LoginForm
-from .forms import IngredientForm
 from .models import Product, Order
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
-from .forms import ProductForm, ProductIngredientFormSet
+from .forms import ProductForm, ProductIngredientFormSet, ProductIngredientForm
 from .models import Product, Ingredient
 
 def signup(request):
@@ -76,6 +75,7 @@ def process_order(product_id, quantity_ordered):
 def get_popular_products():
     return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
 
+
 def shoppingcart(request):
     
     products = Product.objects.all()
@@ -98,14 +98,13 @@ def inventory_list(request):
 def update_inventory(request, pk):
     Ingredient = get_object_or_404(Ingredient, pk=pk)
     if request.method == "POST":
-        form = IngredientForm(request.POST, instance=Ingredient)
+        form = ProductIngredientForm(request.POST, instance=Ingredient)
         if form.is_valid():
             form.save()
             return redirect('inventory')
     else:
-        form = IngredientForm(instance=Ingredient)
+        form = ProductIngredientForm(instance=Ingredient)
     return render(request, 'update_inventory.html', {'form': form})
-
 
 
 
