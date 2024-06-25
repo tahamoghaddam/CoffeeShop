@@ -1,14 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.core.exceptions import ValidationError
 from .forms import ProductForm
 from .forms import SignUpForm
 from .forms import LoginForm
+from .forms import IngredientForm
 from .models import Product, Order
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.db import transaction
-
+from django.contrib.auth.decorators import login_required
+from .forms import ProductForm, ProductIngredientFormSet
+from .models import Product, Ingredient
 
 def register(request):
     if request.method == "POST":
@@ -17,6 +21,7 @@ def register(request):
             form.save()
             # Redirect to a success page or login page
             return redirect("login")
+        # eror field
     else:
         form = SignUpForm()
     return render(request, "user/register.html", {"form": form})
@@ -44,16 +49,32 @@ def login(request):
     return render(request, "registration/login.html", {"form": form})
 
 
-
+@login_required
 def add_product(request):
     if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')  
+        product_form = ProductForm(request.POST, request.FILES)
+        formset = ProductIngredientFormSet(request.POST)
+        if product_form.is_valid() and formset.is_valid():
+            product = product_form.save()
+            formset.instance = product
+            formset.save()
+            return redirect('product_list')  # Adjust to your URL
     else:
-        form = ProductForm()
-    return render(request, 'add_product.html', {'form': form})
+        product_form = ProductForm()
+        formset = ProductIngredientFormSet()
+
+    return render(request, 'add_product.html', {'product_form': product_form, 'formset': formset})
+
+
+def process_order(product_id, quantity_ordered):
+    product = Product.objects.get(id=product_id)
+    for product_ingredient in product.productingredient_set.all():
+        ingredient = product_ingredient.ingredient
+        ingredient.quantity -= product_ingredient.quantity * quantity_ordered
+        ingredient.save()
+
+def get_popular_products():
+    return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
 
 def cart_view(request):
     
@@ -62,6 +83,7 @@ def cart_view(request):
         delivery_method = request.POST.get('delivery_method')
         product_ids = request.POST.getlist('products')
         selected_products = Product.objects.filter(id__in=product_ids)
+        # tital price
         total_price = sum(product.price for product in selected_products)
         order = Order.objects.create(delivery_method=delivery_method, total_price=total_price)
         order.products.set(selected_products)
@@ -86,7 +108,7 @@ def update_inventory(request, pk):
 
 
 
-def create_order(request, product_id):
+def add_to_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     
     # Check if there are enough ingredients
