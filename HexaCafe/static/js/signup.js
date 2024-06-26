@@ -1,61 +1,53 @@
-document.getElementById('signupButton').addEventListener('click', function(event) {
-    event.preventDefault(); // جلوگیری از ارسال فرم به صورت پیش‌فرض
+document.addEventListener("DOMContentLoaded", function() {
+    const signupButton = document.getElementById("signupButton");
+    const errorDiv = document.getElementById("error");
 
-    var name = document.getElementById('name').value;
-    var email = document.getElementById('email').value;
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-    var errorDiv = document.getElementById('error');
+    signupButton.addEventListener("click", function() {
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
 
-    // پاک کردن پیام خطای قبلی
-    errorDiv.textContent = '';
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // ارسال درخواست به سرور
-    fetch('/signup/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken') // برای ارسال CSRF token در درخواست‌های POST
-            },
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                username: username,
-                password: password
+        fetch('/signup/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    username: username,
+                    password: password
+                })
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert('Signup was successful!');
-                window.location.href = '/login/';
-            } else {
-                errorDiv.textContent = data.error;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            errorDiv.textContent = 'Please try again';
-        });
-});
-
-// تابع برای دریافت CSRF token
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-// افزودن رویداد کلیک به دکمه BACK
-document.getElementById('backButton').addEventListener('click', function() {
-    window.location.href = '/login/';
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(data => {
+                        throw new Error(data.error);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.message) {
+                    window.location.href = '/login/';
+                } else if (data.error) {
+                    errorDiv.innerHTML = "";
+                    const errors = JSON.parse(data.error);
+                    for (let key in errors) {
+                        if (errors.hasOwnProperty(key)) {
+                            const errorMessages = errors[key].map(err => `<p>${err.message}</p>`).join('');
+                            errorDiv.innerHTML += `<p><strong>${key}:</strong> ${errorMessages}</p>`;
+                        }
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorDiv.innerHTML = `<p>${error.message}</p>`;
+            });
+    });
 });
