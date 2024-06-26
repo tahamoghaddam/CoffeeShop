@@ -32,7 +32,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login.html')
+            return redirect('login/')
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)

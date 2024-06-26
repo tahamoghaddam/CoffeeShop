@@ -4,30 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hexa Cafe</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
-    <link rel="stylesheet" href="shoppingcart.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
+    <link rel="stylesheet" href="shopping-cart-message.css" />
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
   </head>
   <body>
     <div class="main-container">
       <div class="rectangle">
-        <div class="group"></div>
         <div class="vector"></div>
-        <span class="shopping-cart">your shopping cart</span>
+        <div class="group"></div>
+        <span class="your-shopping-cart">your shopping cart</span>
         <div class="vector-1"></div>
-        <span class="back-to-menu">back to menu</span>
+        <a href="{% url 'menu' %}"><span class="back-to-menu">back to menu</span></a>
       </div>
-      <div class="rectangle-2">
-        <div class="img"></div>
-        <span class="cheesecake">cheesecake</span
-        ><button class="rectangle-button">
-          <span class="finalize-order-span">finalize order</span></button
-        ><span class="price-span">price : 8.99$</span
-        ><span class="amount-span">amount : 2</span
-        ><button class="rectangle-button-3">
-          <span class="remove">remove </span></button
-        ><span class="total-price">total: 17.98$</span
-        ><span class="time-stamp">17:51:32</span>
-      </div>
+      {% if cart_items %}
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+              <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.product.price|multiply:item.quantity }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <h3>Total: ${{ total }}</h3>
+      {% else %}
+        <span class="no-active-cart">you don’t have an active shopping cart yet!<br /><br />we recommend you check out our delicious menu :)</span>
+      {% endif %}
     </div>
   </body>
 </html>
