@@ -35,7 +35,7 @@ button {
   height: 880px;
   top: 0;
   left: 0;
-  background: url(./images/logo.png)
+  background: url('../images/login_pic.png')
     no-repeat center;
   background-size: cover;
   z-index: 9;
@@ -53,7 +53,7 @@ button {
   width: 110.424px;
   height: 128.438px;
   margin: 0 0 0 151.514px;
-  background: url(./login_pic.png)
+  background: url('../images/logo.png')
     no-repeat center;
   background-size: 100% 100%;
   z-index: 10;
