@@ -10,5 +10,5 @@ urlpatterns = [
     path('signup/' ,signup , name = 'signup'),
     path('addproduct/' ,add_product , name = 'addproduct' ),
     path('update_invnetory/' , update_inventory, name = 'inventory_update'),
-    path('home/', home , name = 'home')
+    path('home/',home, name='home'),
 ]

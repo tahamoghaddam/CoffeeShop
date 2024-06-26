@@ -35,45 +35,50 @@
 <body>
     <div class="main-container">
         <div class="top-view-roasted"></div>
-        <div class="flex-column-dc">
-            <div class="name-and-family-name">
-                <span class="name-and-family-name-a">name and family name</span>
+        <form id="signupForm">
+            {% csrf_token %}
+            <div class="flex-column-dc">
+                <div class="name-and-family-name">
+                    <span class="name-and-family-name-a">name and family name</span>
+                </div>
+                <div class="rectangle">
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required />
+                </div>
+                <div class="email-adress">
+                    <span class="email-adress-1">email adress</span>
+                    <span class="empty-class"> </span><span class="asterisk">*</span>
+                </div>
+                <div class="rectangle-d">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
+                </div>
+                <div class="username">
+                    <span class="empty-class-2"> </span>
+                    <span class="username-3">username</span>
+                    <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
+                </div>
+                <div class="rectangle-6">
+                    <input type="text" id="username" name="username" placeholder="Enter a username" required />
+                </div>
+                <div class="password">
+                    <span class="password-7">password</span><span class="empty"> </span>
+                    <span class="asterisk-8">*</span>
+                </div>
+                <div class="rectangle-e">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required />
+                </div>
+                <button type="button" id="signupButton" class="rectangle-9">
+                    <span class="sign-up">sign up</span>
+                </button>
+                <div id="error" class="error"></div>
+                <div class="group"></div>
+                <span class="back" id="backButton">back</span>
+                <div class="arrow"></div>
             </div>
-            <div class="rectangle">
-                <input type="text" id="name" name="name" placeholder="Enter your name" required />
-            </div>
-            <div class="email-adress">
-                <span class="email-adress-1">email adress</span>
-                <span class="empty-class"> </span><span class="asterisk">*</span>
-            </div>
-            <div class="rectangle-d">
-                <input type="email" id="email" name="email" placeholder="Enter your email" required />
-            </div>
-            <div class="username">
-                <span class="empty-class-2"> </span>
-                <span class="username-3">username</span>
-                <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
-            </div>
-            <div class="rectangle-6">
-                <input type="text" id="username" name="username" placeholder="Enter a username" required />
-            </div>
-            <div class="password">
-                <span class="password-7">password</span><span class="empty"> </span>
-                <span class="asterisk-8">*</span>
-            </div>
-            <div class="rectangle-e">
-                <input type="password" id="password" name="password" placeholder="Enter your password" required />
-            </div>
-            <button id="signupButton" class="rectangle-9">
-          <span class="sign-up">sign up</span>
-        </button>
-            <div id="error" class="error"></div>
-            <div class="group"></div>
-            <span class="back" id="backButton">back</span>
-            <div class="arrow"></div>
-        </div>
+        </form>
     </div>
-    <script src="signup.js"></script>
+    <script src="{% static 'js/signup.js' %}"></script>
 </body>
 
 </html>
+
+

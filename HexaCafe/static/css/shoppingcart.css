@@ -29,6 +29,7 @@ button {
   background: #ffffff;
   overflow: hidden;
 }
+
 .rectangle {
   position: relative;
   width: 1450px;
@@ -36,6 +37,7 @@ button {
   margin: 0 0 0 0;
   background: rgba(223, 193, 146, 0.42);
 }
+
 .group {
   position: absolute;
   width: 3.17%;
@@ -47,6 +49,7 @@ button {
   background-size: 100% 100%;
   z-index: 5;
 }
+
 .vector {
   position: absolute;
   width: 4.14%;
@@ -58,6 +61,7 @@ button {
   background-size: 100% 100%;
   z-index: 1;
 }
+
 .shopping-cart {
   display: flex;
   align-items: flex-start;
@@ -75,6 +79,7 @@ button {
   text-align: left;
   z-index: 4;
 }
+
 .vector-1 {
   position: absolute;
   width: 2.41%;
@@ -86,6 +91,7 @@ button {
   background-size: 100% 100%;
   z-index: 3;
 }
+
 .back-to-menu {
   display: flex;
   align-items: flex-start;
@@ -103,15 +109,17 @@ button {
   white-space: nowrap;
   z-index: 2;
 }
+
 .rectangle-2 {
   position: relative;
-  width: 848px;
+  width: 1225px;
   height: 326px;
-  margin: 94px 0 0 74px;
+  margin: 94px auto;
   background: rgba(223, 193, 146, 0.27);
   z-index: 6;
   border-radius: 50px;
 }
+
 .img {
   position: absolute;
   width: 204px;
@@ -123,6 +131,7 @@ button {
   background-size: cover;
   z-index: 7;
 }
+
 .cheesecake {
   display: flex;
   align-items: flex-start;
@@ -140,6 +149,79 @@ button {
   white-space: nowrap;
   z-index: 8;
 }
+
+.price-span {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  height: 32px;
+  top: 84px;
+  left: 311px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.045px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 9;
+}
+
+.amount-span {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  height: 32px;
+  top: 127px;
+  left: 311px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.045px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.total-price {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  height: 32px;
+  top: 170px;
+  left: 311px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.045px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 11;
+}
+
+.time-stamp {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: absolute;
+  height: 32px;
+  top: 214px;
+  left: 311px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.045px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 12;
+}
+
 .rectangle-button {
   position: absolute;
   width: 250px;
@@ -152,6 +234,7 @@ button {
   z-index: 13;
   border-radius: 60px;
 }
+
 .finalize-order-span {
   display: flex;
   align-items: flex-start;
@@ -170,40 +253,7 @@ button {
   white-space: nowrap;
   z-index: 15;
 }
-.price-span {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 32px;
-  top: 84px;
-  left: 311px;
-  color: #000000;
-  font-family: Inter, var(--default-font-family);
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 29.045px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 9;
-}
-.amount-span {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 32px;
-  top: 127px;
-  left: 311px;
-  color: #000000;
-  font-family: Inter, var(--default-font-family);
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 29.045px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 10;
-}
+
 .rectangle-button-3 {
   position: absolute;
   width: 250px;
@@ -216,6 +266,7 @@ button {
   z-index: 14;
   border-radius: 60px;
 }
+
 .remove {
   display: flex;
   align-items: flex-start;
@@ -234,37 +285,41 @@ button {
   white-space: nowrap;
   z-index: 16;
 }
-.total-price {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 32px;
-  top: 170px;
-  left: 311px;
-  color: #000000;
-  font-family: Inter, var(--default-font-family);
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 29.045px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 11;
+
+/* Styles for the shopping cart table */
+.table-container {
+  position: relative;
+  width: 90%;
+  margin: 50px auto;
+  border-radius: 10px;
+  overflow: hidden;
 }
-.time-stamp {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  position: absolute;
-  height: 32px;
-  top: 214px;
-  left: 311px;
-  color: #000000;
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  background-color: #dfc192;
+}
+
+td {
+  background-color: #ffffff;
+}
+
+h3.total-price {
+  margin: 20px auto;
+  text-align: right;
+  width: 90%;
   font-family: Inter, var(--default-font-family);
   font-size: 24px;
-  font-weight: 400;
-  line-height: 29.045px;
-  text-align: left;
-  white-space: nowrap;
-  z-index: 12;
+  font-weight: 600;
 }

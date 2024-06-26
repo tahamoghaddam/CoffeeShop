@@ -32,7 +32,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return JsonResponse({"message": "Signup was successful!"})
+            return redirect('login/')
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
@@ -51,13 +51,12 @@ def login(request):
 
             # Check if the input is a valid username or email
             user = authenticate(request, username=username_or_email, password=password)
-            if user:
-                if user.is_staff:  # Admin
-                    # Redirect to management panel
-                    return redirect("admin:index")
-                else:
-                    # Redirect to home page
-                    return redirect("home")
+            if user.is_staff:
+                # Admin
+                return redirect('admin:index')
+            else:
+                # Regular user
+                return redirect('home.html')
     else:
         form = LoginForm()
     return render(request, "login.html", {"form": form})

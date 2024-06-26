@@ -8,11 +8,13 @@ from .models import CartItem
 
 
 class SignUpForm(UserCreationForm):
+    # Custom fields
     email = forms.EmailField()
+    name = forms.CharField()
 
     class Meta:
         model = User
-        fields = ["username", "email", "password"]
+        fields = ["name", "username", "email", "password"]
 
 
 class LoginForm(forms.Form):
