@@ -7,7 +7,7 @@ body, html {
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: hidden;
+
 }
 
 .main-container {
@@ -111,6 +111,7 @@ body, html {
   background: url(./assets/images/cc5c23a3-c21f-4933-8836-a426afccec95.png) no-repeat center;
   background-size: 100% 100%;
 }
+
 .vector {
   width: 6.98%;
   height: 81.28%;
@@ -167,23 +168,9 @@ body, html {
   height: 24px;
 }
 
-.group-3 {
-  width: 20px;
-  height: 20px;
-  background: url(./assets/images/181852bf-efef-4a9b-8934-70c061885e11.png) no-repeat center;
-  background-size: 100% 100%;
-}
-
 .gg-menu-round-4 {
   width: 24px;
   height: 24px;
-}
-
-.group-5 {
-  width: 20px;
-  height: 20px;
-  background: url(./assets/images/37c476a9-e666-401c-8f93-feeaae1d5c2d.png) no-repeat center;
-  background-size: 100% 100%;
 }
 
 .welcome-message {
@@ -199,3 +186,4 @@ body, html {
   width: auto; /* تنظیم عرض */
   display: inline-block; /* نمایش به صورت بلوک درون‌خطی */
 }
+
