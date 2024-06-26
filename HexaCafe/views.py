@@ -14,6 +14,14 @@ from .forms import ProductForm, ProductIngredientFormSet, ProductIngredientForm
 from .models import Product, Ingredient
 from django.http import JsonResponse
 import json
+from .models import Cart, CartItem, Order, OrderItem, Product
+from .forms import CartItemForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Ingredient
+from .forms import IngredientForm
+
+
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -78,35 +86,58 @@ def get_popular_products():
     return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
 
 
-def shoppingcart(request):
-    
-    products = Product.objects.all()
+@login_required
+def cart_view(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    total = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'cart.html', {'cart_items': cart_items, 'total': total})
+
+@login_required
+def add_to_cart(request):
     if request.method == 'POST':
-        delivery_method = request.POST.get('delivery_method')
-        product_ids = request.POST.getlist('products')
-        selected_products = Product.objects.filter(id__in=product_ids)
-        # total price
-        total_price = sum(product.price for product in selected_products)
-        order = Order.objects.create(delivery_method=delivery_method, total_price=total_price)
-        order.products.set(selected_products)
-        return HttpResponse("Order placed successfully!")
-    
-    return render(request, 'shop/shoppingcart.html', {'products': products})
+        form = CartItemForm(request.POST)
+        if form.is_valid():
+            cart, created = Cart.objects.get_or_create(user=request.user)
+            cart_item = form.save(commit=False)
+            cart_item.cart = cart
+            cart_item.save()
+            return redirect('cart')
+    else:
+        form = CartItemForm()
+    return render(request, 'add_to_cart.html', {'form': form})
 
-def inventory_list(request):
-    Ingredients = Ingredient.objects.all()
-    return render(request, 'inventory.html', {'raw_materials': Ingredients})
+@login_required
+def order_history_view(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'order_history.html', {'orders': orders})
 
-def update_inventory(request, pk):
-    Ingredient = get_object_or_404(Ingredient, pk=pk)
-    if request.method == "POST":
-        form = ProductIngredientForm(request.POST, instance=Ingredient)
+@login_required
+def checkout(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    if cart_items:
+        order = Order.objects.create(user=request.user)
+        for item in cart_items:
+            OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity)
+        cart_items.delete()  # Clear the cart after checkout
+    return redirect('order_history')
+
+
+
+@login_required
+def inventory_view(request):
+    ingredients = Ingredient.objects.all()
+    return render(request, 'inventory.html', {'ingredients': ingredients})
+
+@login_required
+def update_inventory(request, ingredient_id):
+    ingredient = get_object_or_404(Ingredient, id=ingredient_id)
+    if request.method == 'POST':
+        form = IngredientForm(request.POST, instance=ingredient)
         if form.is_valid():
             form.save()
             return redirect('inventory')
     else:
-        form = ProductIngredientForm(instance=Ingredient)
-    return render(request, 'update_inventory.html', {'form': form})
-
-
-
+        form = IngredientForm(instance=ingredient)
+    return render(request, 'update_inventory.html', {'form': form, 'ingredient': ingredient})
