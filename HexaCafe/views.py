@@ -25,7 +25,7 @@ from .forms import IngredientForm
 
 def home(request):
      context = {}
-     render(request, 'home.html',context)
+     return render(request, 'home.html',context)
 
 def signup(request):
     if request.method == "POST":
