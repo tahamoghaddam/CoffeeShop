@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hexa Cafe</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+    <link rel="stylesheet" href="signup.css" />
+    <style>
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        
+        input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding-left: 10px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        
+        .rectangle input,
+        .rectangle-d input,
+        .rectangle-6 input,
+        .rectangle-e input {
+            background: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="top-view-roasted"></div>
+        <div class="flex-column-dc">
+            <div class="rectangle">
+                <input type="text" id="name" name="name" placeholder="Enter your name" required />
+            </div>
+            <div class="email-adress">
+                <span class="email-adress-1">email adress</span>
+                <span class="empty-class"> </span><span class="asterisk">*</span>
+            </div>
+            <div class="rectangle-d">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div class="username">
+                <span class="empty-class-2"> </span>
+                <span class="username-3">username</span>
+                <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
+            </div>
+            <div class="rectangle-6">
+                <input type="text" id="username" name="username" placeholder="Enter a username" required />
+            </div>
+            <div class="password">
+                <span class="password-7">password</span><span class="empty"> </span>
+                <span class="asterisk-8">*</span>
+            </div>
+            <div class="rectangle-e">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            </div>
+            <button id="signupButton" class="rectangle-9">
+          <span class="sign-up">sign up</span>
+        </button>
+            <div id="error" class="error"></div>
+            <div class="group"></div>
+            <span class="back" id="backButton">back</span>
+            <div class="arrow"></div>
+        </div>
+    </div>
+    <script src="signup.js"></script>
+</body>
+
+</html>
