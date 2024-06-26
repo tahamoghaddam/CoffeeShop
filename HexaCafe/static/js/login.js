@@ -1,64 +1,50 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle login form submission
+    function handleLogin(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    var username_or_email = document.getElementById('username_or_email').value;
-    var password = document.getElementById('password').value;
-    var errorDiv = document.getElementById('error');
-    var submitButton = document.querySelector('.rectangle-button');
+        const usernameOrEmail = document.getElementById('username_or_email').value;
+        const password = document.getElementById('password').value;
 
+        const data = {
+            username_or_email: usernameOrEmail,
+            password: password
+        };
 
-    errorDiv.textContent = '';
-
-
-    submitButton.classList.remove('animateButton');
-
-
-    fetch('/login/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify({
-                username_or_email: username_or_email,
-                password: password
+        fetch('/login/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
             })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert('Login was successful!');
-
-            } else {
-                errorDiv.textContent = data.error;
-
-                submitButton.classList.add('animateButton');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            errorDiv.textContent = 'Please try again!';
-        });
-});
-
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Login successful
+                    if (data.is_staff) {
+                        location.replace('/admin/'); // Redirect to admin panel if user is staff
+                    } else {
+                        location.replace('/home/'); // Redirect to home page for regular users
+                    }
+                } else {
+                    // Login failed
+                    alert('Invalid username or password');
+                }
+            })
+            .catch(error => {
+                console.error('Error logging in:', error);
+            });
     }
-    return cookieValue;
-}
 
+    // Select login button and add event listener
+    const loginButton = document.querySelector('.rectangle-button');
+    loginButton.addEventListener('click', handleLogin);
 
-document.getElementById('signUpButton').addEventListener('click', function() {
-    window.location.href = '/register/';
+    // Select sign-up link and add event listener
+    const signUpLink = document.querySelector('.sign-up-2');
+    signUpLink.addEventListener('click', () => {
+        // Redirect to signup page
+        window.location.href = '/signup/';
+    });
 });
