@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hexa Cafe</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
+<<<<<<< Updated upstream:HexaCafe/templates/login.html
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/login.css" %}">
+  </head>
+  <body>
+=======
+    <link rel="stylesheet" href="index.css" />
+    <style>
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+>>>>>>> Stashed changes:HexaCafe/template/login/login.html
+    <div class="main-container">
+        <div class="top-view-roasted"></div>
+        <div class="flex-column-f">
+            <div class="group"></div>
+            <form id="loginForm">
+                <div class="email-address-username">
+                    <span class="email-address">Email Address</span>
+                    <span class="or">or</span>
+                    <span class="email-address-1">Username</span>
+                    <span class="asterisk">*</span>
+                </div>
+                <div class="rectangle">
+                    <input type="text" id="username_or_email" placeholder="Enter email or username" required />
+                </div>
+                <div class="password-field">
+                    <span class="password-text">Password</span>
+                    <span class="required">*</span>
+                </div>
+                <div class="rectangle-3">
+                    <input type="password" id="password" placeholder="Enter your password" required />
+                </div>
+                <button type="submit" class="rectangle-button">
+                    <span class="log-in">log in</span>
+                </button>
+                <div id="error" class="error"></div>
+            </form>
+            <div class="sign-up">
+                <span class="dont-have-account">don’t have an account yet?</span>
+                <span id="signUpButton" class="sign-up-2" style="cursor: pointer; color: blue;">SIGN UP</span>
+            </div>
+        </div>
+    </div>
+    <script src="login.js "></script>
+</body>
+
+</html>
