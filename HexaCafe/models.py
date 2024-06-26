@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -19,25 +19,30 @@ class Product(models.Model):
     ingredients = models.ManyToManyField(Ingredient, through='ProductIngredient')
 
 
+
 class ProductIngredient(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.FloatField()  # Quantity of ingredient used in the product
+    quantity = models.FloatField()
 
-class Order(models.Model):
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-    order_date = models.DateField(auto_now_add=True)
 
 
-class Order_cart(models.Model):
-    DELIVERY_CHOICES = [
-        ('standard', 'Standard Delivery'),
-        ('express', 'Express Delivery'),
-    ]
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
 
-    products = models.ManyToManyField(Product)
-    delivery_method = models.CharField(max_length=10, choices=DELIVERY_CHOICES)
-    # total price 
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
