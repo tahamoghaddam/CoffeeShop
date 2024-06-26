@@ -22,6 +22,11 @@ from .models import Ingredient
 from .forms import IngredientForm
 
 
+
+def home(request):
+     context = {}
+     return render(request, 'home.html',context)
+
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
