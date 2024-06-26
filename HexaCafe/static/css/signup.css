@@ -35,7 +35,7 @@ button {
   height: 880px;
   top: 0;
   left: 0;
-  background: url(./assets/images/1b705dc5ae0580440bae7d38da0b6433506629ee.png)
+  background: url('../images/login_pic.png')
     no-repeat center;
   background-size: cover;
   z-index: 8;
@@ -264,7 +264,7 @@ button {
   height: 16.2%;
   top: 0;
   left: 80.81%;
-  background: url(./assets/images/cdb95bd1-9f38-4bd9-afe4-acd5c00a7e58.png)
+  background: url('../images/logo.png')
     no-repeat center;
   background-size: 100% 100%;
   z-index: 9;
@@ -292,7 +292,7 @@ button {
   height: 0px;
   top: 33px;
   left: 0;
-  background: url(./assets/images/de04d99b-f938-4fcc-9839-e1a3a6b266ec.png)
+  background: url('../images/salam.png')
     no-repeat center;
   background-size: cover;
   z-index: 17;
@@ -391,7 +391,7 @@ button {
   width: 40px;
   height: 24px;
   margin: 26px 0 0 350px;
-  background: url(./assets/images/271f4b0a-eff4-4204-b5ff-51ee5f9f2211.png)
+  background: url('../images/back.png')
     no-repeat center;
   background-size: 100% 100%;
   z-index: 16;

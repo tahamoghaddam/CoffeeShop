@@ -25,7 +25,7 @@ def signup(request):
             return JsonResponse({"error": errors}, status=400)
     else:
         form = SignUpForm()
-    return render(request, "signup/signup.html", {"form": form})
+    return render(request, "signup.html", {"form": form})
 
 
 
