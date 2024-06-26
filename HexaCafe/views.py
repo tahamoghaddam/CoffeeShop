@@ -12,15 +12,17 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from .forms import ProductForm, ProductIngredientFormSet, ProductIngredientForm
 from .models import Product, Ingredient
-
+from django.http import JsonResponse
+import json
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            # Redirect to a success page or login page
-            return redirect("login")
-        # eror field
+            return JsonResponse({"message": "Signup was successful!"})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({"error": errors}, status=400)
     else:
         form = SignUpForm()
     return render(request, "signup/signup.html", {"form": form})
