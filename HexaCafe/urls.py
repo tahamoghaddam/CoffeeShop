@@ -7,7 +7,7 @@ from .views import signup,login, add_product , shoppingcart , inventory_list , u
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',login , name = 'login'),
-    path('signup/' , signup , name = 'signup'),
+    path('signup/' ,signup , name = 'signup'),
     path('shoppingcart/', shoppingcart, name ='shoppingcart'),
     path('addproduct/' ,add_product , name = 'addproduct' ),
     path('inventory/' , inventory_list , name = 'inventory'),

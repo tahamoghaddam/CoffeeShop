@@ -23,7 +23,7 @@ def signup(request):
         # eror field
     else:
         form = SignUpForm()
-    return render(request, "user/signup.html", {"form": form})
+    return render(request, "signup/signup.html", {"form": form})
 
 
 
@@ -45,7 +45,7 @@ def login(request):
                     return redirect("home")
     else:
         form = LoginForm()
-    return render(request, "registration/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})
 
 
 @login_required
