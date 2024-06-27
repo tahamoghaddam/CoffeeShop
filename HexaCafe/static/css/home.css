@@ -22,7 +22,7 @@ body, html {
   right: 0;
   bottom: 0;
   left: 0;
-  background: url(./assets/images/dfe6bd54-8b71-4f74-b794-8fd86231cc5d.png) no-repeat center;
+  background: url('../images/background.png') no-repeat center;
   background-size: cover;
   z-index: 1;
 }
@@ -59,14 +59,14 @@ body, html {
 .solar-logout-outline {
   width: 180px;
   height: 180px;
-  background: url(./assets/images/fd8d7f81-13ed-49ae-81d9-eb5ecd927818.png) no-repeat center;
+  background: url('../images/loginlogo.png') no-repeat center;
   background-size: cover;
 }
 
 .group {
   width: 6.57%;
   height: 80.83%;
-  background: url(./assets/images/eb64f030-db78-45d7-9ef9-ed3502b6e21b.png) no-repeat center;
+  background: url('../images/shoppingcart.png') no-repeat center;
   background-size: 100% 100%;
 }
 
@@ -81,7 +81,7 @@ body, html {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: url(./assets/images/1d9f7ead-227e-45c0-ae4e-46a145e9b0ef.png) no-repeat center;
+  background: url('../images/menuicon.png') no-repeat center;
   background-size: 100% 100%;
 }
 
@@ -90,7 +90,7 @@ body, html {
   height: 150px;
   position: absolute;
   left: 2320px;
-  background: url(./assets/images/eb64f030-db78-45d7-9ef9-ed3502b6e21b.png) no-repeat center;
+  background: url('../images/shoppingcart.png') no-repeat center;
   background-size: 100% 100%;
 }
 
@@ -99,7 +99,7 @@ body, html {
   height: 150px;
   position: absolute;
   left: 2480px;
-  background: url(./assets/images/8a4cd731-960f-4132-937b-db27307da719.png) no-repeat center;
+  background: url('../images/shoppinghistory.png') no-repeat center;
   background-size: 100% 100%;
 }
 
@@ -108,14 +108,14 @@ body, html {
   height: 150px;
   position: absolute;
   right: 20px;
-  background: url(./assets/images/cc5c23a3-c21f-4933-8836-a426afccec95.png) no-repeat center;
+  background: url('../images/roundcoffee.png') no-repeat center;
   background-size: 100% 100%;
 }
 
 .vector {
   width: 6.98%;
   height: 81.28%;
-  background: url(./assets/images/8a4cd731-960f-4132-937b-db27307da719.png) no-repeat center;
+  background: url('../images/shoppinghistory.png') no-repeat center;
   background-size: 100% 100%;
 }
 
