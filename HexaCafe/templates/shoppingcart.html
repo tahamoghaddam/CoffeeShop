@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hexa Cafe</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/shoppingcart.css' %}" />
-    <style>
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="main-container">
-      <div class="rectangle">
-        <div class="vector"></div>
-        <div class="group"></div>
-        <span class="your-shopping-cart">your shopping cart</span>
-        <div class="vector-1"></div>
-        <a href="{% url 'menu' %}"><span class="back-to-menu">back to menu</span></a>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hexa Cafe</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/shoppingcart.css' %}" />
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="rectangle">
+      <div class="vector"></div>
+      <div class="group"></div>
+      <span class="your-shopping-cart">Your Shopping Cart</span>
+      <div class="vector-1"></div>
+      <a href="{% url 'menu' %}"><span class="back-to-menu">Back to Menu</span></a>
+    </div>
+    {% if user.is_authenticated %}
       {% if cart_items %}
         <table>
           <thead>
@@ -55,8 +56,11 @@
         </table>
         <h3>Total: ${{ total }}</h3>
       {% else %}
-        <span class="no-active-cart">you don’t have an active shopping cart yet!<br /><br />we recommend you check out our delicious menu :)</span>
+        <span class="no-active-cart">You don’t have an active shopping cart yet!<br /><br />We recommend you check out our delicious menu :)</span>
       {% endif %}
-    </div>
-  </body>
+    {% else %}
+      <span class="no-active-cart">Please <a href="{% url 'login' %}">login</a> to view your shopping cart.</span>
+    {% endif %}
+  </div>
+</body>
 </html>
