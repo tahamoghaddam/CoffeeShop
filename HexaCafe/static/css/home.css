@@ -187,3 +187,43 @@ body, html {
   display: inline-block; /* نمایش به صورت بلوک درون‌خطی */
 }
 
+.popular-products {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.popular-products h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.products-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.product-card h3 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.product-card p {
+  font-size: 18px;
+  margin: 5px 0;
+}

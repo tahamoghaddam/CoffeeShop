@@ -24,8 +24,9 @@ from .forms import IngredientForm
 
 
 def home(request):
-     context = {}
-     return render(request, 'home.html',context)
+    popular_products = get_popular_products()
+    context = {'popular_products': popular_products}
+    return render(request, 'home.html', context)
 
 def signup(request):
     if request.method == "POST":
@@ -87,7 +88,10 @@ def process_order(product_id, quantity_ordered):
         ingredient.save()
 
 def get_popular_products():
-    return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
+    popular_products = (OrderItem.objects.values('product__id', 'product__name', 'product__price', 'product__image')
+                        .annotate(total_quantity=sum('quantity'))
+                        .order_by('-total_quantity')[:5])
+    return popular_products
 
 
 def cart_view(request):
