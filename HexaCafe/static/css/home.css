@@ -28,21 +28,10 @@ body, html {
 }
 
 .inner-container {
-<<<<<<< Updated upstream
   position: relative;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
-=======
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40%;
-  height: 40%;
-  background: #f8f3ed;
-  border-radius: 30px;
->>>>>>> Stashed changes
   padding: 40px;
   background: rgba(248, 243, 237, 0.9); /* Semi-transparent background */
   border-radius: 30px;
