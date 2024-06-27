@@ -2,11 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    CATEGORY_CHOICES = [
+        ('cold', 'Cold'),
+        ('hot', 'Hot'),
+        ('cakes', 'Cakes'),
+        ('desserts', 'Desserts'),
+    ]
+    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
+    INGREDIENT_CHOICES = [
+        ('flour', 'Flour'),
+        ('sugar', 'Sugar'),
+        ('milk', 'Milk'),
+        ('coffee', 'Coffee'),
+    ]
+    name = models.CharField(max_length=100, choices=INGREDIENT_CHOICES)
     quantity = models.FloatField()
 
 
