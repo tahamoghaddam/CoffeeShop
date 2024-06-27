@@ -7,13 +7,13 @@
     <title>Hexa Cafe</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/signup.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
     <style>
         .error {
             color: red;
             margin-top: 10px;
         }
-        
+
         input {
             width: 100%;
             height: 100%;
@@ -22,7 +22,7 @@
             box-sizing: border-box;
             font-size: 1rem;
         }
-        
+
         .rectangle input,
         .rectangle-d input,
         .rectangle-6 input,
@@ -35,50 +35,71 @@
 <body>
     <div class="main-container">
         <div class="top-view-roasted"></div>
-        <form id="signupForm">
-            {% csrf_token %}
-            <div class="flex-column-dc">
-                <div class="name-and-family-name">
-                    <span class="name-and-family-name-a">name and family name</span>
-                </div>
-                <div class="rectangle">
-                    <input type="text" id="name" name="name" placeholder="Enter your name" required />
-                </div>
-                <div class="email-adress">
-                    <span class="email-adress-1">email adress</span>
-                    <span class="empty-class"> </span><span class="asterisk">*</span>
-                </div>
-                <div class="rectangle-d">
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required />
-                </div>
-                <div class="username">
-                    <span class="empty-class-2"> </span>
-                    <span class="username-3">username</span>
-                    <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
-                </div>
-                <div class="rectangle-6">
-                    <input type="text" id="username" name="username" placeholder="Enter a username" required />
-                </div>
-                <div class="password">
-                    <span class="password-7">password</span><span class="empty"> </span>
-                    <span class="asterisk-8">*</span>
-                </div>
-                <div class="rectangle-e">
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required />
-                </div>
-                <button type="button" id="signupButton" class="rectangle-9">
-                    <span class="sign-up">sign up</span>
-                </button>
-                <div id="error" class="error"></div>
-                <div class="group"></div>
-                <span class="back" id="backButton">back</span>
-                <div class="arrow"></div>
+        <div class="flex-column-dc">
+            <div class=name-and-family-name>
+                <span class="name_and_family_name-a">name and family name</span>
+                <span class="empty-class"> </span><span class="asterisk">*</span>
             </div>
-        </form>
+            <div class="rectangle">
+                <input type="text" id="name" name="name" placeholder="Enter your name" required />
+            </div>
+            <div class="email-adress">
+                <span class="email-adress-1">email address</span>
+                <span class="empty-class"> </span><span class="asterisk">*</span>
+            </div>
+            <div class="rectangle-d">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required />
+            </div>
+            <div class="username">
+                <span class="empty-class-2"> </span>
+                <span class="username-3">username</span>
+                <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
+            </div>
+            <div class="rectangle-6">
+                <input type="text" id="username" name="username" placeholder="Enter a username" required />
+            </div>
+            <div class="password">
+                <span class="password-7">password</span><span class="empty"> </span>
+                <span class="asterisk-8">*</span>
+            </div>
+            <div class="rectangle-e">
+                <input type="password" id="password" name="password" placeholder="Enter your password" required />
+            </div>
+            <button id="signupButton" class="rectangle-9" onclick="signup()">
+                <span class="sign-up">sign up</span>
+            </button>
+            <div id="error" class="error"></div>
+            <div class="group"></div>
+            <span class="back" id="backButton" onclick="goToLogin()">back</span>
+            <div class="arrow"></div>
+        </div>
     </div>
-    <script src="{% static 'js/signup.js' %}"></script>
+
+    <script>
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Perform validation if needed
+            if (!name || !email || !username || !password) {
+                document.getElementById('error').innerText = 'Please fill in all fields.';
+                return;
+            }
+
+            // Here you can perform additional validation or submit to the server
+
+            // Assuming successful signup, redirect to login page
+            alert('Signup successful. Redirecting to login page.');
+            window.location.href = "{% url 'login' %}";
+        }
+
+        function goToLogin() {
+            // Redirect to login page
+            window.location.href = "{% url 'login' %}";
+        }
+    </script>
 </body>
 
 </html>
-
-
