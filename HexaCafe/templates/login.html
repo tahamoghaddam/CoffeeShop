@@ -40,7 +40,7 @@
   </div>
 
   <script>
-    function login() {
+    async function login() {
       const usernameOrEmail = document.getElementById('username_or_email').value;
       const password = document.getElementById('password').value;
 
@@ -49,8 +49,32 @@
         return;
       }
 
-      // Simulate checking the database for user account (in a real scenario, you would make a request to your server here)
-      alert('Login attempt with: ' + usernameOrEmail + ' and ' + password);
+      try {
+        // Make a request to your server to validate the credentials
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ usernameOrEmail, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Check if the user is an admin
+          if (result.isAdmin) {
+            window.location.href = "{% url 'home' %}";
+          } else {
+            window.location.href = "{% url 'signup' %}";
+          }
+        } else {
+          alert(result.message || 'Login failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+        alert('An error occurred. Please try again later.');
+      }
     }
 
     function goToSignup() {
@@ -60,6 +84,7 @@
   </script>
 </body>
 </html>
+
 
 
 
