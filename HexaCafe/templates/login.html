@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -30,16 +29,37 @@
       <div class="rectangle">
         <span class="enter-password"><input type="password" id="password" placeholder="Enter your password" required /></span>
       </div>
-      <button class="rectangle-button">
+      <button class="rectangle-button" onclick="login()">
         <span class="log-in">log in</span>
       </button>
       <div class="sign-up">
         <span class="dont-have-account">don’t have an account yet?</span>
-        <span class="sign-up-2">SIGN UP</span>
+        <span class="sign-up-2" onclick="goToSignup()">SIGN UP</span>
       </div>
     </div>
   </div>
+
+  <script>
+    function login() {
+      const usernameOrEmail = document.getElementById('username_or_email').value;
+      const password = document.getElementById('password').value;
+
+      if (!usernameOrEmail || !password) {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      // Simulate checking the database for user account (in a real scenario, you would make a request to your server here)
+      alert('Login attempt with: ' + usernameOrEmail + ' and ' + password);
+    }
+
+    function goToSignup() {
+      // Redirect to signup page
+      window.location.href = "{% url 'signup' %}"; 
+    }
+  </script>
 </body>
 </html>
+
 
 
