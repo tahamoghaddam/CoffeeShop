@@ -91,12 +91,11 @@ def get_popular_products():
     return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
 
 
-@login_required
 def cart_view(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
     total = sum(item.product.price * item.quantity for item in cart_items)
-    return render(request, 'cart.html', {'cart_items': cart_items, 'total': total})
+    return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'total': total})
 
 @login_required
 def add_to_cart(request):
