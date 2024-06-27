@@ -62,7 +62,7 @@ def login(request):
     return render(request, "login.html", {"form": form})
 
 
-@login_required
+
 def add_product(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)
@@ -96,7 +96,7 @@ def cart_view(request):
     total = sum(item.product.price * item.quantity for item in cart_items)
     return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'total': total})
 
-@login_required
+
 def add_to_cart(request):
     if request.method == 'POST':
         form = CartItemForm(request.POST)
@@ -110,12 +110,12 @@ def add_to_cart(request):
         form = CartItemForm()
     return render(request, 'add_to_cart.html', {'form': form})
 
-@login_required
+
 def order_history_view(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'order_history.html', {'orders': orders})
 
-@login_required
+
 def checkout(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
@@ -128,12 +128,11 @@ def checkout(request):
 
 
 
-@login_required
 def inventory_view(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'inventory.html', {'ingredients': ingredients})
 
-@login_required
+
 def update_inventory(request, ingredient_id):
     ingredient = get_object_or_404(Ingredient, id=ingredient_id)
     if request.method == 'POST':
