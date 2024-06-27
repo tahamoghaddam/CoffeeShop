@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from .forms import ProductForm
@@ -45,21 +45,23 @@ def signup(request):
 
 def login(request):
     if request.method == "POST":
-        form = LoginForm(request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username_or_email = form.cleaned_data["username_or_email"]
-            password = form.cleaned_data["password"]
+            username_or_email = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
 
-            # Check if the input is a valid username or email
             user = authenticate(request, username=username_or_email, password=password)
-            if user.is_staff:
-                # Admin
-                return redirect('admin:index')
-            else:
-                # Regular user
-                return redirect('home.html')
+            if user is not None:
+                auth_login(request, user)
+                if user.is_staff:
+                    return redirect('admin:index')
+                else:
+                    return redirect('home')  # Redirect to the home view
+        else:
+            # Invalid form (incorrect credentials, etc.)
+            return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
     else:
-        form = LoginForm()
+        form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
 
 
@@ -93,26 +95,41 @@ def process_order(product_id, quantity_ordered):
 #                        .order_by('-total_quantity')[:5])
 #    return popular_products
 
+def get_cart(request):
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+    else:
+        cart = None
+    return cart
 
+
+@login_required(login_url='login')  # Redirect to login page if not authenticated
 def cart_view(request):
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = CartItem.objects.filter(cart=cart)
-    total = sum(item.product.price * item.quantity for item in cart_items)
-    return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'total': total})
+    cart = get_cart(request)
+    if cart:
+        cart_items = CartItem.objects.filter(cart=cart)
+        total = sum(item.product.price * item.quantity for item in cart_items)
+        return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'total': total})
+    else:
+        return render(request, 'shoppingcart.html', {'cart_items': [], 'total': 0})
+    
 
 
+@login_required(login_url='login')  # Redirect to login page if not authenticated
 def add_to_cart(request):
     if request.method == 'POST':
         form = CartItemForm(request.POST)
         if form.is_valid():
-            cart, created = Cart.objects.get_or_create(user=request.user)
-            cart_item = form.save(commit=False)
-            cart_item.cart = cart
-            cart_item.save()
-            return redirect('cart')
+            cart = get_cart(request)
+            if cart:
+                cart_item = form.save(commit=False)
+                cart_item.cart = cart
+                cart_item.save()
+                return redirect('cart')
     else:
         form = CartItemForm()
     return render(request, 'add_to_cart.html', {'form': form})
+
 
 
 def order_history_view(request):
