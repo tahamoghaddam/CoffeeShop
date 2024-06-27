@@ -24,8 +24,9 @@ from .forms import IngredientForm
 
 
 def home(request):
-     context = {}
-     return render(request, 'home.html',context)
+    #popular_products = get_popular_products()
+    #context = {'popular_products': popular_products}
+    return render(request, 'home.html')
 
 def signup(request):
     if request.method == "POST":
@@ -62,7 +63,7 @@ def login(request):
     return render(request, "login.html", {"form": form})
 
 
-@login_required
+
 def add_product(request):
     if request.method == 'POST':
         product_form = ProductForm(request.POST, request.FILES)
@@ -86,8 +87,11 @@ def process_order(product_id, quantity_ordered):
         ingredient.quantity -= product_ingredient.quantity * quantity_ordered
         ingredient.save()
 
-def get_popular_products():
-    return Order.objects.values('product__name').annotate(total_quantity=sum('quantity')).order_by('-total_quantity')
+#def get_popular_products():
+#    popular_products = (OrderItem.objects.values('product__id', 'product__name', 'product__price', 'product__image')
+#                        .annotate(total_quantity=sum('quantity'))
+#                        .order_by('-total_quantity')[:5])
+#    return popular_products
 
 
 def cart_view(request):
@@ -96,7 +100,7 @@ def cart_view(request):
     total = sum(item.product.price * item.quantity for item in cart_items)
     return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'total': total})
 
-@login_required
+
 def add_to_cart(request):
     if request.method == 'POST':
         form = CartItemForm(request.POST)
@@ -110,12 +114,12 @@ def add_to_cart(request):
         form = CartItemForm()
     return render(request, 'add_to_cart.html', {'form': form})
 
-@login_required
+
 def order_history_view(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'order_history.html', {'orders': orders})
 
-@login_required
+
 def checkout(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
@@ -128,12 +132,11 @@ def checkout(request):
 
 
 
-@login_required
 def inventory_view(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'inventory.html', {'ingredients': ingredients})
 
-@login_required
+
 def update_inventory(request, ingredient_id):
     ingredient = get_object_or_404(Ingredient, id=ingredient_id)
     if request.method == 'POST':
