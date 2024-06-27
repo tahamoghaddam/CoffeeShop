@@ -28,10 +28,21 @@ body, html {
 }
 
 .inner-container {
+<<<<<<< Updated upstream
   position: relative;
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
+=======
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  height: 40%;
+  background: #f8f3ed;
+  border-radius: 30px;
+>>>>>>> Stashed changes
   padding: 40px;
   background: rgba(248, 243, 237, 0.9); /* Semi-transparent background */
   border-radius: 30px;
@@ -69,12 +80,6 @@ body, html {
   background-size: cover;
 }
 
-.group {
-  width: 40px;
-  height: 40px;
-  background: url('../images/shoppingcart.png') no-repeat center;
-  background-size: cover;
-}
 
 .gg-menu-round {
   width: 80px;
@@ -86,6 +91,9 @@ body, html {
   height: 60px;
   background: url('../images/menuicon.png') no-repeat center;
   background-size: cover;
+  position: absolute;
+  top: 10px; 
+  right: 1112px; 
 }
 
 .group-2 {
@@ -93,6 +101,9 @@ body, html {
   height: 60px;
   background: url('../images/shoppingcart.png') no-repeat center;
   background-size: cover;
+  position: absolute;
+  top: 10px; 
+  right: 560px; 
 }
 
 .group-8 {
@@ -100,14 +111,21 @@ body, html {
   height: 60px;
   background: url('../images/shoppinghistory.png') no-repeat center;
   background-size: cover;
+  position: absolute;
+  top: 10px; 
+  right: 450px; 
 }
-
 .group-9 {
   width: 60px;
   height: 60px;
   background: url('../images/roundcoffee.png') no-repeat center;
   background-size: cover;
+  position: relative; 
+  top: 5px; 
+  left: 550px; 
+  z-index: 10; 
 }
+
 
 .vector {
   width: 40px;
@@ -118,12 +136,14 @@ body, html {
 
 .menu {
   display: block;
-  text-align: center;
+  text-align: left;
   color: #000000;
   font-family: Inter, var(--default-font-family);
   font-size: 24px;
   font-weight: 400;
-  margin: 20px;
+  position: absolute;
+  top: 78px;
+  left: 10px;
 }
 
 .rectangle {
