@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 from .forms import ProductForm
@@ -7,17 +8,13 @@ from .forms import SignUpForm
 from .forms import LoginForm
 from .models import Product, Order
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
 from .forms import ProductForm, ProductIngredientFormSet, ProductIngredientForm
 from .models import Product, Ingredient
 from django.http import JsonResponse
 import json
 from .models import Cart, CartItem, Order, OrderItem, Product
 from .forms import CartItemForm
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from .models import Ingredient
 from .forms import IngredientForm
 
