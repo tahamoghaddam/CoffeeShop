@@ -124,13 +124,6 @@ body, html {
 }
 
 
-.vector {
-  width: 40px;
-  height: 40px;
-  background: url('../images/shoppinghistory.png') no-repeat center;
-  background-size: cover;
-}
-
 .menu {
   display: block;
   text-align: left;
