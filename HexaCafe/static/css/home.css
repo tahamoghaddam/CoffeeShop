@@ -194,3 +194,11 @@ body, html {
   font-size: 18px;
   margin: 5px 0;
 }
+.menu-item a {
+  color: #6d4c41; /* Dark brown color for menu text */
+  text-decoration: none;
+}
+
+.menu-item a:hover {
+  text-decoration: underline;
+}
