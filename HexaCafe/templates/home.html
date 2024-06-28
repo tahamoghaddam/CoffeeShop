@@ -68,8 +68,10 @@
     .swiper-button-next,
     .swiper-button-prev {
       color: #714024; /* تغییر رنگ فلش‌ها */
+      position: absolute;
       top: 50%; /* قرار دادن فلش‌ها در وسط از لحاظ عمودی */
       transform: translateY(-50%); /* تنظیم موقعیت برای وسط */
+      z-index: 10; /* اطمینان از اینکه فلش‌ها روی اسلایدر قرار می‌گیرند */
     }
   </style>
 </head>
