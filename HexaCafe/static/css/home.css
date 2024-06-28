@@ -11,14 +11,14 @@ body, html {
 }
 
 .background {
-  position: absolute; /* Change from fixed to absolute */
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   background: url('../images/background.png') no-repeat center center fixed;
   background-size: cover;
-  z-index: -1; /* Place the background behind everything else */
+  z-index: -1;
 }
 
 .inner-container {
@@ -27,11 +27,11 @@ body, html {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px;
-  background: rgba(248, 243, 237, 0.9); /* Semi-transparent background */
+  background: rgba(248, 243, 237, 0.9);
   border-radius: 30px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  min-height: 100vh; /* Ensure inner container extends to at least viewport height */
-  padding-bottom: 100px; /* Adjust as necessary to prevent overflow */
+  min-height: 100vh;
+  padding-bottom: 100px;
 }
 
 .design-placeholder {
