@@ -30,8 +30,9 @@ def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login.html')  # Redirect to the named URL 'login'
+            user = form.save()
+            auth_login(request, user)
+            return redirect('home')  # Redirect to the named URL 'home'
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
@@ -42,9 +43,9 @@ def signup(request):
 
 def login(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = LoginForm(request.POST)
         if form.is_valid():
-            username_or_email = form.cleaned_data.get("username")
+            username_or_email = form.cleaned_data.get("username_or_email")
             password = form.cleaned_data.get("password")
 
             # Check if the input is an email or username
@@ -61,7 +62,7 @@ def login(request):
             if user is not None:
                 auth_login(request, user)
                 if user.is_staff:
-                    return redirect('admin')  # Assuming you have a URL named 'admin_page'
+                    return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
                 else:
                     return redirect('home')
             else:
@@ -69,10 +70,8 @@ def login(request):
         else:
             return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     return render(request, "login.html", {"form": form})
-
-
 
 
 
