@@ -6,20 +6,26 @@ from .models import Product, ProductIngredient, Ingredient
 from .models import CartItem, Category
 
 
-
 class SignUpForm(UserCreationForm):
-    # Custom fields
-    email = forms.EmailField()
-    name = forms.CharField()
+    email = forms.EmailField(required=True)
+    name = forms.CharField(max_length=150)
 
     class Meta:
         model = User
-        fields = ["name", "username", "email", "password"]
+        fields = ["name", "username", "email", "password1", "password2"]
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+        user.first_name = self.cleaned_data["name"]
+        if commit:
+            user.save()
+        return user
 
 class LoginForm(forms.Form):
     username_or_email = forms.CharField(max_length=63)
     password = forms.CharField(max_length=63, widget=forms.PasswordInput)
+
 
 # new product form
 

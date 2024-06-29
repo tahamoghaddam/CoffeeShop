@@ -25,20 +25,19 @@ def home(request):
     #context = {'popular_products': popular_products}
     return render(request, 'home.html')
 
+
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login/')
+            return redirect('login')  # Correct the redirect to the named URL
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
     else:
         form = SignUpForm()
     return render(request, "signup.html", {"form": form})
-
-
 
 def login(request):
     if request.method == "POST":
@@ -47,19 +46,33 @@ def login(request):
             username_or_email = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
 
-            user = authenticate(request, username=username_or_email, password=password)
-            if user is not None:
-                auth_login(request, user)
-                if user.is_staff:
-                    return redirect('admin:index')
-                else:
-                    return redirect('home')  # Redirect to the home view
+            # Check if the input is an email or username
+            if '@' in username_or_email:
+                try:
+                    user = user.objects.get(email=username_or_email)
+                    username = user.username
+                except user.DoesNotExist:
+                    username = None
+            else:
+                username = username_or_email
+
+            user = authenticate(request, username=username, password=password)
+            if user:
+                user = authenticate(request, username=user.username, password=password)
+                if user is not None:
+                    auth_login(request, user)
+                    if user.is_staff:
+                        return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
+                    else:
+                        return redirect('home')
+            else:
+                return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
         else:
-            # Invalid form (incorrect credentials, etc.)
             return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
     else:
         form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
+
 
 
 
