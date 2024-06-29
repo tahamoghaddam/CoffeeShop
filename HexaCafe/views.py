@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from .forms import ProductForm
-from .forms import SignUpForm
-from .forms import LoginForm
+from .forms import SignUpForm, LoginForm
 from .models import Product, Order
 from django.http import HttpResponse
 from django.db import transaction
@@ -31,7 +31,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Correct the redirect to the named URL
+            return redirect('login')  # Redirect to the named URL 'login'
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
@@ -49,22 +49,20 @@ def login(request):
             # Check if the input is an email or username
             if '@' in username_or_email:
                 try:
-                    user = user.objects.get(email=username_or_email)
+                    user = User.objects.get(email=username_or_email)
                     username = user.username
-                except user.DoesNotExist:
+                except User.DoesNotExist:
                     username = None
             else:
                 username = username_or_email
 
             user = authenticate(request, username=username, password=password)
-            if user:
-                user = authenticate(request, username=user.username, password=password)
-                if user is not None:
-                    auth_login(request, user)
-                    if user.is_staff:
-                        return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
-                    else:
-                        return redirect('home')
+            if user is not None:
+                auth_login(request, user)
+                if user.is_staff:
+                    return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
+                else:
+                    return redirect('home')
             else:
                 return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
         else:
@@ -72,6 +70,7 @@ def login(request):
     else:
         form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
+
 
 
 
