@@ -1,338 +1,184 @@
-/* Frame 78 */
-.frame-78 {
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Inter, var(--default-font-family);
+    text-align: left;
+    direction: ltr;
+}
+
+.main-container {
     position: relative;
-    width: 1450px;
-    height: 880px;
-    background: #FFFFFF;
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    overflow: hidden;
 }
 
-/* Username */
-.username-label {
-    position: absolute;
-    width: 115px;
-    height: 24px;
-    left: 897px;
-    top: 314px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
+.main-container,
+.main-container * {
+    box-sizing: border-box;
 }
 
-/* Username Input */
-.username-input {
-    position: absolute;
-    width: 402px;
-    height: 63px;
-    left: 868px;
-    top: 352px;
-    background: #D9D9D9;
-    border-radius: 30px;
+input,
+select,
+textarea,
+button {
+    outline: 0;
 }
 
-/* Password */
-.password-label {
+.top-view-roasted {
     position: absolute;
-    width: 415px;
-    height: 47px;
-    left: 897px;
-    top: 423px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
+    width: 56%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url('../images/login_pic.png') no-repeat center;
+    background-size: cover;
+    z-index: 1;
 }
 
-/* Password Input */
-.password-input {
+.header {
     position: absolute;
-    width: 402px;
-    height: 68px;
-    left: 868px;
-    top: 454px;
-    background: #D9D9D9;
-    border-radius: 30px;
+    width: 100%;
+    height: 60px;
+    /* Adjust height to fit the header content */
+    top: 0;
+    left: 0;
+    z-index: 20;
+    /* Positioned above top-view-roasted */
+    display: flex;
+    align-items: center;
+    /* Vertically center items */
+    padding: 0 20px;
+    /* Adjust padding as needed */
+    background: transparent;
 }
 
-/* Sign Up Button */
-.sign-up-button {
-    position: absolute;
-    width: 221px;
-    height: 99px;
-    left: 961px;
-    top: 694px;
-    background: #A97F61;
-    border-radius: 60px;
-}
-
-/* Sign Up Text */
-.sign-up-text {
-    position: absolute;
-    width: 161px;
-    height: 53px;
-    left: 991px;
-    top: 719px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 32px;
-    line-height: 39px;
-    text-align: center;
-    color: #000000;
-}
-
-/* Placeholder Text for Username */
-.username-placeholder {
-    position: absolute;
-    width: 285px;
-    height: 39px;
-    left: 897px;
-    top: 368px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.39);
-}
-
-/* Placeholder Text for Password */
-.password-placeholder {
-    position: absolute;
-    width: 260px;
-    height: 30px;
-    left: 899px;
-    top: 473px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.39);
-}
-
-/* Background Image */
-.background-image {
-    position: absolute;
-    width: 810px;
-    height: 880px;
-    left: 0px;
-    top: 0px;
-    background: url('.png');
-}
-
-/* Vectors */
-.vector-group {
-    position: absolute;
-    left: 90.34%;
-    right: 2.04%;
-    top: 3.52%;
-    bottom: 81.88%;
-}
-
-/* Vector 1 */
-.vector-1 {
-    position: absolute;
-    left: 90.34%;
-    right: 2.04%;
-    top: 9.86%;
-    bottom: 81.88%;
-    background: #D7D2CB;
-}
-
-/* Vector 2 */
-.vector-2 {
-    position: absolute;
-    left: 93.14%;
-    right: 5.39%;
-    top: 3.94%;
-    bottom: 90.84%;
-    background: #D7D2CB;
-}
-
-/* Vector 3 */
-.vector-3 {
-    position: absolute;
-    left: 92.13%;
-    right: 6.41%;
-    top: 3.52%;
-    bottom: 91.27%;
-    background: #D7D2CB;
-}
-
-/* Vector 4 */
-.vector-4 {
-    position: absolute;
-    left: 93.02%;
-    right: 6.53%;
-    top: 13.14%;
-    bottom: 85.81%;
-    background: #D7D2CB;
-}
-
-/* Vector 5 */
-.vector-5 {
-    position: absolute;
-    left: 94.53%;
-    right: 5.01%;
-    top: 13.13%;
-    bottom: 86.47%;
-    background: #D7D2CB;
-}
-
-/* Name and Family Name */
-.name-family-name-label {
-    position: absolute;
-    width: 286px;
-    height: 27px;
-    left: 899px;
-    top: 96px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
-}
-
-/* Name and Family Name Input */
-.name-family-name-input {
-    position: absolute;
-    width: 402px;
-    height: 63px;
-    left: 868px;
-    top: 133px;
-    background: #D9D9D9;
-    border-radius: 30px;
-}
-
-/* Email Address */
-.email-address-label {
-    position: absolute;
-    width: 415px;
-    height: 47px;
-    left: 897px;
-    top: 199px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
-}
-
-/* Email Address Input */
-.email-address-input {
-    position: absolute;
-    width: 402px;
-    height: 71px;
-    left: 868px;
-    top: 236px;
-    background: #D9D9D9;
-    border-radius: 30px;
-}
-
-/* Placeholder Text for Name */
-.name-placeholder {
-    position: absolute;
-    width: 324px;
-    height: 39px;
-    left: 897px;
-    top: 150px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.39);
-}
-
-/* Placeholder Text for Email */
-.email-placeholder {
-    position: absolute;
-    width: 407px;
-    height: 39px;
-    left: 894px;
-    top: 257px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.39);
-}
-
-/* Arrow */
-.arrow {
-    position: absolute;
-    width: 76px;
-    height: 0px;
-    left: 921px;
-    top: 64px;
-    border: 2px solid #000000;
-    transform: rotate(180deg);
-}
-
-/* Back Button */
-.back-button {
-    position: absolute;
-    width: 37px;
-    height: 17px;
-    left: 868px;
-    top: 44px;
+.back {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
     color: #000000;
+    cursor: pointer;
+    position: absolute;
+    left: 60%;
+    /* Adjust to move away from the image */
+    top: 50%;
+    /* Vertical center */
+    transform: translateY(-50%);
+    /* Adjust to center vertically */
 }
 
-/* Confirm Password */
-.confirm-password-label {
-    position: absolute;
-    width: 415px;
-    height: 47px;
-    left: 897px;
-    top: 529px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: #000000;
+.logo {
+    margin-left: auto;
+    margin-right: 20px;
+    /* Space between logo and back button */
 }
 
-/* Confirm Password Input */
-.confirm-password-input {
+.group {
+    width: 80px;
+    height: 93px;
+    background: url('../images/logo.png') no-repeat center;
+    background-size: contain;
+    /* Ensure the logo scales appropriately */
+}
+
+.flex-column-dc {
     position: absolute;
-    width: 402px;
-    height: 68px;
-    left: 868px;
-    top: 574px;
-    background: #D9D9D9;
+    width: 35%;
+    height: 85%;
+    top: 5%;
+    left: 60%;
+    z-index: 10;
+    /* Positioned above top-view-roasted */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.name-and-family-name {
+    margin-top: 20px;
+}
+
+.rectangle,
+.rectangle-d,
+.rectangle-6,
+.rectangle-e,
+.rectangle-f {
+    position: relative;
+    width: 90%;
+    height: 50px;
+    margin: 20px 0;
+    background: #d9d9d9;
+    z-index: 1;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 18px;
+    text-align: left;
+}
+
+.asterisk,
+.asterisk-5,
+.asterisk-8 {
+    color: #fc0909;
+    /* Red color for asterisks */
+}
+
+.signup-button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.rectangle-9 {
+    width: 150px;
+    height: 60px;
+    margin: 30px 0;
+    cursor: pointer;
+    background: #a97f61;
+    border: none;
     border-radius: 30px;
+    text-align: center;
 }
 
-/* Placeholder Text for Confirm Password */
-.confirm-password-placeholder {
-    position: absolute;
-    width: 260px;
-    height: 30px;
-    left: 899px;
-    top: 593px;
-    font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    color: rgba(0, 0, 0, 0.39);
+.sign-up {
+    position: relative;
+    width: 90%;
+    height: auto;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
 }
 
+.dont-have-account,
+.sign-up-2 {
+    color: #095bfc;
+}
 
+.sign-up-2 {
+    font-weight: 800;
+}
 
-
+.arrow {
+    display: none;
+}
