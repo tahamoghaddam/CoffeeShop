@@ -27,9 +27,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=63, widget=forms.PasswordInput)
 
 
-# new product form
-
-
 class IngredientForm(forms.ModelForm):
     class Meta:
         model = Ingredient
