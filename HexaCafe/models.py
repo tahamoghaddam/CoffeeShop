@@ -12,14 +12,11 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    INGREDIENT_CHOICES = [
-        ('flour', 'Flour'),
-        ('sugar', 'Sugar'),
-        ('milk', 'Milk'),
-        ('coffee', 'Coffee'),
-    ]
-    name = models.CharField(max_length=100, choices=INGREDIENT_CHOICES)
+    name = models.CharField(max_length=100)
     quantity = models.FloatField()
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
