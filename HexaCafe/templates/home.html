@@ -82,7 +82,7 @@
     <div class="inner-container">
       <div class="design-placeholder">
         <div class="flex-row-a">
-          <div class="solar-logout-outline"></div>
+          <div class="solar-logout-outline" id="login-logo"></div>
           <div class="group"></div>
           <div class="group-2"></div>
           <div class="group-8"></div>
@@ -164,7 +164,7 @@
 
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    document.querySelector('.group-1').addEventListener('click', function() {
+    document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
       document.querySelector('.menu-container').classList.toggle('active');
       document.querySelector('.overlay').classList.toggle('active');
     });
@@ -172,6 +172,10 @@
     document.querySelector('.overlay').addEventListener('click', function() {
       document.querySelector('.menu-container').classList.remove('active');
       document.querySelector('.overlay').classList.remove('active');
+    });
+
+    document.getElementById('login-logo').addEventListener('click', function() {
+      window.location.href = "{% url 'login' %}";
     });
 
     var swiper = new Swiper('.swiper-container', {
@@ -193,3 +197,4 @@
   </script>
 </body>
 </html>
+

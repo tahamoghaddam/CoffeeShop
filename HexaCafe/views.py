@@ -31,13 +31,14 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirect to the named URL 'login'
+            return redirect('login.html')  # Redirect to the named URL 'login'
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
     else:
         form = SignUpForm()
     return render(request, "signup.html", {"form": form})
+
 
 def login(request):
     if request.method == "POST":
@@ -60,7 +61,7 @@ def login(request):
             if user is not None:
                 auth_login(request, user)
                 if user.is_staff:
-                    return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
+                    return redirect('admin')  # Assuming you have a URL named 'admin_page'
                 else:
                     return redirect('home')
             else:
