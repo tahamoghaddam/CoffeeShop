@@ -31,7 +31,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Correct the redirect to the named URL
+            return redirect('login.html')  # Correct the redirect to the named URL
         else:
             errors = form.errors.as_json()
             return JsonResponse({"error": errors}, status=400)
@@ -64,7 +64,7 @@ def login(request):
                     if user.is_staff:
                         return redirect('admin_page')  # Assuming you have a URL named 'admin_page'
                     else:
-                        return redirect('home')
+                        return redirect('home.html')
             else:
                 return render(request, "login.html", {"form": form, "error": "Invalid username or password"})
         else:
