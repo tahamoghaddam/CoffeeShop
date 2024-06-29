@@ -26,7 +26,8 @@
         .rectangle input,
         .rectangle-d input,
         .rectangle-6 input,
-        .rectangle-e input {
+        .rectangle-e input,
+        .rectangle-f input {
             background: none;
         }
     </style>
@@ -36,7 +37,7 @@
     <div class="main-container">
         <div class="top-view-roasted"></div>
         <div class="flex-column-dc">
-            <div class=name-and-family-name>
+            <div class="name-and-family-name">
                 <span class="name_and_family_name-a">name and family name</span>
                 <span class="empty-class"> </span><span class="asterisk">*</span>
             </div>
@@ -65,6 +66,13 @@
             <div class="rectangle-e">
                 <input type="password" id="password" name="password" placeholder="Enter your password" required />
             </div>
+            <div class="confirm-password">
+                <span class="confirm-password-7">confirm password</span><span class="empty"> </span>
+                <span class="asterisk-8">*</span>
+            </div>
+            <div class="rectangle-f">
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required />
+            </div>
             <button id="signupButton" class="rectangle-9" onclick="signup()">
                 <span class="sign-up">sign up</span>
             </button>
@@ -81,10 +89,16 @@
             const email = document.getElementById('email').value;
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
 
             // Perform validation if needed
-            if (!name || !email || !username || !password) {
+            if (!name || !email || !username || !password || !confirmPassword) {
                 document.getElementById('error').innerText = 'Please fill in all fields.';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('error').innerText = 'Passwords do not match.';
                 return;
             }
 
@@ -103,3 +117,5 @@
 </body>
 
 </html>
+
+
