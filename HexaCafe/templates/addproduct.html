@@ -13,44 +13,38 @@
         <div class="rectangle">
             <div class="menu-icon"></div>
             <div class="exit-line"></div>
-          </div>
-          <div class="flex-row-d">
-             
-              
-          </div>
+        </div>
+        <div class="flex-row-d">
+            <!-- Flex row content if needed -->
+        </div>
         <form method="POST" enctype="multipart/form-data" class="product-form">
             {% csrf_token %}
             <div class="form-group">
-                <label for="name">Product Name <span class="asterisk">*</span></label>
-                <input type="text" id="name" name="name" required>
+                <label for="id_name">Product Name <span class="asterisk">*</span></label>
+                {{ product_form.name }}
             </div>
             <div class="form-group">
-                <label for="price">Product Price <span class="asterisk">*</span></label>
-                <input type="number" id="price" name="price" step="0.01" required>
+                <label for="id_price">Product Price <span class="asterisk">*</span></label>
+                {{ product_form.price }}
             </div>
             <div class="form-group">
-                <label for="category">Product Category <span class="asterisk">*</span></label>
-                <select id="category" name="category" required>
-                    {% for category in categories %}
-                    <option value="{{ category.id }}">{{ category.get_name_display }}</option>
-                    {% endfor %}
-                </select>
+                <label for="id_category">Product Category <span class="asterisk">*</span></label>
+                {{ product_form.category }}
             </div>
             <div class="form-group">
-                <label for="description">Product Description</label>
-                <textarea id="description" name="description" rows="4"></textarea>
+                <label for="id_description">Product Description</label>
+                {{ product_form.description }}
             </div>
             <div class="form-group">
-                <label for="image">Product Image <span class="asterisk">*</span></label>
-                <input type="file" id="image" name="image" required>
+                <label for="id_image">Product Image <span class="asterisk">*</span></label>
+                {{ product_form.image }}
             </div>
             <div class="form-group">
                 <label>Product Ingredients</label>
-                {% for ingredient in ingredients %}
+                {{ formset.management_form }}
+                {% for form in formset %}
                 <div class="ingredient">
-                    <input type="checkbox" id="ingredient-{{ ingredient.id }}" name="ingredients" value="{{ ingredient.id }}">
-                    <label for="ingredient-{{ ingredient.id }}">{{ ingredient.name }}</label>
-                    <input type="number" name="quantity-{{ ingredient.id }}" step="0.01" placeholder="Quantity">
+                    {{ form.ingredient.label_tag }} {{ form.ingredient }} {{ form.quantity.label_tag }} {{ form.quantity }}
                 </div>
                 {% endfor %}
             </div>
@@ -59,5 +53,3 @@
     </div>
 </body>
 </html>
-
-

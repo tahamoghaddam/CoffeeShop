@@ -95,8 +95,8 @@ button {
   overflow: hidden;
 }
 
-.enter-username input[type="text"],
-.enter-password input[type="password"] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 10px;
   border: none;

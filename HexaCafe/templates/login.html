@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +7,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <style>
+    .error {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <div class="main-container">
@@ -19,22 +27,23 @@
         <span class="asterisk">*</span>
       </div>
       <div class="rectangle">
-        <span class="enter-username"><input type="text" id="username_or_email" placeholder="Enter email or username" required /></span>
+        <input type="text" id="username_or_email" placeholder="Enter email or username" required />
       </div>
       <div class="password-field">
         <span class="password-text">Password</span>
         <span class="required">*</span>
       </div>
       <div class="rectangle">
-        <span class="enter-password"><input type="password" id="password" placeholder="Enter your password" required /></span>
+        <input type="password" id="password" placeholder="Enter your password" required />
       </div>
       <button class="rectangle-button" onclick="login()">
-        <span class="log-in">log in</span>
+        <span class="log-in">Log In</span>
       </button>
       <div class="sign-up">
-        <span class="dont-have-account">don’t have an account yet?</span>
+        <span class="dont-have-account">Don’t have an account yet?</span>
         <span class="sign-up-2" onclick="goToSignup()">SIGN UP</span>
       </div>
+      <div id="error" class="error"></div>
     </div>
   </div>
 
@@ -44,12 +53,11 @@
       const password = document.getElementById('password').value;
 
       if (!usernameOrEmail || !password) {
-        alert('Please fill in both fields.');
+        document.getElementById('error').innerText = 'Please fill in both fields.';
         return;
       }
 
       try {
-        // Make a request to your server to validate the credentials
         const response = await fetch('/signup', {
           method: 'POST',
           headers: {
@@ -61,29 +69,26 @@
         const result = await response.json();
 
         if (response.ok) {
-          // Check if the user is an admin
           if (result.isAdmin) {
             window.location.href = "{% url 'home' %}";
           } else {
             window.location.href = "{% url 'signup' %}";
           }
         } else {
-          alert(result.message || 'Login failed. Please try again.');
+          document.getElementById('error').innerText = result.message || 'Login failed. Please try again.';
         }
       } catch (error) {
         console.error('Error during login:', error);
-        alert('An error occurred. Please try again later.');
+        document.getElementById('error').innerText = 'An error occurred. Please try again later.';
       }
     }
 
     function goToSignup() {
-      // Redirect to signup page
-      window.location.href = "{% url 'signup' %}"; 
+      window.location.href = "{% url 'signup' %}";
     }
   </script>
 </body>
 </html>
-
 
 
 
