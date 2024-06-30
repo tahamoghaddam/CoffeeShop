@@ -83,7 +83,7 @@ def add_to_cart(request, product_id):
         cart_item.save()
     return redirect('cart_detail')
 
-@login_required
+
 def cart_detail(request):
     cart = get_object_or_404(Cart, user=request.user)
     if request.method == 'POST':
@@ -106,7 +106,7 @@ def cart_detail(request):
             return redirect('order_success')
     else:
         form = DeliveryMethodForm()
-    return render(request, 'cart/cart_detail.html', {'cart': cart, 'form': form})
+    return render(request, 'shoppingcart.html', {'cart': cart, 'form': form})
 
 @login_required
 def remove_from_cart(request, item_id):
@@ -120,10 +120,10 @@ def order_success(request):
 
 ######################################################################################
 
-@login_required
+
 def shopping_history(request):
     orders = Orders.objects.filter(username=request.user).order_by('-date')
-    return render(request, 'shopping_history.html', {'orders': orders})
+    return render(request, 'shopping-history.html', {'orders': orders})
 
 ######################################################################################
 

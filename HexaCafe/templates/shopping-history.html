@@ -1,37 +1,59 @@
-<!-- shopping_history.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hexa Cafe</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/shipping-history.css' %}" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hexa Cafe</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+  {% load static %}
+  {% load custom_filters %}
+  <link rel="stylesheet" href="{% static 'css/shopping-history.css' %}" />
 </head>
 <body>
-    <div class="main-container">
-        <div class="rectangle">
-            <div class="vector"></div>
-            <span class="shopping-history">Your Shopping History</span>
-            <div class="vector-1"></div>
-            <a href="{% url 'menu' %}"><span class="back-to-menu">Back to Menu</span></a>
-        </div>
-        {% for order in orders %}
-        <div class="rectangle-2">
-            <div class="img"></div>
-            <span class="ordered-number">Order Number: {{ order.id }}</span>
-            <span class="ordered-by-customer">Ordered by: {{ order.username.username }}</span>
-            <span class="time-stamp">{{ order.date|date:"H:i:s" }}</span>
-            <span class="eat-in">{{ order.type }}</span>
-            {% for item in order.order_items.all %}
-                <span class="cheesecake">{{ item.product_id.name }}</span>
-                <span class="price">Price: ${{ item.product_id.price }}</span>
-                <span class="amount">Amount: {{ item.quantity }}</span>
-                <span class="text-a">Total: ${{ item.product_id.price|multiply:item.quantity }}</span>
-            {% endfor %}
-        </div>
-        {% endfor %}
+  <div class="main-container">
+    <div class="rectangle">
+      <span class="shopping-history">Your Shopping History</span>
+      <a href="{% url 'menu' %}" class="back-to-menu">Back to Menu</a>
     </div>
+    {% if user.is_authenticated %}
+      {% if orders %}
+        {% for order in orders %}
+          <div class="rectangle-2">
+            <div class="order-details">
+              <span class="order-date">Order Date: {{ order.date }}</span>
+              <span class="order-total">Total: ${{ order.total }}</span>
+              <span class="order-status">Status: {{ order.status }}</span>
+            </div>
+            <table class="order-items">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in order.items.all %}
+                  <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.product.price|multiply:item.quantity }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endfor %}
+      {% else %}
+        <span class="no-orders">You have no previous orders.</span>
+      {% endif %}
+    {% else %}
+      <span class="no-orders">Please <a href="{% url 'login' %}">login</a> to view your shopping history.</span>
+    {% endif %}
+  </div>
 </body>
 </html>
+
+
