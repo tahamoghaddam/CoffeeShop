@@ -1,55 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ingredient Inventory</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap" />
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/Inventory.css' %}" />
-  </head>
-  <body>
+    <style>
+        :root {
+            --default-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .main-container {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background: #ffffff;
+            font-family: var(--default-font-family);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .rectangle {
+            width: 100%;
+            height: 120px;
+            background: rgba(223, 193, 146, 0.42);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .content-container {
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 20px;
+        }
+        
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .inventory-control {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        
+        .ingredient-list {
+            width: 100%;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f3ed;
+        }
+        
+        .rectangle-button {
+            background-color: #a97f61;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .rectangle-button:hover {
+            background-color: #8a674c;
+        }
+        
+        .add-ingredient {
+            margin-bottom: 10px;
+        }
+        
+        .edit-button {
+            background-color: #d9d9d9;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .edit-button:hover {
+            background-color: #b3b3b3;
+        }
+    </style>
+</head>
+<body>
     <div class="main-container">
-      <div class="rectangle">
-        <div class="group"></div>
-        <div class="exit-line"><div class="group-1"></div></div>
-      </div>
-      <div class="content-container">
-        <div class="header">
-          <span class="title">Ingredient Inventory</span>
+        <div class="rectangle">
+            <div class="group"></div>
+            <div class="exit-line">
+                <div class="group-1"></div>
+            </div>
         </div>
-        <div class="inventory-control">
-          <button class="rectangle-button add-ingredient">Add New Ingredient</button>
+        <div class="content-container">
+            <div class="header">
+                <span class="title">Ingredient Inventory</span>
+            </div>
+            <div class="inventory-control">
+                <button class="rectangle-button add-ingredient">Add New Ingredient</button>
+            </div>
+            <div class="ingredient-list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Example rows; these should be dynamically generated -->
+                        <tr>
+                            <td>Flour</td>
+                            <td>100 kg</td>
+                            <td>
+                                <button class="rectangle-button edit-button">Edit</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sugar</td>
+                            <td>50 kg</td>
+                            <td>
+                                <button class="rectangle-button edit-button">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="ingredient-list">
-          <table>
-            <thead>
-              <tr>
-                <th>Ingredient</th>
-                <th>Quantity</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Example rows; these should be dynamically generated -->
-              <tr>
-                <td>Flour</td>
-                <td>100 kg</td>
-                <td>
-                  <button class="rectangle-button edit-button">Edit</button>
-                </td>
-              </tr>
-              <tr>
-                <td>Sugar</td>
-                <td>50 kg</td>
-                <td>
-                  <button class="rectangle-button edit-button">Edit</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.querySelector('table tbody');
+            const addIngredientButton = document.querySelector('.add-ingredient');
+
+            // Function to create a new row with input fields for adding a new ingredient
+            function createNewRow(ingredient = '', quantity = '') {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" value="${ingredient}" class="ingredient-input" /></td>
+                    <td><input type="text" value="${quantity}" class="quantity-input" /></td>
+                    <td>
+                        <button class="rectangle-button save-button">Save</button>
+                    </td>
+                `;
+                return row;
+            }
+
+            // Add new ingredient row
+            addIngredientButton.addEventListener('click', () => {
+                const newRow = createNewRow();
+                table.appendChild(newRow);
+            });
+
+            // Handle click event on the table
+            table.addEventListener('click', (event) => {
+                if (event.target.classList.contains('edit-button')) {
+                    const row = event.target.closest('tr');
+                    const ingredientCell = row.querySelector('td:nth-child(1)');
+                    const quantityCell = row.querySelector('td:nth-child(2)');
+                    
+                    ingredientCell.innerHTML = `<input type="text" value="${ingredientCell.textContent}" class="ingredient-input" />`;
+                    quantityCell.innerHTML = `<input type="text" value="${quantityCell.textContent}" class="quantity-input" />`;
+                    
+                    event.target.textContent = 'Save';
+                    event.target.classList.remove('edit-button');
+                    event.target.classList.add('save-button');
+                } else if (event.target.classList.contains('save-button')) {
+                    const row = event.target.closest('tr');
+                    const ingredientInput = row.querySelector('.ingredient-input').value.trim();
+                    const quantityInput = row.querySelector('.quantity-input').value.trim();
+
+                    if (!ingredientInput || !quantityInput) {
+                        row.remove();
+                    } else {
+                        row.querySelector('td:nth-child(1)').textContent = ingredientInput;
+                        row.querySelector('td:nth-child(2)').textContent = quantityInput;
+                    }
+
+                    event.target.textContent = 'Edit';
+                    event.target.classList.remove('save-button');
+                    event.target.classList.add('edit-button');
+                }
+            });
+        });
+    </script>
+</body>
 </html>
+
+
