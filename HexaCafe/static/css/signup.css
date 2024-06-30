@@ -48,16 +48,12 @@ button {
     position: absolute;
     width: 100%;
     height: 60px;
-    /* Adjust height to fit the header content */
     top: 0;
     left: 0;
     z-index: 20;
-    /* Positioned above top-view-roasted */
     display: flex;
     align-items: center;
-    /* Vertically center items */
     padding: 0 20px;
-    /* Adjust padding as needed */
     background: transparent;
 }
 
@@ -71,25 +67,20 @@ button {
     cursor: pointer;
     position: absolute;
     left: 60%;
-    /* Adjust to move away from the image */
     top: 50%;
-    /* Vertical center */
     transform: translateY(-50%);
-    /* Adjust to center vertically */
+    
 }
-
 .logo {
     margin-left: auto;
     margin-right: 20px;
-    /* Space between logo and back button */
 }
 
 .group {
     width: 80px;
-    height: 93px;
+    height: 90px;
     background: url('../images/logo.png') no-repeat center;
     background-size: contain;
-    /* Ensure the logo scales appropriately */
 }
 
 .flex-column-dc {
@@ -99,15 +90,20 @@ button {
     top: 5%;
     left: 60%;
     z-index: 10;
-    /* Positioned above top-view-roasted */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
 .name-and-family-name {
-    margin-top: 20px;
+    margin-top: 18px;
+    margin-bottom: 0.1px; /* Added margin bottom to ensure fixed distance */
 }
+
+.email-adress, .username, .password, .confirm-password {
+    margin-bottom: 0.1px; /* Added margin bottom to ensure fixed distance */
+}
+
 
 .rectangle,
 .rectangle-d,
@@ -115,9 +111,9 @@ button {
 .rectangle-e,
 .rectangle-f {
     position: relative;
-    width: 90%;
-    height: 50px;
-    margin: 20px 0;
+    width: 80%;
+    height: 100px;
+    margin: 10px 0;
     background: #d9d9d9;
     z-index: 1;
     border-radius: 15px;
@@ -133,7 +129,7 @@ input[type="password"] {
     background-color: transparent;
     outline: none;
     box-sizing: border-box;
-    font-size: 18px;
+    font-size: 15px;
     text-align: left;
 }
 
@@ -141,7 +137,6 @@ input[type="password"] {
 .asterisk-5,
 .asterisk-8 {
     color: #fc0909;
-    /* Red color for asterisks */
 }
 
 .signup-button-container {
