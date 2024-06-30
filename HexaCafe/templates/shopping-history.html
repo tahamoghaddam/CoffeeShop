@@ -1,31 +1,37 @@
+<!-- shopping_history.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hexa Cafe</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
-    <link rel="stylesheet" href="shipping-history.css" />
-  </head>
-  <body>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/shipping-history.css' %}" />
+</head>
+<body>
     <div class="main-container">
-      <div class="rectangle">
-        <div class="vector"></div>
-        <span class="shopping-history">your shopping history</span>
-        <div class="vector-1"></div>
-        <span class="back-to-menu">back to menu</span>
-      </div>
-      <div class="rectangle-2">
-        <div class="img"></div>
-        <span class="cheesecake">cheesecake</span
-        ><span class="time-stamp">17:51:32</span
-        ><span class="ordered-by-customer">ordered by: costumer001</span
-        ><span class="price">price : 8.99$</span
-        ><span class="ordered-number">ordered number: 134</span
-        ><span class="amount">amount : 2</span
-        ><span class="eat-in">eat in </span
-        ><span class="text-a">total: 17.98$</span>
-      </div>
+        <div class="rectangle">
+            <div class="vector"></div>
+            <span class="shopping-history">Your Shopping History</span>
+            <div class="vector-1"></div>
+            <a href="{% url 'menu' %}"><span class="back-to-menu">Back to Menu</span></a>
+        </div>
+        {% for order in orders %}
+        <div class="rectangle-2">
+            <div class="img"></div>
+            <span class="ordered-number">Order Number: {{ order.id }}</span>
+            <span class="ordered-by-customer">Ordered by: {{ order.username.username }}</span>
+            <span class="time-stamp">{{ order.date|date:"H:i:s" }}</span>
+            <span class="eat-in">{{ order.type }}</span>
+            {% for item in order.order_items.all %}
+                <span class="cheesecake">{{ item.product_id.name }}</span>
+                <span class="price">Price: ${{ item.product_id.price }}</span>
+                <span class="amount">Amount: {{ item.quantity }}</span>
+                <span class="text-a">Total: ${{ item.product_id.price|multiply:item.quantity }}</span>
+            {% endfor %}
+        </div>
+        {% endfor %}
     </div>
-  </body>
+</body>
 </html>

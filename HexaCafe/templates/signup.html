@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,9 +18,9 @@
             width: 100%;
             height: 100%;
             border: none;
-            padding-left: 20px;
+            padding-left: 10px;
             box-sizing: border-box;
-            font-size: 0.7rem; 
+            font-size: 0.9rem; /* Smaller font size */
         }
 
         .rectangle input,
@@ -42,88 +43,67 @@
             </div>
         </div>
         <div class="flex-column-dc">
-            <div class="name-and-family-name">
-                <span class="name_and_family_name-a">name and family name</span>
-                <span class="empty-class"> </span><span class="asterisk">*</span>
-            </div>
-            <div class="rectangle">
-                <input type="text" id="name" name="name" placeholder="Enter your name" required />
-            </div>
-            <div class="email-adress">
-                <span class="email-adress-1">email address</span>
-                <span class="empty-class"> </span><span class="asterisk">*</span>
-            </div>
-            <div class="rectangle-d">
-                <input type="email" id="email" name="email" placeholder="Enter your email" required />
-            </div>
-            <div class="username">
-                <span class="empty-class-2"> </span>
-                <span class="username-3">username</span>
-                <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
-            </div>
-            <div class="rectangle-6">
-                <input type="text" id="username" name="username" placeholder="Enter a username" required />
-            </div>
-            <div class="password">
-                <span class="password-7">password</span><span class="empty"> </span>
-                <span class="asterisk-8">*</span>
-            </div>
-            <div class="rectangle-e">
-                <input type="password" id="password" name="password" placeholder="Enter your password" required />
-            </div>
-            <div class="confirm-password">
-                <span class="confirm-password-7">confirm password</span><span class="empty"> </span>
-                <span class="asterisk-8">*</span>
-            </div>
-            <div class="rectangle-f">
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required />
-            </div>
-            <div class="signup-button-container">
-                <button id="signupButton" class="rectangle-9" onclick="signup()">
-                    <span class="sign-up">sign up</span>
-                </button>
-            </div>
-            <div id="error" class="error"></div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="name-and-family-name">
+                    <span class="name_and_family_name-a">name and family name</span>
+                    <span class="empty-class"> </span><span class="asterisk">*</span>
+                </div>
+                <div class="rectangle">
+                    {{ form.username }}
+                </div>
+                <div class="email-adress">
+                    <span class="email-adress-1">email address</span>
+                    <span class="empty-class"> </span><span class="asterisk">*</span>
+                </div>
+                <div class="rectangle-d">
+                    {{ form.email }}
+                </div>
+                <div class="username">
+                    <span class="empty-class-2"> </span>
+                    <span class="username-3">username</span>
+                    <span class="empty-class-4"> </span><span class="asterisk-5">*</span>
+                </div>
+                <div class="rectangle-6">
+                    {{ form.username }}
+                </div>
+                <div class="password">
+                    <span class="password-7">password</span><span class="empty"> </span>
+                    <span class="asterisk-8">*</span>
+                </div>
+                <div class="rectangle-e">
+                    {{ form.password1 }}
+                </div>
+                <div class="confirm-password">
+                    <span class="confirm-password-7">confirm password</span><span class="empty"> </span>
+                    <span class="asterisk-8">*</span>
+                </div>
+                <div class="rectangle-f">
+                    {{ form.password2 }}
+                </div>
+                <div class="signup-button-container">
+                    <button type="submit" class="rectangle-9">
+                        <span class="sign-up">sign up</span>
+                    </button>
+                </div>
+                {% if form.errors %}
+                <div id="error" class="error">
+                    {{ form.errors }}
+                </div>
+                {% endif %}
+            </form>
         </div>
     </div>
 
     <script>
-        function signup() {
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-
-    
-            if (!name || !email || !username || !password || !confirmPassword) {
-                document.getElementById('error').innerText = 'Please fill in all fields.';
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                document.getElementById('error').innerText = 'Passwords do not match.';
-                return;
-            }
-
-            
-
-            alert('Signup successful. Redirecting to login page.');
-            window.location.href = "{% url 'login' %}";
-        }
-
         function goToLogin() {
-            
+            // Redirect to login page
             window.location.href = "{% url 'login' %}";
         }
     </script>
 </body>
 
 </html>
-
-
-
-
 
 
 

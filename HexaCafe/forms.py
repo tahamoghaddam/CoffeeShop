@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Category, Ingredient, Product, ProductIngredient, Orders, Orders_Product
 from django.db.models import F
+from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import get_user_model
 
@@ -17,16 +18,18 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='Email or Username')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        user = authenticate(username=username, password=password)
+        if not user or not user.is_active:
+            raise forms.ValidationError("Invalid login. Please try again.")
+
+        return cleaned_data
 
 
-class IngredientForm(forms.ModelForm):
-    class Meta:
-        model = Ingredient
-        fields = ['name', 'quantity']
-
-class UpdateIngredientForm(forms.Form):
-    name = forms.CharField(max_length=100)
-    new_quantity = forms.FloatField()
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -47,6 +50,18 @@ class ProductIngredientForm(forms.ModelForm):
         self.fields['ingredient'].queryset = Ingredient.objects.filter(name__in=['flour', 'sugar', 'milk', 'coffee'])
 
 ProductIngredientFormSet = forms.inlineformset_factory(Product, ProductIngredient, form=ProductIngredientForm, extra=1)
+
+
+
+class IngredientForm(forms.ModelForm):
+    class Meta:
+        model = Ingredient
+        fields = ['name', 'quantity']
+
+class UpdateIngredientForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    new_quantity = forms.FloatField()
+
 
 class OrdersForm(forms.ModelForm):
     class Meta:
@@ -90,3 +105,11 @@ class OrdersProductForm(forms.ModelForm):
         return order_product
 
 OrdersProductFormSet = forms.inlineformset_factory(Orders, Orders_Product, form=OrdersProductForm, extra=1)
+
+
+class DeliveryMethodForm(forms.Form):
+    DELIVERY_CHOICES = [
+        (True, 'Takeout'),
+        (False, 'Delivery'),
+    ]
+    delivery_method = forms.ChoiceField(choices=DELIVERY_CHOICES, widget=forms.RadioSelect)

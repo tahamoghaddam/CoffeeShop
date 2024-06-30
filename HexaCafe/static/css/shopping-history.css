@@ -1,8 +1,6 @@
+/* static/css/shipping-history.css */
 :root {
-  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
-    "Source Han Sans CN", sans-serif;
+  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
 }
 
 .main-container {
@@ -23,15 +21,16 @@ button {
 
 .main-container {
   position: relative;
-  width: 1450px;
-  height: 880px;
+  width: 100%;
+  max-width: 1450px;
+  height: auto;
   margin: 0 auto;
   background: #ffffff;
   overflow: hidden;
 }
 .rectangle {
   position: relative;
-  width: 1450px;
+  width: 100%;
   height: 120px;
   margin: 0 0 0 0;
   background: rgba(223, 193, 146, 0.42);
@@ -42,8 +41,7 @@ button {
   height: 55%;
   top: 24.17%;
   left: 62.14%;
-  background: url(./assets/images/95025014-9757-49eb-b004-3e57f68e5c18.png)
-    no-repeat center;
+  background: url(./assets/images/95025014-9757-49eb-b004-3e57f68e5c18.png) no-repeat center;
   background-size: 100% 100%;
   z-index: 1;
 }
@@ -70,8 +68,7 @@ button {
   height: 30.83%;
   top: 35.83%;
   left: 2.69%;
-  background: url(./assets/images/c158418f-5528-4392-bed2-93bd01899319.png)
-    no-repeat center;
+  background: url(./assets/images/c158418f-5528-4392-bed2-93bd01899319.png) no-repeat center;
   background-size: 100% 100%;
   z-index: 3;
 }
@@ -94,9 +91,11 @@ button {
 }
 .rectangle-2 {
   position: relative;
-  width: 1245px;
-  height: 266px;
-  margin: 107px 0 0 74px;
+  width: 100%;
+  max-width: 1245px;
+  height: auto;
+  margin: 107px auto;
+  padding: 20px;
   background: rgba(223, 193, 146, 0.27);
   z-index: 5;
   border-radius: 50px;
@@ -107,8 +106,7 @@ button {
   height: 206px;
   top: 27px;
   left: 95px;
-  background: url(./assets/images/e4bb3b220be77bfedb11caaa320641df18e55e4e.png)
-    no-repeat center;
+  background: url(./assets/images/e4bb3b220be77bfedb11caaa320641df18e55e4e.png) no-repeat center;
   background-size: cover;
   z-index: 6;
 }

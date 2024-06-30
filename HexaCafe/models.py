@@ -5,6 +5,9 @@ from django.core import validators
 from django.db.models import F
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.conf import settings
+from django.db import models
+from django.db.models import F
 
 
 class Storage(models.Model):
@@ -83,3 +86,40 @@ class Orders_Product(models.Model):
         for product_ingredient in product_ingredients:
             product_ingredient.ingredient.refresh_from_db()
 
+class Cart(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    
+    def save(self, *args, **kwargs):
+        if self.pk:
+            # Update the quantity of ingredients
+            self.adjust_ingredient_quantity(self.quantity - self.__original_quantity)
+        else:
+            # Reduce the quantity of ingredients
+            self.adjust_ingredient_quantity(self.quantity)
+        super().save(*args, **kwargs)
+
+    def adjust_ingredient_quantity(self, quantity_change):
+        product_ingredients = ProductIngredient.objects.filter(product=self.product)
+        for product_ingredient in product_ingredients:
+            ingredient = product_ingredient.ingredient
+            required_quantity = product_ingredient.quantity * quantity_change
+            ingredient.quantity = F('quantity') - required_quantity
+            ingredient.save()
+        # Refresh the ingredient from the database to get the latest quantity
+        for product_ingredient in product_ingredients:
+            product_ingredient.ingredient.refresh_from_db()
+
+    def delete(self, *args, **kwargs):
+        self.adjust_ingredient_quantity(-self.quantity)
+        super().delete(*args, **kwargs)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__original_quantity = self.quantity
