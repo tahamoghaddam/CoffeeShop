@@ -22,20 +22,17 @@
       <div class="rectangle-101 menu-container">
         <a href="#" class="menu">Menu</a>
         <div class="dropdown-content">
-          <a href="#" data-category="hot">Hot drinks</a>
-          <div id="hot" class="sub-category"></div>
-          <a href="#" data-category="cold">Cold drinks</a>
-          <div id="cold" class="sub-category"></div>
-          <a href="#" data-category="cakes">Cakes and Dessert</a>
-          <div id="cakes" class="sub-category"></div>
-          <a href="#" data-category="desserts">Desserts</a>
-          <div id="desserts" class="sub-category"></div>
+          <a href="#" data-category="hot-drinks">Hot Drinks</a>
+          <a href="#" data-category="cold-drinks">Cold Drinks</a>
+          <a href="#" data-category="cakes-desserts">Cakes and Desserts</a>
+          <a href="#" data-category="breakfast">Breakfast</a>
         </div>
       </div>
     </div>
     <div class="content">
-      <div class="rectangle-153"></div>
-      <span class="filter">Filter</span>
+      <div class="rectangle-153">
+        <span class="filter">Filter</span>
+      </div>
       <div class="rectangle-154"></div>
       <div class="ellipse-35"></div>
       <span class="yearly">Yearly</span>
@@ -45,12 +42,23 @@
       <div class="rectangle-152"></div>
       <div class="ellipse-34"></div>
       <span class="daily">Daily</span>
-      <div class="rectangle-86"></div>
+      <div class="rectangle-86">
+        <div id="product-list"></div>
+      </div>
     </div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const dropdownLinks = document.querySelectorAll('.dropdown-content a[data-category]');
+      const menuContainer = document.querySelector('.menu-container');
+      const menuLink = document.querySelector('.menu');
+      const dropdownLinks = document.querySelectorAll('.dropdown-content a');
+      const productList = document.getElementById('product-list');
+
+      menuLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        menuContainer.classList.toggle('show');
+      });
+
       dropdownLinks.forEach(link => {
         link.addEventListener('click', function(event) {
           event.preventDefault();
@@ -63,13 +71,17 @@
         fetch(`/get-products/${category}/`)
           .then(response => response.json())
           .then(data => {
-            const subCategoryDiv = document.getElementById(category);
-            subCategoryDiv.innerHTML = '';
+            productList.innerHTML = '';
             data.products.forEach(product => {
               const productDiv = document.createElement('div');
               productDiv.classList.add('product');
-              productDiv.innerText = product.name;
-              subCategoryDiv.appendChild(productDiv);
+              productDiv.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <p>Price: ${product.price}</p>
+                <img src="${product.image}" alt="${product.name}">
+              `;
+              productList.appendChild(productDiv);
             });
           });
       }
@@ -77,5 +89,6 @@
   </script>
 </body>
 </html>
+
 
 
