@@ -31,6 +31,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
+            position: relative;
         }
         
         .content-container {
@@ -48,6 +49,19 @@
         .title {
             font-size: 32px;
             font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .back-icon {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
         }
         
         .inventory-control {
@@ -111,15 +125,13 @@
 <body>
     <div class="main-container">
         <div class="rectangle">
-            <div class="group"></div>
-            <div class="exit-line">
-                <div class="group-1"></div>
-            </div>
+            <a href="{% url 'admin_page' %}">
+                <img src="{% static 'images/back.png' %}" alt="Back" class="back-icon" />
+            </a>
+            <div class="title">Ingredient Inventory</div>
         </div>
         <div class="content-container">
-            <div class="header">
-                <span class="title">Ingredient Inventory</span>
-            </div>
+            <div class="header"></div> 
             <div class="inventory-control">
                 <button class="rectangle-button add-ingredient">Add New Ingredient</button>
             </div>
@@ -159,7 +171,7 @@
             const table = document.querySelector('table tbody');
             const addIngredientButton = document.querySelector('.add-ingredient');
 
-            // Function to create a new row with input fields for adding a new ingredient
+          
             function createNewRow(ingredient = '', quantity = '') {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -212,5 +224,7 @@
     </script>
 </body>
 </html>
+
+
 
 
