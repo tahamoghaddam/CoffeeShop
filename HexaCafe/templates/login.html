@@ -20,69 +20,44 @@
     <div class="top-view-roasted"></div>
     <div class="flex-column-f">
       <div class="group"></div>
-      <div class="email-address-username">
-        <span class="email-address">Email Address</span>
-        <span class="or">or</span>
-        <span class="email-address-1">Username</span>
-        <span class="asterisk">*</span>
-      </div>
-      <div class="rectangle">
-        <input type="text" id="username_or_email" placeholder="Enter email or username" required />
-      </div>
-      <div class="password-field">
-        <span class="password-text">Password</span>
-        <span class="required">*</span>
-      </div>
-      <div class="rectangle">
-        <input type="password" id="password" placeholder="Enter your password" required />
-      </div>
-      <button class="rectangle-button" onclick="login()">
-        <span class="log-in">Log In</span>
-      </button>
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="email-address-username">
+          <label for="id_username" class="email-address">Email Address or Username <span class="asterisk">*</span></label>
+        </div>
+        <div class="rectangle">
+          {{ form.username }}
+        </div>
+        <div class="password-field">
+          <label for="id_password" class="password-text">Password <span class="required">*</span></label>
+        </div>
+        <div class="rectangle">
+          {{ form.password }}
+        </div>
+        <button type="submit" class="rectangle-button">
+          <span class="log-in">Log In</span>
+        </button>
+      </form>
       <div class="sign-up">
         <span class="dont-have-account">Don’t have an account yet?</span>
         <span class="sign-up-2" onclick="goToSignup()">SIGN UP</span>
       </div>
-      <div id="error" class="error"></div>
+      <div id="error" class="error">
+        {% if form.errors %}
+          <ul>
+            {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
     </div>
   </div>
 
   <script>
-    async function login() {
-      const usernameOrEmail = document.getElementById('username_or_email').value;
-      const password = document.getElementById('password').value;
-
-      if (!usernameOrEmail || !password) {
-        document.getElementById('error').innerText = 'Please fill in both fields.';
-        return;
-      }
-
-      try {
-        const response = await fetch('/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ usernameOrEmail, password })
-        });
-
-        const result = await response.json();
-
-        if (response.ok) {
-          if (result.isAdmin) {
-            window.location.href = "{% url 'home' %}";
-          } else {
-            window.location.href = "{% url 'signup' %}";
-          }
-        } else {
-          document.getElementById('error').innerText = result.message || 'Login failed. Please try again.';
-        }
-      } catch (error) {
-        console.error('Error during login:', error);
-        document.getElementById('error').innerText = 'An error occurred. Please try again later.';
-      }
-    }
-
     function goToSignup() {
       window.location.href = "{% url 'signup' %}";
     }
