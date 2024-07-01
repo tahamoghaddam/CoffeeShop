@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Control</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
+</head>
+<body>
+  <div class="main-container">
+    <div class="rectangle-82"></div>
+    <div class="mingcute-exit-line"></div>
+    <div class="sidebar">
+      <div class="rectangle-84">
+        <span class="inventory-control">Inventory Control</span>
+      </div>
+      <div class="rectangle-85">
+        <a href="{% url 'addproduct' %}" class="add-product">Add Product</a>
+      </div>
+      <div class="rectangle-101 menu-container">
+        <a href="#" class="menu">Menu</a>
+        <div class="dropdown-content">
+          <a href="#">hot drinks</a>
+          <a href="#">cold drinks</a>
+          <a href="#">cakes and dessert</a>
+          <a href="#">breakfast</a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="rectangle-153">
+        <span class="filter">Filter</span>
+      </div>
+      <div class="rectangle-154"></div>
+      <div class="ellipse-35"></div>
+      <span class="yearly">Yearly</span>
+      <div class="rectangle-151"></div>
+      <div class="ellipse-33"></div>
+      <span class="monthly">Monthly</span>
+      <div class="rectangle-152"></div>
+      <div class="ellipse-34"></div>
+      <span class="daily">Daily</span>
+      <div class="rectangle-86">
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+  const menuContainer = document.querySelector('.menu-container');
+  const menuLink = document.querySelector('.menu');
+
+  menuLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    menuContainer.classList.toggle('show');
+  });
+});
+
+
+  </script>
+</body>
+</html>
+

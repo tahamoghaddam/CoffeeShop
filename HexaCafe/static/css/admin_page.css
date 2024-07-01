@@ -1,0 +1,283 @@
+/* Frame 22 */
+.main-container {
+  position: relative;
+  width: 1450px;
+  height: 880px;
+  left: 0px;
+  top: 0px;
+  background: #FFFFFF;
+}
+
+/* Rectangle 82 */
+.rectangle-82 {
+  position: absolute;
+  width: 1450px;
+  height: 120px;
+  left: 0px;
+  top: 0px;
+  background: rgba(224, 193, 147, 0.42);
+}
+
+/* mingcute:exit-line */
+.mingcute-exit-line {
+  position: absolute;
+  width: 57px;
+  height: 46px;
+  left: 30px;
+  bottom: 797px;
+}
+
+/* Sidebar styling */
+.sidebar {
+  position: absolute;
+  width: 273px;
+  height: 760px;
+  left: 1177px;
+  top: 120px;
+  background: rgba(217, 217, 217, 0.5);
+}
+
+.rectangle-84 {
+  position: relative;
+  width: 273px;
+  height: 62px;
+  background: #A97F61;
+}
+
+.inventory-control {
+  display: block;
+  width: 100%;
+  height: 68px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  padding-top: 20px;
+}
+
+.rectangle-85 {
+  position: relative;
+  width: 273px;
+  height: 55px;
+  background: #A97F61;
+}
+
+.add-product {
+  display: block;
+  width: 100%;
+  height: 31px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  padding-top: 12px;
+}
+
+.rectangle-101 {
+  position: relative;
+  width: 273px;
+  height: 55px;
+  background: #A97F61;
+  cursor: pointer;
+}
+
+.menu {
+  display: block;
+  width: 100%;
+  height: 18px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #000000;
+  padding-top: 12px;
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: relative;
+  width: 273px;
+  background: #EBE0D9;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #A97F61;
+}
+
+/* Show the dropdown menu on click */
+.menu-container.show .dropdown-content {
+  display: block;
+}
+
+/* Content styling */
+.content {
+  position: absolute;
+  width: 1043px;
+  height: 659px;
+  left: 59px;
+  top: 168px;
+  background: rgba(217, 217, 217, 0.4);
+}
+
+.rectangle-153 {
+  position: relative;
+  width: 198px;
+  height: 43px;
+  left: 904px;
+  top: 168px;
+  background: #A97F61;
+}
+
+.rectangle-154 {
+  position: relative;
+  width: 198px;
+  height: 43px;
+  left: 904px;
+  top: 211px;
+  background: #EBE0D9;
+}
+
+.filter {
+  position: absolute;
+  width: 154px;
+  height: 24px;
+  left: 931px;
+  top: 173px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  color: #000000;
+}
+
+.ellipse-35 {
+  position: absolute;
+  width: 13px;
+  height: 15px;
+  left: 910px;
+  top: 228px;
+  background: #C8B5B5;
+}
+
+.yearly {
+  position: absolute;
+  width: 106px;
+  height: 19px;
+  left: 950px;
+  top: 226px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: flex-end;
+  text-align: center;
+  color: #000000;
+}
+
+.rectangle-151 {
+  position: absolute;
+  width: 198px;
+  height: 43px;
+  left: 904px;
+  top: 254px;
+  background: #EBE0D9;
+}
+
+.rectangle-152 {
+  position: absolute;
+  width: 198px;
+  height: 43px;
+  left: 904px;
+  top: 296px;
+  background: #EBE0D9;
+}
+
+.ellipse-33 {
+  position: absolute;
+  width: 13px;
+  height: 15px;
+  left: 910px;
+  top: 270px;
+  background: #C8B5B5;
+}
+
+.monthly {
+  position: absolute;
+  width: 104px;
+  height: 13px;
+  left: 972px;
+  top: 273px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  color: #000000;
+}
+
+.ellipse-34 {
+  position: absolute;
+  width: 13px;
+  height: 15px;
+  left: 910px;
+  top: 310px;
+  background: #C8B5B5;
+}
+
+.daily {
+  position: absolute;
+  width: 113px;
+  height: 24px;
+  left: 943px;
+  top: 309px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+}
+.menu-container .dropdown-content .sub-category {
+  display: none;
+  padding-left: 20px;
+}
+
+.menu-container .dropdown-content .sub-category.show {
+  display: block;
+}
+
+.product {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #000;
+}
+
+  
