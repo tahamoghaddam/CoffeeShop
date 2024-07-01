@@ -44,7 +44,7 @@ class ProductIngredientForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ingredient'].queryset = Ingredient.objects.filter(name__in=['flour', 'sugar', 'milk', 'coffee'])
+        self.fields['ingredient'].queryset = Ingredient.objects.all()
 
 ProductIngredientFormSet = forms.inlineformset_factory(Product, ProductIngredient, form=ProductIngredientForm, extra=1)
 
