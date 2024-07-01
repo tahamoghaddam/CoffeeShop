@@ -131,7 +131,6 @@ def inventory_view(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'inventory.html', {'ingredients': ingredients})
 
-
 def add_ingredient(request):
     if request.method == 'POST':
         form = IngredientForm(request.POST)
@@ -142,24 +141,25 @@ def add_ingredient(request):
         form = IngredientForm()
     return render(request, 'add_ingredient.html', {'form': form})
 
-def update_ingredient(request):
+def update_ingredient(request, name):
+    try:
+        ingredient = Ingredient.objects.get(name=name)
+    except Ingredient.DoesNotExist:
+        return redirect('inventory_view')
+
     if request.method == 'POST':
         form = UpdateIngredientForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['name']
             new_quantity = form.cleaned_data['new_quantity']
-            try:
-                ingredient = Ingredient.objects.get(name=name)
-                ingredient.quantity = new_quantity
-                ingredient.save()
-                return redirect('success')
-            except Ingredient.DoesNotExist:
-                form.add_error('name', 'Ingredient does not exist.')
+            ingredient.quantity = new_quantity
+            ingredient.save()
+            return redirect('success')
     else:
-        form = UpdateIngredientForm()
-    return render(request, 'update_ingredient.html', {'form': form})
+        form = UpdateIngredientForm(initial={'name': ingredient.name, 'new_quantity': ingredient.quantity})
+    return render(request, 'update_ingredient.html', {'form': form, 'ingredient': ingredient})
 
 def ingredient_success(request):
     return render(request, 'success.html')
+
 
 ######################################################################################

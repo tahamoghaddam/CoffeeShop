@@ -16,7 +16,7 @@ class Storage(models.Model):
     amount = models.PositiveIntegerField(null= False , blank= False , validators= [validators.MinValueValidator(0,"error")])
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=100, unique=True, null=False, blank=False, primary_key=True)
     quantity = models.FloatField()
 
 class Product(models.Model):

@@ -56,7 +56,7 @@ class IngredientForm(forms.ModelForm):
         fields = ['name', 'quantity']
 
 class UpdateIngredientForm(forms.Form):
-    name = forms.CharField(max_length=100)
+    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     new_quantity = forms.FloatField()
 
 
