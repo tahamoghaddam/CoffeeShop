@@ -38,18 +38,18 @@ def user_login(request):  # Rename the function to avoid conflict
     return render(request, 'login.html', {'form': form})
 
 ######################################################################################
-
+@login_required
 def home(request):
     #popular_products = get_popular_products()
     #context = {'popular_products': popular_products}
     return render(request, 'home.html')
 
-
+@login_required
 def admin_view(request):
     return render(request, 'admin_page.html')
 
 ######################################################################################
-
+@login_required
 def add_product(request):
     if request.method == "POST":
         product_form = ProductForm(request.POST, request.FILES)
@@ -86,7 +86,7 @@ def add_to_cart(request, product_id):
         cart_item.save()
     return redirect('cart_detail')
 
-
+@login_required
 def cart_detail(request):
     cart = get_object_or_404(Cart, user=request.user)
     if request.method == 'POST':
@@ -123,7 +123,7 @@ def order_success(request):
 
 ######################################################################################
 
-
+@login_required
 def shopping_history(request):
     orders = Orders.objects.filter(username=request.user).order_by('-date')
     return render(request, 'shopping-history.html', {'orders': orders})
