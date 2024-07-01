@@ -15,17 +15,8 @@ class Storage(models.Model):
     name = models.CharField(max_length=255 , unique= True , null= False , blank= False)
     amount = models.PositiveIntegerField(null= False , blank= False , validators= [validators.MinValueValidator(0,"error")])
 
-class Category(models.Model):
-    CATEGORY_CHOICES = [
-        ('cold', 'Cold'),
-        ('hot', 'Hot'),
-        ('cakes', 'Cakes'),
-        ('desserts', 'Desserts'),
-    ]
-    name = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True, null=False, blank=False)
     quantity = models.FloatField()
 
 class Product(models.Model):
@@ -34,7 +25,12 @@ class Product(models.Model):
     price = models.PositiveIntegerField(null=False, blank=False)
     description = models.TextField()
     image = models.ImageField(upload_to='products/', null=False, blank=False, default=None)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=50, choices=[
+        ('hot', 'Hot Drinks'),
+        ('cold', 'Cold Drinks'),
+        ('cakes', 'Cakes'),
+        ('breakfasts', 'Breakfasts')
+    ])
     ingredients = models.ManyToManyField(Ingredient, through='ProductIngredient')
 
 class ProductIngredient(models.Model):

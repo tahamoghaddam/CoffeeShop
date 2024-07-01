@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Category, Ingredient, Product, ProductIngredient, Orders, Orders_Product
+from .models import Ingredient, Product, ProductIngredient, Orders, Orders_Product
 from django.db.models import F
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -35,10 +35,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'price', 'description', 'image', 'category']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['category'].queryset = Category.objects.filter(name__in=['cold', 'hot', 'cakes', 'desserts'])
+        
 
 class ProductIngredientForm(forms.ModelForm):
     class Meta:
