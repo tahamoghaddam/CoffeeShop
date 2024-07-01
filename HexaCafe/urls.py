@@ -1,13 +1,13 @@
 from django.urls import path
 from django.contrib import admin
 from . import views
-from .views import signup,login, add_product, home, admin_view, inventory_view, add_ingredient, update_ingredient, ingredient_success,shopping_history,cart_detail
+from .views import signup,user_login, add_product, home, admin_view, inventory_view, add_ingredient, update_ingredient, ingredient_success,shopping_history,cart_detail
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', signup, name='signup'),
-    path('login/', login, name='login'),
+    path('login/', user_login, name='login'),
     path('addproduct/' ,add_product , name = 'addproduct' ),
     path('inventory/' ,inventory_view , name = 'inventory' ),
     #path('update_inventory/' , update_inventory, name = 'inventory_update'),
