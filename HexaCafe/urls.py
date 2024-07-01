@@ -17,6 +17,6 @@ urlpatterns = [
     path('admin_page/', admin_view, name='admin_page'),
     path('add_ingredient/', add_ingredient, name='add_ingredient'),
     path('update-ingredient/', update_ingredient, name='update_ingredient'),
-    path('ingredient-success/', ingredient_success, name='ingredient_success'),
+    path('success/', ingredient_success, name='success'),
     path('shopping-history/',shopping_history , name = 'shopping-history')
 ]

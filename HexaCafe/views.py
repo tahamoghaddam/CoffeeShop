@@ -137,7 +137,7 @@ def add_ingredient(request):
         form = IngredientForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('ingredient_success')
+            return redirect('success')
     else:
         form = IngredientForm()
     return render(request, 'add_ingredient.html', {'form': form})
@@ -152,7 +152,7 @@ def update_ingredient(request):
                 ingredient = Ingredient.objects.get(name=name)
                 ingredient.quantity = new_quantity
                 ingredient.save()
-                return redirect('ingredient_success')
+                return redirect('success')
             except Ingredient.DoesNotExist:
                 form.add_error('name', 'Ingredient does not exist.')
     else:
@@ -160,6 +160,6 @@ def update_ingredient(request):
     return render(request, 'update_ingredient.html', {'form': form})
 
 def ingredient_success(request):
-    return render(request, 'ingredient_success.html')
+    return render(request, 'success.html')
 
 ######################################################################################

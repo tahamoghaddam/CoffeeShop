@@ -22,10 +22,14 @@
       <div class="rectangle-101 menu-container">
         <a href="#" class="menu">Menu</a>
         <div class="dropdown-content">
-          <a href="#">hot drinks</a>
-          <a href="#">cold drinks</a>
-          <a href="#">cakes and dessert</a>
-          <a href="#">breakfast</a>
+          <a href="#" data-category="hot">Hot drinks</a>
+          <div id="hot" class="sub-category"></div>
+          <a href="#" data-category="cold">Cold drinks</a>
+          <div id="cold" class="sub-category"></div>
+          <a href="#" data-category="cakes">Cakes and Dessert</a>
+          <div id="cakes" class="sub-category"></div>
+          <a href="#" data-category="desserts">Desserts</a>
+          <div id="desserts" class="sub-category"></div>
         </div>
       </div>
     </div>
@@ -42,23 +46,37 @@
       <div class="rectangle-152"></div>
       <div class="ellipse-34"></div>
       <span class="daily">Daily</span>
-      <div class="rectangle-86">
-      </div>
+      <div class="rectangle-86"></div>
     </div>
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-  const menuContainer = document.querySelector('.menu-container');
-  const menuLink = document.querySelector('.menu');
+      const dropdownLinks = document.querySelectorAll('.dropdown-content a[data-category]');
+      dropdownLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          const category = this.getAttribute('data-category');
+          fetchProducts(category);
+        });
+      });
 
-  menuLink.addEventListener('click', function(event) {
-    event.preventDefault();
-    menuContainer.classList.toggle('show');
-  });
-});
-
-
+      function fetchProducts(category) {
+        fetch(`/get-products/${category}/`)
+          .then(response => response.json())
+          .then(data => {
+            const subCategoryDiv = document.getElementById(category);
+            subCategoryDiv.innerHTML = '';
+            data.products.forEach(product => {
+              const productDiv = document.createElement('div');
+              productDiv.classList.add('product');
+              productDiv.innerText = product.name;
+              subCategoryDiv.appendChild(productDiv);
+            });
+          });
+      }
+    });
   </script>
 </body>
 </html>
+
 
