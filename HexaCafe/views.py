@@ -14,7 +14,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/login/')
+            return redirect('login/')
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -26,10 +26,10 @@ def login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            if user.is_staff:  # Assuming staff users are admins
-                return redirect('/admin_page/')
+            if user.is_staff:
+                return redirect('admin_page/')
             else:
-                return home(request)
+                return redirect('home/')
     else:
         form = CustomAuthenticationForm()
     return render(request, 'login.html', {'form': form})
