@@ -6,6 +6,7 @@ from .models import Ingredient, Product, Cart, CartItem, Orders, Orders_Product
 from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Count, Sum
+from datetime import datetime, timedelta
 
 ######################################################################################
 
@@ -186,3 +187,28 @@ def ingredient_success(request):
 
 
 ######################################################################################
+
+def order_monitor(request):
+    return render(request, 'order_monitor.html')
+
+def get_orders_data(request):
+    filter_type = request.GET.get('filter', 'daily')
+    today = datetime.today()
+    
+    if filter_type == 'daily':
+        start_date = today - timedelta(days=1)
+    elif filter_type == 'weekly':
+        start_date = today - timedelta(weeks=1)
+    elif filter_type == 'monthly':
+        start_date = today - timedelta(days=30)
+    else:
+        start_date = today - timedelta(days=1)
+
+    orders = Orders_Product.objects.filter(order_id__timestamp__gte=start_date).values('product_id__name').annotate(total_quantity=Sum('quantity'))
+
+    data = {
+        'labels': [order['product_id__name'] for order in orders],
+        'data': [order['total_quantity'] for order in orders],
+    }
+
+    return JsonResponse(data)

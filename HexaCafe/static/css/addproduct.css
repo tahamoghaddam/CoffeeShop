@@ -24,19 +24,21 @@ body {
     padding: 20px;
     text-align: left;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    position: relative;
 }
 
+.back-icon-container {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+}
 
-
-
-.exit-line {
-    width: 40px;
-    height: 40px;
-    background-image: url('../images/back.png');
-    background-size: cover;
-    order: 1;
+.back-icon {
+    width: 20px;
+    height: 20px;
 }
 
 .flex-row-d {

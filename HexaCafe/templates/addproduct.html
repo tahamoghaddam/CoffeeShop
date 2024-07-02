@@ -11,8 +11,11 @@
 <body>
     <div class="main-container">
         <div class="rectangle">
-            <div class="exit-line"></div>
-        
+            <div class="back-icon-container">
+                <a href="{% url 'admin_page' %}">
+                    <img src="{% static 'images/as.png' %}" alt="Back to Admin Page" class="back-icon">
+                </a>
+            </div>
         </div>
         <div class="flex-row-d">
             <!-- Flex row content if needed -->
@@ -53,3 +56,4 @@
     </div>
 </body>
 </html>
+

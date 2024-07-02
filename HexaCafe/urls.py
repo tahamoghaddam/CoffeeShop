@@ -23,4 +23,6 @@ urlpatterns = [
     path('add-ingredient/', views.add_ingredient, name='add_ingredient'),
     path('update-ingredient/<str:name>/', views.update_ingredient, name='update_ingredient'),
     path('success/', views.ingredient_success, name='success'),
+    path('order-monitor/', views.order_monitor, name='order_monitor'),
+    path('get-orders-data/', views.get_orders_data, name='get_orders_data'),
 ]
