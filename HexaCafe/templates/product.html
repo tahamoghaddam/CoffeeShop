@@ -123,7 +123,7 @@
           {% for product in products %}
           {% if product.category == "cold" %}
           <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
             <h3>{{ product.name }}</h3>
             <p>${{ product.price }}</p>
             <form method="POST" action="{% url 'add_to_cart' product.id %}">
@@ -141,7 +141,7 @@
           {% for product in products %}
           {% if product.category == "hot" %}
           <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
             <h3>{{ product.name }}</h3>
             <p>${{ product.price }}</p>
             <form method="POST" action="{% url 'add_to_cart' product.id %}">
@@ -159,7 +159,7 @@
           {% for product in products %}
           {% if product.category == "cakes" %}
           <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
             <h3>{{ product.name }}</h3>
             <p>${{ product.price }}</p>
             <form method="POST" action="{% url 'add_to_cart' product.id %}">
@@ -177,7 +177,7 @@
           {% for product in products %}
           {% if product.category == "breakfasts" %}
           <div class="product-card">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <img src="{{ product.image }}" alt="{{ product.name }}">
             <h3>{{ product.name }}</h3>
             <p>${{ product.price }}</p>
             <form method="POST" action="{% url 'add_to_cart' product.id %}">

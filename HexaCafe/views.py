@@ -221,4 +221,6 @@ def get_orders_data(request):
 ######################################################################################
 
 def menu_view(request):
-    return render(request, 'product.html')
+    pp=Product.objects.all()
+    context = {'products':pp}
+    return render(request, 'product.html',context)
