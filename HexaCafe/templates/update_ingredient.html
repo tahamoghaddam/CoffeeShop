@@ -1,15 +1,131 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    :root {
+        --default-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        --success-color: #4CAF50;
+        --background-color: #f9f9f9;
+        --card-background-color: #ffffff;
+        --border-color: #ccc;
+        --button-background: #4CAF50;
+        --button-hover-background: #45a049;
+    }
+
+    /* Global Styles */
+    body {
+        font-family: var(--default-font-family);
+        background-color: var(--background-color);
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .rectangle {
+        width: 100%;
+        height: 120px;
+        background: rgba(223, 193, 146, 0.42);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        position: relative;
+    }
+
+    .back-icon {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .back-icon:hover {
+        transform: scale(1.1);
+    }
+
+    .title {
+        font-size: 32px;
+        font-weight: bold;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+    }
+
+    .flex-row-d {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 120px); /* Push the form container down, accounting for header height */
+        padding: 20px;
+    }
+
+    .rectangle-2 {
+        border: 1px solid var(--border-color);
+        padding: 40px;
+        border-radius: 12px;
+        background-color: var(--card-background-color);
+        text-align: center;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        width: 90%; /* Make it wider */
+        max-width: 1000px; /* Increase max-width to cover more space */
+        margin: auto; /* Center horizontally */
+    }
+
+    .rectangle-11 {
+        background-color: var(--button-background);
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .rectangle-11:hover {
+        background-color: var(--button-hover-background);
+    }
+
+    /* New Styles for Form Fields */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0 12px 0;
+        display: inline-block;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-sizing: border-box;
+        background-color: #f0f0f0;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="number"]:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border: 1px solid var(--button-background);
+        background-color: #e8e8e8;
+    }
+</style>
+
 <div class="rectangle">
-    <div class="group"></div>
-    <div class="exit-line"><div class="group-1"></div></div>
+    <a href="{% url 'add_ingredient' %}">
+        <img src="../images/back.png" alt="Back" class="back-icon">
+    </a>
+    <h1 class="title">Update Ingredient</h1>
 </div>
 <div class="flex-row-d">
     <div class="rectangle-2">
-        <div class="rectangle-3">
-            <span class="inventory-control">Update Ingredient</span>
-        </div>
         <form method="post">
             {% csrf_token %}
             <div>
@@ -22,3 +138,6 @@
     </div>
 </div>
 {% endblock %}
+
+
+
