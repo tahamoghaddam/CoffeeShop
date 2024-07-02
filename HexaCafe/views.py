@@ -87,7 +87,7 @@ def add_product(request):
             product = product_form.save()
             formset.instance = product
             formset.save()
-            return redirect('product_list')  # Replace 'success_url' with your desired redirect
+            return redirect('product')  # Replace 'success_url' with your desired redirect
 
     else:
         product_form = ProductForm()

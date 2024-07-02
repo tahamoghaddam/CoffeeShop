@@ -6,7 +6,7 @@
   <title>HexaCafe</title>
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/product.css' %}">
   <style>
     .menu-container {
       position: fixed;
@@ -111,14 +111,9 @@
             In the heart of our cozy Yemeni oasis, where the sun kisses the sand, we invite you to experience a refreshing escape.
         </span>
 
-        <!-- Popular Products Section -->
-        <div class="rectangle">
-          <h2 class="enjoy-your-time">Popular Products</h2>
-          <div class="products-grid rectangle-flex">
+        <div class="rectangle-cold">
+          <h2 class="enjoy-your-time">Cold Drinks</h2>
             <!-- Cold Drinks -->
-            <div class="product-card">
-              <h3>Cold Drinks</h3>
-              <div class="products-grid">
                 {% for product in products %}
                 {% if product.category == "cold_drinks" %}
                 <div class="product-card">
@@ -130,11 +125,9 @@
                 {% endfor %}
               </div>
             </div>
-
+        <div class="rectangle-hot">
+            <h2 class="enjoy-your-time">Hot Drinks</h2>
             <!-- Hot Drinks -->
-            <div class="product-card">
-              <h3>Hot Drinks</h3>
-              <div class="products-grid">
                 {% for product in products %}
                 {% if product.category == "hot_drinks" %}
                 <div class="product-card">
@@ -146,11 +139,9 @@
                 {% endfor %}
               </div>
             </div>
-
+        <div class="rectangle-cake">
+            <h2 class="enjoy-your-time">Cakes and Desserts</h2>
             <!-- Cakes and Desserts -->
-            <div class="product-card">
-              <h3>Cakes and Desserts</h3>
-              <div class="products-grid">
                 {% for product in products %}
                 {% if product.category == "cakes_and_desserts" %}
                 <div class="product-card">
@@ -163,10 +154,9 @@
               </div>
             </div>
 
+        <div class="rectangle-br">
+            <h2 class="enjoy-your-time">Breakfast</h2>
             <!-- Breakfast -->
-            <div class="product-card">
-              <h3>Breakfast</h3>
-              <div class="products-grid">
                 {% for product in products %}
                 {% if product.category == "breakfast" %}
                 <div class="product-card">
@@ -180,6 +170,48 @@
             </div>
           </div>
         </div>
+
+        <div class="menu-container">
+            <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
+            <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
+            <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
+            <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
+          </div>
+          <div class="overlay"></div>
+        
+          <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+          <script>
+            document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
+              document.querySelector('.menu-container').classList.toggle('active');
+              document.querySelector('.overlay').classList.toggle('active');
+            });
+        
+            document.querySelector('.overlay').addEventListener('click', function() {
+              document.querySelector('.menu-container').classList.remove('active');
+              document.querySelector('.overlay').classList.remove('active');
+            });
+        
+            document.getElementById('login-logo').addEventListener('click', function() {
+              window.location.href = "{% url 'login' %}";
+            });
+        
+            var swiper = new Swiper('.swiper-container', {
+              spaceBetween: 30,
+              centeredSlides: true,
+              autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+              },
+              pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+              },
+              navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+            });
+          </script>
 
 </body>
 </html>
