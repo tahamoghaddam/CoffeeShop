@@ -6,6 +6,74 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <style>
+    .menu-container {
+      position: fixed;
+      top: 0;
+      left: -300px; /* Initially hidden off-screen */
+      width: 300px;
+      height: 100%;
+      background-color: #D2B48C; /* Light brown color */
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+      transition: left 0.3s;
+      padding: 20px;
+      z-index: 1000;
+    }
+    .menu-container.active {
+      left: 0; /* Slide in from the left */
+    }
+    .menu-item {
+      margin: 15px 0;
+      font-size: 18px;
+      color: #fff;
+    }
+    .menu-item a {
+      color: #fff;
+      text-decoration: none;
+    }
+    .menu-item a:hover {
+      text-decoration: underline;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none; /* Initially hidden */
+    }
+    .overlay.active {
+      display: block; /* Show when active */
+    }
+    .swiper-container {
+      width: 100%;
+      height: 300px;
+      margin-top: 200px; /* Added margin-top for spacing */
+      position: relative; /* Make sure the container is relative */
+    }
+    .swiper-slide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 100px; /* Space between images */
+    }
+    .swiper-slide img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #714024; 
+      position: absolute;
+      top: 50%; 
+      transform: translateY(-50%);
+      z-index: 10; 
+    }
+  </style>
 </head>
 <body>
   <div class="main-container">
@@ -13,28 +81,27 @@
     <div class="inner-container">
       <div class="design-placeholder">
         <div class="flex-row-a">
-          <div class="icon solar-logout-outline" id="login-logo"></div>
-          <div class="icon cart-icon"></div>
-          <div class="icon history-icon"></div>
-          <div class="icon coffee-icon"></div>
-          <div class="icon gg-menu-round">
-            <div class="menu-icon"></div>
-          </div>
+          <div class="solar-logout-outline" id="login-logo"></div>
+          <div class="group"></div>
+          <div class="group-2"></div>
+          <div class="group-8"></div>
+          <div class="group-9"></div>
+          <div class="gg-menu-round"><div class="group-1"></div></div>
         </div>
         <span class="menu">Menu</span>
         <div class="flex-row-c">
           <button class="rectangle">
             <span class="enjoy-your-time">Enjoy Your Time</span>
           </button>
-          <div class="icon gg-menu-round-2">
-            <div class="menu-icon"></div>
+          <div class="gg-menu-round-2">
+            <div class="group-3"></div>
+            <div class="gg-menu-round-4"><div class="group-5"></div></div>
           </div>
         </div>
         <span class="welcome-message">
           Welcome to our café! Where every cup of coffee has a story,
           and every story begins with a cup of coffee.
         </span>
-
         <!-- Popular Products Section -->
         <div class="popular-products">
           <h2>Top 5 Popular Products</h2>
@@ -50,18 +117,30 @@
           </div>
         </div>
 
+        
         <!-- Slider Section -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <img src="{% static 'images/slider1.jpg' %}" alt="Slide 1">
+              <img src="{% static 'images/slider 1.jpg' %}" alt="Slide 1">
               <img src="{% static 'images/slider2.jpg' %}" alt="Slide 2">
             </div>
             <div class="swiper-slide">
-              <img src="{% static 'images/slider3.jpg' %}" alt="Slide 3">
-              <img src="{% static 'images/slider4.jpg' %}" alt="Slide 4">
+              <img src="{% static 'images/slider 3.jpg' %}" alt="Slide 3">
+              <img src="{% static 'images/slider 4.jpg' %}" alt="Slide 4">
             </div>
-            <!-- Add more slides as needed -->
+            <div class="swiper-slide">
+              <img src="{% static 'images/slider5.jpg' %}" alt="Slide 5">
+              <img src="{% static 'images/slider 6.jpg' %}" alt="Slide 1">
+            </div>
+            <div class="swiper-slide">
+              <img src="{% static 'images/slider7.jpg' %}" alt="Slide 2">
+              <img src="{% static 'images/Mojito.jpg' %}" alt="Slide 3">
+            </div>
+            <div class="swiper-slide">
+              <img src="{% static 'images/slider 1.jpg' %}" alt="Slide 4">
+              <img src="{% static 'images/slider2.jpg' %}" alt="Slide 5">
+            </div>
           </div>
           <!-- Add Pagination -->
           <div class="swiper-pagination"></div>
@@ -70,71 +149,51 @@
           <div class="swiper-button-prev"></div>
         </div>
 
-        <!-- Categories Section -->
-        <div class="category-section">
-          <h2>Categories</h2>
-          <div class="products-grid">
-            {% for category, display_name in categories %}
-            <div class="product-card">
-              <h3>{{ display_name }}</h3>
-              <div class="products-grid">
-                {% for product in products %}
-                {% if product.category == category %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-
-        <!-- Menu -->
-        <div class="menu-container">
-          <div class="menu-item"><a href="#">Menu Item 1</a></div>
-          <div class="menu-item"><a href="#">Menu Item 2</a></div>
-          <div class="menu-item"><a href="#">Menu Item 3</a></div>
-          <!-- Add more menu items as needed -->
-        </div>
-
-        <!-- Overlay -->
-        <div class="overlay"></div>
-
       </div>
     </div>
   </div>
 
+  <div class="menu-container">
+    <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
+    <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
+    <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
+    <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
+  </div>
+  <div class="overlay"></div>
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const menuIcon = document.querySelector(".menu-icon");
-      const menuContainer = document.querySelector(".menu-container");
-      const overlay = document.querySelector(".overlay");
-  
-      menuIcon.addEventListener("click", function() {
-          menuContainer.classList.toggle("active");
-          overlay.classList.toggle("active");
-      });
-  
-      overlay.addEventListener("click", function() {
-          menuContainer.classList.remove("active");
-          overlay.classList.remove("active");
-      });
-  
-      const swiper = new Swiper('.swiper-container', {
-          loop: true,
-          pagination: {
-              el: '.swiper-pagination',
-          },
-          navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-          },
-      });
-  });    
+    document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
+      document.querySelector('.menu-container').classList.toggle('active');
+      document.querySelector('.overlay').classList.toggle('active');
+    });
+
+    document.querySelector('.overlay').addEventListener('click', function() {
+      document.querySelector('.menu-container').classList.remove('active');
+      document.querySelector('.overlay').classList.remove('active');
+    });
+
+    document.getElementById('login-logo').addEventListener('click', function() {
+      window.location.href = "{% url 'login' %}";
+    });
+
+    var swiper = new Swiper('.swiper-container', {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
   </script>
 </body>
 </html>
+
