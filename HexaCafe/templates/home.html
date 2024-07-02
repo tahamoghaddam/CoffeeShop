@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -73,6 +74,14 @@
       transform: translateY(-50%);
       z-index: 10; 
     }
+    /* Additional styles for the product categories */
+    .rectangle-flex {
+      display: flex;
+      flex-direction: column;
+    }
+    .rectangle-flex .product-card {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -102,22 +111,78 @@
           Welcome to our café! Where every cup of coffee has a story,
           and every story begins with a cup of coffee.
         </span>
+
         <!-- Popular Products Section -->
-        <div class="popular-products">
-          <h2>Top 5 Popular Products</h2>
-          <div class="products-grid">
-            {% for item in popular_products %}
+        <div class="rectangle">
+          <h2 class="enjoy-your-time">Popular Products</h2>
+          <div class="products-grid rectangle-flex">
+            <!-- Cold Drinks -->
             <div class="product-card">
-              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
-              <h3>{{ item.product.name }}</h3>
-              <p>${{ item.product.price }}</p>
-              <p>Ordered: {{ item.total_quantity }}</p>
+              <h3>Cold Drinks</h3>
+              <div class="products-grid">
+                {% for product in products %}
+                {% if product.category == "cold_drinks" %}
+                <div class="product-card">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <h3>{{ product.name }}</h3>
+                  <p>${{ product.price }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
             </div>
-            {% endfor %}
+
+            <!-- Hot Drinks -->
+            <div class="product-card">
+              <h3>Hot Drinks</h3>
+              <div class="products-grid">
+                {% for product in products %}
+                {% if product.category == "hot_drinks" %}
+                <div class="product-card">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <h3>{{ product.name }}</h3>
+                  <p>${{ product.price }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Cakes and Desserts -->
+            <div class="product-card">
+              <h3>Cakes and Desserts</h3>
+              <div class="products-grid">
+                {% for product in products %}
+                {% if product.category == "cakes_and_desserts" %}
+                <div class="product-card">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <h3>{{ product.name }}</h3>
+                  <p>${{ product.price }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Breakfast -->
+            <div class="product-card">
+              <h3>Breakfast</h3>
+              <div class="products-grid">
+                {% for product in products %}
+                {% if product.category == "breakfast" %}
+                <div class="product-card">
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <h3>{{ product.name }}</h3>
+                  <p>${{ product.price }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
+        <!-- End of Popular Products Section -->
 
-        
         <!-- Slider Section -->
         <div class="swiper-container">
           <div class="swiper-wrapper">
@@ -142,17 +207,17 @@
               <img src="{% static 'images/slider2.jpg' %}" alt="Slide 5">
             </div>
           </div>
-          <!-- Add Pagination -->
           <div class="swiper-pagination"></div>
-          <!-- Add Navigation -->
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>
+        <!-- End of Slider Section -->
 
       </div>
     </div>
   </div>
 
+  <!-- Menu Container and Overlay -->
   <div class="menu-container">
     <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
     <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
@@ -161,6 +226,7 @@
   </div>
   <div class="overlay"></div>
 
+  <!-- Swiper JS -->
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
     document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
@@ -196,4 +262,3 @@
   </script>
 </body>
 </html>
-

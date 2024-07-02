@@ -132,7 +132,8 @@ html {
     cursor: pointer;
     background: #714024;
     border: none;
-    border-radius: 30px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
     margin: 20px auto;
     text-align: center;
 }
@@ -195,3 +196,8 @@ html {
     font-size: 18px;
     margin: 5px 0;
 }
+.rectangle-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+  
