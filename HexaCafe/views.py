@@ -212,3 +212,8 @@ def get_orders_data(request):
     }
 
     return JsonResponse(data)
+
+######################################################################################
+
+def menu_view(request):
+    return render(request, 'product.html')
