@@ -22,87 +22,62 @@ html {
     z-index: -1;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
 .inner-container {
     position: relative;
-    width: 80%;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 40px;
-    background: rgba(248, 243, 237, 0.9);
-    border-radius: 30px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    min-height: 100vh;
-    padding-bottom: 100px;
+    padding: 20px;
 }
 
 .design-placeholder {
     position: relative;
-    width: 100%;
 }
 
 .flex-row-a,
 .flex-row-c {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.flex-row-a {
+    margin-bottom: 20px;
+}
+
+.flex-row-c {
+    margin-top: 20px;
 }
 
 .solar-logout-outline,
-.group,
 .gg-menu-round,
-.vector,
-.group-1,
-.group-2,
-.group-8,
-.group-9 {
-    margin: 10px;
-}
-
-.solar-logout-outline {
-    width: 80px;
-    height: 80px;
-    background: url('../images/exit icon.png') no-repeat center;
-    background-size: cover;
-}
-
-.gg-menu-round {
-    width: 80px;
-    height: 80px;
-}
-
-.group-1 {
+.gg-menu-round-2 {
     width: 60px;
     height: 60px;
-    background: url('../images/menuicon.png') no-repeat center;
-    background-size: cover;
-    position: absolute;
-    top: 10px;
-    left: 2px;
+    background: #714024;
+    border-radius: 50%;
+    position: relative;
     cursor: pointer;
 }
 
-.group-2 {
-    width: 60px;
-    height: 60px;
-    background: url('../images/shoppingcart.png') no-repeat center;
+.solar-logout-outline {
+    background: url('../images/logout-icon.png') no-repeat center;
     background-size: cover;
-    position: absolute;
-    top: 10px;
-    right: 560px;
 }
 
-.group-8 {
-    width: 60px;
-    height: 60px;
-    background: url('../images/shoppinghistory.png') no-repeat center;
-    background-size: cover;
-    position: absolute;
-    top: 10px;
-    right: 450px;
-}
-
-.group-9 {
+.gg-menu-round .group-1,
+.gg-menu-round .group-3,
+.gg-menu-round-2 .group-3,
+.gg-menu-round-2 .group-5 {
     width: 60px;
     height: 60px;
     background: url('../images/roundcoffee.png') no-repeat center;
@@ -194,4 +169,18 @@ html {
 .product-card p {
     font-size: 18px;
     margin: 5px 0;
+}
+
+.category-section {
+    margin-top: 40px;
+}
+
+.category-section h2 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.category-section .products-grid {
+    justify-content: flex-start;
 }

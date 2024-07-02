@@ -1,16 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, ProductIngredientFormSet, IngredientForm, UpdateIngredientForm,DeliveryMethodForm
 from .models import Ingredient, Product, Cart, CartItem, Orders, Orders_Product
 from django.http import JsonResponse
 from django.utils import timezone
+from django.db.models import Count, Sum
 
 ######################################################################################
-
-from django.shortcuts import render, redirect
-from django.contrib.auth import login as auth_login
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
 
 def signup(request):
     if request.method == 'POST':
@@ -38,17 +35,47 @@ def user_login(request):  # Rename the function to avoid conflict
     return render(request, 'login.html', {'form': form})
 
 ######################################################################################
+
 @login_required
 def home(request):
-    #popular_products = get_popular_products()
-    #context = {'popular_products': popular_products}
-    return render(request, 'home.html')
+    # Annotate Orders_Product to get the total quantity ordered for each product
+    popular_products = Orders_Product.objects.values('product_id').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
+    
+    # Fetch the actual product details for the popular products
+    popular_products_details = []
+    for item in popular_products:
+        try:
+            product = Product.objects.get(id=item['product_id'])
+            popular_products_details.append({
+                'product': product,
+                'total_quantity': item['total_quantity']
+            })
+        except Product.DoesNotExist:
+            continue
+    
+    # Categories
+    categories = {
+        'hot': 'Hot Drinks',
+        'cold': 'Cold Drinks',
+        'cakes': 'Cakes & Desserts',
+        'breakfasts': 'Breakfast'
+    }
+    products = Product.objects.all()
+
+    context = {
+        'popular_products': popular_products_details,
+        'categories': categories.items(),
+        'products': products,
+    }
+    return render(request, 'home.html', context)
+
 
 @login_required
 def admin_view(request):
     return render(request, 'admin_page.html')
 
 ######################################################################################
+
 @login_required
 def add_product(request):
     if request.method == "POST":
@@ -66,13 +93,6 @@ def add_product(request):
         formset = ProductIngredientFormSet()
 
     return render(request, 'addproduct.html', {'product_form': product_form, 'formset': formset})
-
-
-#def get_popular_products():
-#    popular_products = (OrderItem.objects.values('product__id', 'product__name', 'product__price', 'product__image')
-#                        .annotate(total_quantity=sum('quantity'))
-#                        .order_by('-total_quantity')[:5])
-#    return popular_products
 
 ######################################################################################
 

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,74 +7,6 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <style>
-    .menu-container {
-      position: fixed;
-      top: 0;
-      left: -300px; /* Initially hidden off-screen */
-      width: 300px;
-      height: 100%;
-      background-color: #D2B48C; /* Light brown color */
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-      transition: left 0.3s;
-      padding: 20px;
-      z-index: 1000;
-    }
-    .menu-container.active {
-      left: 0; /* Slide in from the left */
-    }
-    .menu-item {
-      margin: 15px 0;
-      font-size: 18px;
-      color: #fff;
-    }
-    .menu-item a {
-      color: #fff;
-      text-decoration: none;
-    }
-    .menu-item a:hover {
-      text-decoration: underline;
-    }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none; /* Initially hidden */
-    }
-    .overlay.active {
-      display: block; /* Show when active */
-    }
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin-top: 200px; /* Added margin-top for spacing */
-      position: relative; /* Make sure the container is relative */
-    }
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 100px; /* Space between images */
-    }
-    .swiper-slide img {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-    }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #714024; 
-      position: absolute;
-      top: 50%; 
-      transform: translateY(-50%);
-      z-index: 10; 
-    }
-  </style>
 </head>
 <body>
   <div class="main-container">
@@ -107,15 +40,35 @@
         <div class="popular-products">
           <h2>Top 5 Popular Products</h2>
           <div class="products-grid">
-            {% for product in popular_products %}
-            <div class="product-card">
-              <img src="{{ product.product__image.url }}" alt="{{ product.product__name }}">
-              <h3>{{ product.product__name }}</h3>
-              <p>${{ product.product__price }}</p>
-              <p>Ordered: {{ product.total_quantity }}</p>
-            </div>
-            {% endfor %}
+              {% for item in popular_products %}
+              <div class="product-card">
+                  <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                  <h3>{{ item.product.name }}</h3>
+                  <p>${{ item.product.price }}</p>
+                  <p>Ordered: {{ item.total_quantity }}</p>
+              </div>
+              {% endfor %}
           </div>
+        </div>
+
+        <!-- Category Sections -->
+        <div id="category-sections">
+          {% for category, category_name in categories %}
+          <div class="category-section" id="{{ category }}">
+            <h2>{{ category_name }}</h2>
+            <div class="products-grid">
+              {% for product in products %}
+                {% if product.category == category %}
+                  <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>${{ product.price }}</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
         </div>
         
         <!-- Slider Section -->
@@ -154,10 +107,10 @@
   </div>
 
   <div class="menu-container">
-    <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
-    <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
-    <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
-    <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
+    <div class="menu-item"><a href="#hot">• Hot Drinks</a></div>
+    <div class="menu-item"><a href="#cold">• Cold Drinks</a></div>
+    <div class="menu-item"><a href="#cakes">• Cakes & Desserts</a></div>
+    <div class="menu-item"><a href="#breakfasts">• Breakfast</a></div>
   </div>
   <div class="overlay"></div>
 
@@ -196,4 +149,3 @@
   </script>
 </body>
 </html>
-
