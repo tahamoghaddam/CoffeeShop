@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Monitor</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
+</head>
+<body>
+  <div class="main-container">
+    <div class="rectangle-82"></div>
+    <div class="mingcute-exit-line"></div>
+    <div class="sidebar">
+      <div class="rectangle-84">
+        <span class="inventory-control">Inventory Control</span>
+      </div>
+      <div class="rectangle-85">
+        <a href="{% url 'addproduct' %}" class="add-product">Add Product</a>
+      </div>
+      <div class="rectangle-101 menu-container">
+        <a href="#" class="menu">Menu</a>
+        <div class="dropdown-content">
+          <a href="#" data-category="hot-drinks">Hot Drinks</a>
+          <a href="#" data-category="cold-drinks">Cold Drinks</a>
+          <a href="#" data-category="cakes-desserts">Cakes and Desserts</a>
+          <a href="#" data-category="breakfast">Breakfast</a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <div class="rectangle-153"></div>
+      <span class="filter">Filter</span>
+      <div class="rectangle-154"></div>
+      <div class="ellipse-35"></div>
+      <span class="yearly" data-filter="yearly">Yearly</span>
+      <div class="rectangle-151"></div>
+      <div class="ellipse-33"></div>
+      <span class="monthly" data-filter="monthly">Monthly</span>
+      <div class="rectangle-152"></div>
+      <div class="ellipse-34"></div>
+      <span class="daily" data-filter="daily">Daily</span>
+      <div class="rectangle-86">
+        <canvas id="orderChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filters = document.querySelectorAll('.filter span');
+      filters.forEach(filter => {
+        filter.addEventListener('click', function() {
+          const filterType = this.getAttribute('data-filter');
+          fetchOrderData(filterType);
+        });
+      });
+
+      function fetchOrderData(filterType = 'daily') {
+        $.getJSON(`/get-orders-data/?filter=${filterType}`, function(data) {
+          updateChart(data.labels, data.data);
+        });
+      }
+
+      function updateChart(labels, data) {
+        const ctx = document.getElementById('orderChart').getContext('2d');
+        if (window.orderChart) {
+          window.orderChart.destroy();
+        }
+        window.orderChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: '# of Orders',
+              data: data,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+
+      fetchOrderData();
+    });
+  </script>
+</body>
+</html>
