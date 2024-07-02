@@ -25,4 +25,5 @@ urlpatterns = [
     path('success/', views.ingredient_success, name='success'),
     path('order-monitor/', views.order_monitor, name='order_monitor'),
     path('get-orders-data/', views.get_orders_data, name='get_orders_data'),
+    path('product/', views.menu_view, name='product'),
 ]
