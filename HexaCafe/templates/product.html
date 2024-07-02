@@ -11,17 +11,17 @@
     .menu-container {
       position: fixed;
       top: 0;
-      left: -300px; /* Initially hidden off-screen */
+      left: -300px;
       width: 300px;
       height: 100%;
-      background-color: #D2B48C; /* Light brown color */
+      background-color: #D2B48C;
       box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
       transition: left 0.3s;
       padding: 20px;
       z-index: 1000;
     }
     .menu-container.active {
-      left: 0; /* Slide in from the left */
+      left: 0;
     }
     .menu-item {
       margin: 15px 0;
@@ -43,44 +43,51 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       z-index: 999;
-      display: none; /* Initially hidden */
+      display: none;
     }
     .overlay.active {
-      display: block; /* Show when active */
+      display: block;
     }
     .swiper-container {
       width: 100%;
       height: 300px;
-      margin-top: 200px; /* Added margin-top for spacing */
-      position: relative; /* Make sure the container is relative */
+      margin-top: 200px;
+      position: relative;
     }
     .swiper-slide {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 100px; /* Space between images */
+      gap: 100px;
     }
     .swiper-slide img {
       width: 300px;
       height: 300px;
       object-fit: cover;
     }
-
     .swiper-button-next,
     .swiper-button-prev {
-      color: #714024; 
+      color: #714024;
       position: absolute;
-      top: 50%; 
+      top: 50%;
       transform: translateY(-50%);
-      z-index: 10; 
+      z-index: 10;
     }
-    /* Additional styles for the product categories */
-    .rectangle-flex {
+    .rectangle-section {
       display: flex;
       flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
     }
-    .rectangle-flex .product-card {
-      margin-bottom: 20px;
+    .product-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      margin: 20px 0;
     }
   </style>
 </head>
@@ -108,110 +115,123 @@
           </div>
         </div>
         <span class="welcome-message">
-            In the heart of our cozy Yemeni oasis, where the sun kisses the sand, we invite you to experience a refreshing escape.
+          In the heart of our cozy Yemeni oasis, where the sun kisses the sand, we invite you to experience a refreshing escape.
         </span>
 
-        <div class="rectangle-cold">
+        <div id="cold-drinks" class="rectangle-section">
           <h2 class="enjoy-your-time">Cold Drinks</h2>
-            <!-- Cold Drinks -->
-                {% for product in products %}
-                {% if product.category == "cold_drinks" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-        <div class="rectangle-hot">
-            <h2 class="enjoy-your-time">Hot Drinks</h2>
-            <!-- Hot Drinks -->
-                {% for product in products %}
-                {% if product.category == "hot_drinks" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-        <div class="rectangle-cake">
-            <h2 class="enjoy-your-time">Cakes and Desserts</h2>
-            <!-- Cakes and Desserts -->
-                {% for product in products %}
-                {% if product.category == "cakes_and_desserts" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-
-        <div class="rectangle-br">
-            <h2 class="enjoy-your-time">Breakfast</h2>
-            <!-- Breakfast -->
-                {% for product in products %}
-                {% if product.category == "breakfast" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
+          {% for product in products %}
+          {% if product.category == "cold" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" min="1" value="1" required>
+              <button type="submit">Add to Cart</button>
+            </form>
           </div>
+          {% endif %}
+          {% endfor %}
         </div>
 
-        <div class="menu-container">
-            <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
-            <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
-            <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
-            <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
+        <div id="hot-drinks" class="rectangle-section">
+          <h2 class="enjoy-your-time">Hot Drinks</h2>
+          {% for product in products %}
+          {% if product.category == "hot" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" min="1" value="1" required>
+              <button type="submit">Add to Cart</button>
+            </form>
           </div>
-          <div class="overlay"></div>
-        
-          <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-          <script>
-            document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
-              document.querySelector('.menu-container').classList.toggle('active');
-              document.querySelector('.overlay').classList.toggle('active');
-            });
-        
-            document.querySelector('.overlay').addEventListener('click', function() {
-              document.querySelector('.menu-container').classList.remove('active');
-              document.querySelector('.overlay').classList.remove('active');
-            });
-        
-            document.getElementById('login-logo').addEventListener('click', function() {
-              window.location.href = "{% url 'login' %}";
-            });
-        
-            var swiper = new Swiper('.swiper-container', {
-              spaceBetween: 30,
-              centeredSlides: true,
-              autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-              },
-              pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-              },
-              navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-              },
-            });
-          </script>
+          {% endif %}
+          {% endfor %}
+        </div>
 
+        <div id="cakes" class="rectangle-section">
+          <h2 class="enjoy-your-time">Cakes and Desserts</h2>
+          {% for product in products %}
+          {% if product.category == "cakes" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" min="1" value="1" required>
+              <button type="submit">Add to Cart</button>
+            </form>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+        <div id="breakfasts" class="rectangle-section">
+          <h2 class="enjoy-your-time">Breakfast</h2>
+          {% for product in products %}
+          {% if product.category == "breakfasts" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" min="1" value="1" required>
+              <button type="submit">Add to Cart</button>
+            </form>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-container">
+      <div class="menu-item"><a href="#cold-drinks">• Cold Drinks</a></div>
+      <div class="menu-item"><a href="#hot-drinks">• Hot Drinks</a></div>
+      <div class="menu-item"><a href="#cakes">• Cakes & Desserts</a></div>
+      <div class="menu-item"><a href="#breakfasts">• Breakfast</a></div>
+    </div>
+    <div class="overlay"></div>
+    
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
+        document.querySelector('.menu-container').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+      });
+
+      document.querySelector('.overlay').addEventListener('click', function() {
+        document.querySelector('.menu-container').classList.remove('active');
+        document.querySelector('.overlay').classList.remove('active');
+      });
+
+      document.getElementById('login-logo').addEventListener('click', function() {
+        window.location.href = "{% url 'login' %}";
+      });
+
+      var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    </script>
 </body>
 </html>

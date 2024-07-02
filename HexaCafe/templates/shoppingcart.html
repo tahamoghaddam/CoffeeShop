@@ -1,13 +1,12 @@
-<!-- cart_detail.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hexa Cafe</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hexa Cafe - Shopping Cart</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap">
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/shoppingcart.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/shoppingcart.css' %}">
   <style>
     table {
       width: 100%;
@@ -44,6 +43,7 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -53,6 +53,9 @@
                   <td>${{ item.product.price }}</td>
                   <td>{{ item.quantity }}</td>
                   <td>${{ item.product.price|multiply:item.quantity }}</td>
+                  <td>
+                    <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>

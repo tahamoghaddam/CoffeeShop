@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, ProductIngredientFormSet, IngredientForm, UpdateIngredientForm,DeliveryMethodForm
 from .models import Ingredient, Product, Cart, CartItem, Orders, Orders_Product
 from django.http import JsonResponse
@@ -101,11 +102,15 @@ def add_product(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
+
+    if not CartItem.check_ingredient_availability(product, 1):
+        raise ValidationError("Not enough ingredients to add this product to the cart.")
+
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
         cart_item.quantity += 1
-        cart_item.save()
-    return redirect('cart_detail')
+    cart_item.save()
+    return redirect('shoppingcart')
 
 @login_required
 def cart_detail(request):
