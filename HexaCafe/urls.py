@@ -26,4 +26,8 @@ urlpatterns = [
     path('order-monitor/', views.order_monitor, name='order_monitor'),
     path('get-orders-data/', views.get_orders_data, name='get_orders_data'),
     path('product/', views.menu_view, name='product'),
+    path('add_to_cart/<int:product_id>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart_detail, name='cart_detail'),
+    path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('order_success/', views.order_success, name='order_success'),
 ]

@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Ingredient, Product, ProductIngredient, Orders, Orders_Product
+from .models import Ingredient, Product, ProductIngredient, Orders, Orders_Product, CartItem
 from django.db.models import F
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -75,13 +75,8 @@ class OrdersProductForm(forms.ModelForm):
         product = cleaned_data.get('product_id')
         quantity = cleaned_data.get('quantity')
 
-        if product and quantity:
-            product_ingredients = ProductIngredient.objects.filter(product=product)
-            for product_ingredient in product_ingredients:
-                ingredient = product_ingredient.ingredient
-                required_quantity = product_ingredient.quantity * quantity
-                if ingredient.quantity < required_quantity:
-                    raise ValidationError(f"Not enough {ingredient.name} to fulfill the order.")
+        if product and quantity and not CartItem.check_ingredient_availability(product, quantity):
+            raise ValidationError("Not enough ingredients to fulfill the order.")
 
         return cleaned_data
 
@@ -92,16 +87,12 @@ class OrdersProductForm(forms.ModelForm):
 
         if commit:
             order_product.save()
-            product_ingredients = ProductIngredient.objects.filter(product=product)
-            for product_ingredient in product_ingredients:
-                ingredient = product_ingredient.ingredient
-                required_quantity = product_ingredient.quantity * quantity
-                ingredient.quantity = F('quantity') - required_quantity
-                ingredient.save()
+            CartItem.adjust_ingredient_quantity(product, quantity)
 
         return order_product
 
 OrdersProductFormSet = forms.inlineformset_factory(Orders, Orders_Product, form=OrdersProductForm, extra=1)
+
 
 
 class DeliveryMethodForm(forms.Form):

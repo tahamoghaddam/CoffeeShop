@@ -46,9 +46,8 @@ class Orders(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     open = models.BooleanField(default=True)
 
-    def Overall_Price(self):
-        total_price = sum(item.product_id.price * item.quantity for item in self.orders_product_set.all())
-        return total_price
+    def overall_price(self):
+        return sum(item.product_id.price * item.quantity for item in self.orders_product_set.all())
 
 class Orders_Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -60,28 +59,10 @@ class Orders_Product(models.Model):
         if not self.can_fulfill_order():
             raise ValidationError("Not enough ingredients to fulfill the order.")
         super().save(*args, **kwargs)
-        self.reduce_ingredient_quantity()
+        CartItem.adjust_ingredient_quantity(self.product_id, self.quantity)
 
     def can_fulfill_order(self):
-        product_ingredients = ProductIngredient.objects.filter(product=self.product_id)
-        for product_ingredient in product_ingredients:
-            ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * self.quantity
-            if ingredient.quantity < required_quantity:
-                return False
-        return True
-
-    def reduce_ingredient_quantity(self):
-        product_ingredients = ProductIngredient.objects.filter(product=self.product_id)
-        for product_ingredient in product_ingredients:
-            ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * self.quantity
-            ingredient.quantity = F('quantity') - required_quantity
-            ingredient.save()
-
-        # Refresh the ingredient from the database to get the latest quantity
-        for product_ingredient in product_ingredients:
-            product_ingredient.ingredient.refresh_from_db()
+        return CartItem.check_ingredient_availability(self.product_id, self.quantity)
 
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -92,29 +73,38 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    
+
     def save(self, *args, **kwargs):
         if self.pk:
             # Update the quantity of ingredients
-            self.adjust_ingredient_quantity(self.quantity - self.__original_quantity)
+            self.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
         else:
             # Reduce the quantity of ingredients
-            self.adjust_ingredient_quantity(self.quantity)
+            self.adjust_ingredient_quantity(self.product, self.quantity)
         super().save(*args, **kwargs)
 
-    def adjust_ingredient_quantity(self, quantity_change):
-        product_ingredients = ProductIngredient.objects.filter(product=self.product)
+    def adjust_ingredient_quantity(self, product, quantity_change):
+        product_ingredients = ProductIngredient.objects.filter(product=product)
         for product_ingredient in product_ingredients:
             ingredient = product_ingredient.ingredient
             required_quantity = product_ingredient.quantity * quantity_change
             ingredient.quantity = F('quantity') - required_quantity
             ingredient.save()
-        # Refresh the ingredient from the database to get the latest quantity
         for product_ingredient in product_ingredients:
             product_ingredient.ingredient.refresh_from_db()
 
+    @staticmethod
+    def check_ingredient_availability(product, quantity):
+        product_ingredients = ProductIngredient.objects.filter(product=product)
+        for product_ingredient in product_ingredients:
+            ingredient = product_ingredient.ingredient
+            required_quantity = product_ingredient.quantity * quantity
+            if ingredient.quantity < required_quantity:
+                return False
+        return True
+
     def delete(self, *args, **kwargs):
-        self.adjust_ingredient_quantity(-self.quantity)
+        self.adjust_ingredient_quantity(self.product, -self.quantity)
         super().delete(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):
