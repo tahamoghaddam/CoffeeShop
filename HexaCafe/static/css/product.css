@@ -212,4 +212,45 @@ html {
     padding: 20px;
     width: 200px;
     text-align: center;
+    margin: 20px auto;
 }
+.menu-container {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Initially hidden off-screen */
+    width: 300px;
+    height: 100%;
+    background-color: #D2B48C; /* Light brown color */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s;
+    padding: 20px;
+    z-index: 1000;
+  }
+  .menu-container.active {
+    left: 0; /* Slide in from the left */
+  }
+  .menu-item {
+    margin: 15px 0;
+    font-size: 18px;
+    color: #fff;
+  }
+  .menu-item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  .menu-item a:hover {
+    text-decoration: underline;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none; /* Initially hidden */
+  }
+  .overlay.active {
+    display: block; /* Show when active */
+  }

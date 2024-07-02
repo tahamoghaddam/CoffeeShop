@@ -7,82 +7,6 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/product.css' %}">
-  <style>
-    .menu-container {
-      position: fixed;
-      top: 0;
-      left: -300px; /* Initially hidden off-screen */
-      width: 300px;
-      height: 100%;
-      background-color: #D2B48C; /* Light brown color */
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-      transition: left 0.3s;
-      padding: 20px;
-      z-index: 1000;
-    }
-    .menu-container.active {
-      left: 0; /* Slide in from the left */
-    }
-    .menu-item {
-      margin: 15px 0;
-      font-size: 18px;
-      color: #fff;
-    }
-    .menu-item a {
-      color: #fff;
-      text-decoration: none;
-    }
-    .menu-item a:hover {
-      text-decoration: underline;
-    }
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-      display: none; /* Initially hidden */
-    }
-    .overlay.active {
-      display: block; /* Show when active */
-    }
-    .swiper-container {
-      width: 100%;
-      height: 300px;
-      margin-top: 200px; /* Added margin-top for spacing */
-      position: relative; /* Make sure the container is relative */
-    }
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 100px; /* Space between images */
-    }
-    .swiper-slide img {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-    }
-
-    .swiper-button-next,
-    .swiper-button-prev {
-      color: #714024; 
-      position: absolute;
-      top: 50%; 
-      transform: translateY(-50%);
-      z-index: 10; 
-    }
-    /* Additional styles for the product categories */
-    .rectangle-flex {
-      display: flex;
-      flex-direction: column;
-    }
-    .rectangle-flex .product-card {
-      margin-bottom: 20px;
-    }
-  </style>
 </head>
 <body>
   <div class="main-container">
@@ -110,108 +34,107 @@
         <span class="welcome-message">
             In the heart of our cozy Yemeni oasis, where the sun kisses the sand, we invite you to experience a refreshing escape.
         </span>
-
-        <div class="rectangle-cold">
-          <h2 class="enjoy-your-time">Cold Drinks</h2>
-            <!-- Cold Drinks -->
-                {% for product in products %}
-                {% if product.category == "cold_drinks" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-        <div class="rectangle-hot">
+        <div class="content-container">
+          <div class="rectangle-cold rectangle">
+            <h2 class="enjoy-your-time">Cold Drinks</h2>
+          </div>
+          <!-- Cold Drinks -->
+          {% for product in products %}
+          {% if product.category == "cold_drinks" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+          </div>
+          {% endif %}
+          {% endfor %}
+          
+          <div class="rectangle-hot rectangle">
             <h2 class="enjoy-your-time">Hot Drinks</h2>
-            <!-- Hot Drinks -->
-                {% for product in products %}
-                {% if product.category == "hot_drinks" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
-        <div class="rectangle-cake">
+          </div>
+          <!-- Hot Drinks -->
+          {% for product in products %}
+          {% if product.category == "hot_drinks" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+          </div>
+          {% endif %}
+          {% endfor %}
+
+          <div class="rectangle-cake rectangle">
             <h2 class="enjoy-your-time">Cakes and Desserts</h2>
-            <!-- Cakes and Desserts -->
-                {% for product in products %}
-                {% if product.category == "cakes_and_desserts" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
+          </div>
+          <!-- Cakes and Desserts -->
+          {% for product in products %}
+          {% if product.category == "cakes_and_desserts" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+          </div>
+          {% endif %}
+          {% endfor %}
 
-        <div class="rectangle-br">
+          <div class="rectangle-br rectangle">
             <h2 class="enjoy-your-time">Breakfast</h2>
-            <!-- Breakfast -->
-                {% for product in products %}
-                {% if product.category == "breakfast" %}
-                <div class="product-card">
-                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                  <h3>{{ product.name }}</h3>
-                  <p>${{ product.price }}</p>
-                </div>
-                {% endif %}
-                {% endfor %}
-              </div>
-            </div>
           </div>
+          <!-- Breakfast -->
+          {% for product in products %}
+          {% if product.category == "breakfast" %}
+          <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
-
-        <div class="menu-container">
-            <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
-            <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
-            <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
-            <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
-          </div>
-          <div class="overlay"></div>
-        
-          <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-          <script>
-            document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
-              document.querySelector('.menu-container').classList.toggle('active');
-              document.querySelector('.overlay').classList.toggle('active');
-            });
-        
-            document.querySelector('.overlay').addEventListener('click', function() {
-              document.querySelector('.menu-container').classList.remove('active');
-              document.querySelector('.overlay').classList.remove('active');
-            });
-        
-            document.getElementById('login-logo').addEventListener('click', function() {
-              window.location.href = "{% url 'login' %}";
-            });
-        
-            var swiper = new Swiper('.swiper-container', {
-              spaceBetween: 30,
-              centeredSlides: true,
-              autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-              },
-              pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-              },
-              navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
-              },
-            });
-          </script>
+      </div>
+    <div class="menu-container">
+      <div class="menu-item"><a href="/hot-drinks">• Hot Drinks</a></div>
+      <div class="menu-item"><a href="/cold-drinks">• Cold Drinks</a></div>
+      <div class="menu-item"><a href="/cakes-desserts">• Cakes & Desserts</a></div>
+      <div class="menu-item"><a href="/breakfast">• Breakfast</a></div>
+    </div>
+    <div class="overlay"></div>
+  
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      document.querySelector('.gg-menu-round .group-1').addEventListener('click', function() {
+        document.querySelector('.menu-container').classList.toggle('active');
+        document.querySelector('.overlay').classList.toggle('active');
+      });
+  
+      document.querySelector('.overlay').addEventListener('click', function() {
+        document.querySelector('.menu-container').classList.remove('active');
+        document.querySelector('.overlay').classList.remove('active');
+      });
+  
+      document.getElementById('login-logo').addEventListener('click', function() {
+        window.location.href = "{% url 'login' %}";
+      });
+  
+      var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    </script>
+    </div>
+  </div>
 
 </body>
 </html>
