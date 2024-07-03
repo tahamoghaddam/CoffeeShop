@@ -1,282 +1,293 @@
-/* Frame 22 */
 .main-container {
-  position: relative;
-  width: 1450px;
-  height: 880px;
-  left: 0px;
-  top: 0px;
-  background: #FFFFFF;
+    position: relative;
+    width: 1450px;
+    height: 880px;
+    left: 0px;
+    top: 0px;
+    background: #FFFFFF;
 }
+
 
 /* Rectangle 82 */
+
 .rectangle-82 {
-  position: absolute;
-  width: 1450px;
-  height: 120px;
-  left: 0px;
-  top: 0px;
-  background: rgba(224, 193, 147, 0.42);
+    position: absolute;
+    width: 1450px;
+    height: 120px;
+    left: 0px;
+    top: 0px;
+    background: rgba(224, 193, 147, 0.42);
 }
+
 
 /* mingcute:exit-line */
+
 .mingcute-exit-line {
-  position: absolute;
-  width: 57px;
-  height: 46px;
-  left: 30px;
-  bottom: 797px;
+    position: absolute;
+    width: 57px;
+    height: 46px;
+    left: 30px;
+    bottom: 797px;
 }
 
+
 /* Sidebar styling */
+
 .sidebar {
-  position: absolute;
-  width: 273px;
-  height: 760px;
-  left: 1177px;
-  top: 120px;
-  background: rgba(217, 217, 217, 0.5);
+    position: absolute;
+    width: 273px;
+    height: 760px;
+    left: 1177px;
+    top: 120px;
+    background: rgba(217, 217, 217, 0.5);
 }
 
 .rectangle-84 {
-  position: relative;
-  width: 273px;
-  height: 62px;
-  background: #A97F61;
+    position: relative;
+    width: 273px;
+    height: 62px;
+    background: #A97F61;
 }
 
 .inventory-control {
-  display: block;
-  width: 100%;
-  height: 68px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
-  text-align: center;
-  color: #000000;
-  padding-top: 20px;
+    display: block;
+    width: 100%;
+    height: 68px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    padding-top: 20px;
 }
 
 .rectangle-85 {
-  position: relative;
-  width: 273px;
-  height: 55px;
-  background: #A97F61;
+    position: relative;
+    width: 273px;
+    height: 55px;
+    background: #A97F61;
 }
 
 .add-product {
-  display: block;
-  width: 100%;
-  height: 31px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
-  text-align: center;
-  color: #000000;
-  padding-top: 12px;
+    display: block;
+    width: 100%;
+    height: 31px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    padding-top: 12px;
 }
 
 .rectangle-101 {
-  position: relative;
-  width: 273px;
-  height: 55px;
-  background: #A97F61;
-  cursor: pointer;
+    position: relative;
+    width: 273px;
+    height: 55px;
+    background: #A97F61;
+    cursor: pointer;
 }
 
 .menu {
-  display: block;
-  width: 100%;
-  height: 18px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
-  text-align: center;
-  color: #000000;
-  padding-top: 12px;
+    display: block;
+    width: 100%;
+    height: 18px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    padding-top: 12px;
 }
 
+
 /* Dropdown content */
+
 .dropdown-content {
-  display: none;
-  position: relative;
-  width: 273px;
-  background: #EBE0D9;
-  z-index: 1;
+    display: none;
+    position: relative;
+    width: 273px;
+    background: #EBE0D9;
+    z-index: 1;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropdown-content a:hover {
-  background-color: #A97F61;
+    background-color: #A97F61;
 }
+
 
 /* Show the dropdown menu on click */
+
 .menu-container.show .dropdown-content {
-  display: block;
+    display: block;
 }
 
+
 /* Content styling */
+
 .content {
-  position: absolute;
-  width: 1043px;
-  height: 659px;
-  left: 59px;
-  top: 168px;
-  background: rgba(217, 217, 217, 0.4);
+    position: absolute;
+    width: 1043px;
+    height: 659px;
+    left: 59px;
+    top: 168px;
+    background: rgba(217, 217, 217, 0.4);
 }
 
 .rectangle-153 {
-  position: relative;
-  width: 200px;
-  height: 40px;
-  left: 845px;
-  top: 0px;
-  background: #A97F61;
+    position: relative;
+    width: 200px;
+    height: 40px;
+    left: 845px;
+    top: 0px;
+    background: #A97F61;
 }
 
 .rectangle-154 {
-  position: relative;
-  width: 200px;
-  height: 40px;
-  left: 845px;
-  top: 0px;
-  background: #EBE0D9;
+    position: relative;
+    width: 200px;
+    height: 40px;
+    left: 845px;
+    top: 0px;
+    background: #EBE0D9;
 }
 
 .filter {
-  position: absolute;
-  width: 120px;
-  height: 20px;
-  left: 860px;
-  top: 10px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  display: flex;
-  align-items: flex-end;
-  text-align: center;
-  color: #000000;
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    left: 860px;
+    top: 10px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    color: #000000;
 }
 
 .ellipse-35 {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  left: 860px;
-  top: 50px;
-  background: #C8B5B5;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 860px;
+    top: 50px;
+    background: #C8B5B5;
 }
 
 .yearly {
-  position: absolute;
-  width: 100px;
-  height: 15px;
-  left: 890px;
-  top: 50px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
-  align-items: flex-end;
-  text-align: center;
-  color: #000000;
+    position: absolute;
+    width: 100px;
+    height: 15px;
+    left: 890px;
+    top: 50px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    color: #000000;
 }
 
 .rectangle-151 {
-  position: absolute;
-  width: 200px;
-  height: 40px;
-  left: 845px;
-  top: 80px;
-  background: #EBE0D9;
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    left: 845px;
+    top: 80px;
+    background: #EBE0D9;
 }
 
 .rectangle-152 {
-  position: absolute;
-  width: 200px;
-  height: 40px;
-  left: 845px;
-  top: 120px;
-  background: #EBE0D9;
+    position: absolute;
+    width: 200px;
+    height: 40px;
+    left: 845px;
+    top: 120px;
+    background: #EBE0D9;
 }
 
 .ellipse-33 {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  left: 860px;
-  top: 85px;
-  background: #C8B5B5;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 860px;
+    top: 85px;
+    background: #C8B5B5;
 }
 
 .monthly {
-  position: absolute;
-  width: 100px;
-  height: 15px;
-  left: 890px;
-  top: 85px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
-  align-items: center;
-  color: #000000;
+    position: absolute;
+    width: 100px;
+    height: 15px;
+    left: 890px;
+    top: 85px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    color: #000000;
 }
 
 .ellipse-34 {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  left: 860px;
-  top: 120px;
-  background: #C8B5B5;
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: 860px;
+    top: 120px;
+    background: #C8B5B5;
 }
 
 .daily {
-  position: absolute;
-  width: 100px;
-  height: 15px;
-  left: 890px;
-  top: 120px;
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #000000;
+    position: absolute;
+    width: 100px;
+    height: 15px;
+    left: 890px;
+    top: 120px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
 }
+
 .menu-container .dropdown-content .sub-category {
-  display: none;
-  padding-left: 20px;
+    display: none;
+    padding-left: 20px;
 }
 
 .menu-container .dropdown-content .sub-category.show {
-  display: block;
+    display: block;
 }
 
 .product {
-  margin-top: 10px;
-  font-size: 16px;
-  color: #000;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #000;
 }
-  

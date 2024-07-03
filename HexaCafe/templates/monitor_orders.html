@@ -32,8 +32,6 @@
       </div>
     </div>
     <div class="content">
-      <div class="rectangle-153"></div>
-      <span class="filter">Filter</span>
       <form method="GET" id="filter-form">
         <div class="filter-options">
           <label for="product_id">Product:</label>
@@ -50,15 +48,6 @@
           <button type="submit">Filter</button>
         </div>
       </form>
-      <div class="rectangle-154"></div>
-      <div class="ellipse-35"></div>
-      <span class="yearly" data-filter="yearly">Yearly</span>
-      <div class="rectangle-151"></div>
-      <div class="ellipse-33"></div>
-      <span class="monthly" data-filter="monthly">Monthly</span>
-      <div class="rectangle-152"></div>
-      <div class="ellipse-34"></div>
-      <span class="daily" data-filter="daily">Daily</span>
       <div class="rectangle-86">
         <canvas id="orderChart"></canvas>
       </div>
@@ -66,22 +55,10 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const filters = document.querySelectorAll('.filter-options button, .yearly, .monthly, .daily');
-      filters.forEach(filter => {
-        filter.addEventListener('click', function() {
-          const filterType = this.getAttribute('data-filter') || 'custom';
-          fetchOrderData(filterType);
-        });
-      });
-
       function fetchOrderData(filterType) {
         let url = `/get-orders-data/`;
         if (filterType !== 'custom') {
           url += `?filter=${filterType}`;
-        } else {
-          const form = document.getElementById('filter-form');
-          const formData = new FormData(form);
-          url += `?product_id=${formData.get('product_id')}&start_date=${formData.get('start_date')}&end_date=${formData.get('end_date')}`;
         }
 
         $.getJSON(url, function(data) {
@@ -116,8 +93,10 @@
         });
       }
 
-      fetchOrderData('custom'); // Fetch initial data with default custom filter
+      fetchOrderData(); // Fetch initial data
     });
   </script>
 </body>
 </html>
+
+
