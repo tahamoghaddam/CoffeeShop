@@ -1,65 +1,145 @@
 :root {
-  --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
+    --primary-background: #FFFFFF;
+    --back-icon-size: 40px;
+    --sidebar-background: rgba(217, 217, 217, 0.5);
+    --menu-background: #A97F61;
+    --menu-text-color: #000000;
+    --content-background: rgba(217, 217, 217, 0.4);
+    --dropdown-background: #EBE0D9;
+    --dropdown-hover-background: #A97F61;
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Inter, var(--default-font-family);
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', var(--default-font-family);
 }
 
 .main-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  background-color: #fff;
+    position: relative;
+    width: 1450px;
+    height: 880px;
+    background: var(--primary-background);
+    margin: 0 auto;
 }
 
 .back-icon {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 30px; /* size of the icon */
-  height: 30px; /* size of the icon */
-  background: url('/static/images/back.png') no-repeat center center;
-  background-size: contain;
-  cursor: pointer;
-  z-index: 1000; /* Ensure it is above other elements */
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    text-decoration: none;
 }
 
-.rectangle-82, .mingcute-exit-line, .rectangle-84, .rectangle-85, .rectangle-86 {
-  background-color: #f2f2f2;
-  padding: 20px;
-  margin-bottom: 20px;
+.back-icon img {
+    width: var(--back-icon-size);
+    height: var(--back-icon-size);
+    filter: invert(100%);
+}
+
+.rectangle-82 {
+    position: absolute;
+    width: 1450px;
+    height: 120px;
+    top: 0;
+    background: rgba(224, 193, 147, 0.42);
+}
+
+.mingcute-exit-line {
+    position: absolute;
+    width: 57px;
+    height: 46px;
+    left: 30px;
+    bottom: 100px;
+    /* Adjusted for placement */
 }
 
 .sidebar {
-  float: left;
-  width: 200px;
+    position: absolute;
+    width: 273px;
+    height: 760px;
+    left: 1177px;
+    top: 120px;
+    background: var(--sidebar-background);
+}
+
+.rectangle-84,
+.rectangle-85,
+.rectangle-101 {
+    background: var(--menu-background);
+    color: var(--menu-text-color);
+}
+
+.inventory-control,
+.add-product,
+.reports {
+    display: block;
+    width: 100%;
+    font-family: 'Inter';
+    text-align: center;
+    text-decoration: none;
+    color: var(--menu-text-color);
+}
+
+.inventory-control {
+    height: 68px;
+    font-size: 24px;
+    padding-top: 20px;
+}
+
+.add-product {
+    height: 31px;
+    font-size: 24px;
+    padding-top: 12px;
+}
+
+.rectangle-101 {
+    cursor: pointer;
+}
+
+.reports {
+    height: 31px;
+    padding-top: 12px;
+    background: var(--menu-background);
+}
+
+.reports:hover {
+    background-color: var(--menu-background);
+    color: var(--menu-text-color);
 }
 
 .content {
-  margin-left: 220px;
+    position: absolute;
+    width: 1043px;
+    height: 659px;
+    left: 59px;
+    top: 168px;
+    background: var(--content-background);
 }
 
-.filter-options {
-  margin-bottom: 20px;
+.rectangle-86 {
+    width: 100%;
+    height: 100%;
+    background: var(--dropdown-background);
 }
 
-label {
-  margin-right: 10px;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    width: 273px;
+    background: var(--dropdown-background);
 }
 
-#orderChart {
-  width: 100%;
-  height: 400px;
+.dropdown-content a {
+    color: var(--menu-text-color);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
-.add-product, .inventory-control {
-  display: block;
-  margin: 10px 0;
+.dropdown-content a:hover {
+    background-color: var(--dropdown-hover-background);
 }
