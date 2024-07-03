@@ -344,3 +344,24 @@ html {
     display: block;
     /* Show when active */
 }
+
+.rectangle {
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+    cursor: pointer;
+    background: #714024;
+    border: none;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    margin: 20px auto;
+    text-align: center;
+}
+.enjoy-your-time {
+    display: block;
+    color: #ffffff;
+    font-family: Inter, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 60px;
+}
