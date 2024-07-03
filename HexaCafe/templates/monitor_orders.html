@@ -98,7 +98,7 @@
 
     .rectangle-86 {
       width: 100%;
-      height: calc(100% - 80px); /* Adjusted height to fit content */
+      height: calc(100% - 300px); /* Adjusted height to fit content */
       background: var(--dropdown-background);
       border-radius: var(--form-border-radius);
       padding: var(--form-padding);
@@ -138,10 +138,7 @@
       border: none;
       cursor: pointer;
       font-size: 18px;
-    }
-
-    .filter-options button:hover {
-      background-color: darken(var(--button-background), 10%);
+      transition: background-color 0s; /* No color change on hover */
     }
 
     .back-button {
@@ -252,5 +249,3 @@
   </script>
 </body>
 </html>
-
-
