@@ -187,7 +187,11 @@ html {
 
 /* Title styling */
 
-.section-title {
+.section-title1 {
+    width: 400px;
+    height: 40px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
     display: block;
     color: #fefefe;
     font-family: Inter, var(--default-font-family);
@@ -198,12 +202,61 @@ html {
     /* مرکز‌چین کردن عنوان */
     margin: 20px auto;
     /* مرکز‌چین کردن با استفاده از خودکار بودن حاشیه‌های چپ و راست */
-    background: #2797b3;
+    background: #5ECFFF;
     padding: 10px;
-    border: 2px solid #f6f0f0;
+    border: 2px solid #5ECFFF;
     border-radius: 10px;
 }
 
+.section-title2 {
+    display: block;
+    color: #fefefe;
+    font-family: Inter, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 60px;
+    text-align: center;
+    /* مرکز‌چین کردن عنوان */
+    margin: 20px auto;
+    /* مرکز‌چین کردن با استفاده از خودکار بودن حاشیه‌های چپ و راست */
+    background: #D40000;
+    padding: 10px;
+    border: 2px solid #D40000;
+    border-radius: 10px;
+}
+
+.section-title3 {
+    display: block;
+    color: #fefefe;
+    font-family: Inter, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 60px;
+    text-align: center;
+    /* مرکز‌چین کردن عنوان */
+    margin: 20px auto;
+    /* مرکز‌چین کردن با استفاده از خودکار بودن حاشیه‌های چپ و راست */
+    background: #FFA5BF;
+    padding: 10px;
+    border: 2px solid #FFA5BF;
+    border-radius: 10px;
+}
+.section-title4 {
+    display: block;
+    color: #fefefe;
+    font-family: Inter, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 60px;
+    text-align: center;
+    /* مرکز‌چین کردن عنوان */
+    margin: 20px auto;
+    /* مرکز‌چین کردن با استفاده از خودکار بودن حاشیه‌های چپ و راست */
+    background: #FFE600;
+    padding: 10px;
+    border: 2px solid #FFE600;
+    border-radius: 10px;
+}
 
 /* Welcome message styling */
 
@@ -343,4 +396,25 @@ html {
 .overlay.active {
     display: block;
     /* Show when active */
+}
+
+.rectangle {
+    width: 100%;
+    max-width: 400px;
+    height: 60px;
+    cursor: pointer;
+    background: #714024;
+    border: none;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    margin: 20px auto;
+    text-align: center;
+}
+.enjoy-your-time {
+    display: block;
+    color: #ffffff;
+    font-family: Inter, var(--default-font-family);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 60px;
 }
