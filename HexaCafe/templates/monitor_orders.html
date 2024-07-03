@@ -9,9 +9,26 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
+  <style>
+    .back-icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px; /* اندازه آیکون */
+      height: 30px; /* اندازه آیکون */
+      background: url('{% static 'images/back.png' %}') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      z-index: 1000; /* برای اطمینان از بالاتر بودن نسبت به سایر عناصر */
+    }
+    .main-container {
+      position: relative; /* برای تنظیم موقعیت آیکون درون کانتینر */
+    }
+  </style>
 </head>
 <body>
   <div class="main-container">
+    <a href="{% url 'admin_page' %}" class="back-icon" title="Back to Admin Page"></a> <!-- لینک به صفحه‌ی ادمین -->
     <div class="rectangle-82"></div>
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
