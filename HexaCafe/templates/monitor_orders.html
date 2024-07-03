@@ -8,28 +8,12 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
-  <style>
-    .back-icon {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      width: 30px; /* اندازه آیکون */
-      height: 30px; /* اندازه آیکون */
-      background: url('{% static 'images/back.png' %}') no-repeat center center;
-      background-size: contain;
-      cursor: pointer;
-      z-index: 1000; /* برای اطمینان از بالاتر بودن نسبت به سایر عناصر */
-    }
-    .main-container {
-      position: relative; /* برای تنظیم موقعیت آیکون درون کانتینر */
-    }
-  </style>
+  <link rel="stylesheet" href="{% static 'css/monitor_orders.css' %}">
 </head>
 <body>
   <div class="main-container">
     <!-- Back Icon -->
-    <a href="{% url 'admin_page' %}" class="back-icon" title="Back to Admin Page"></a> <!-- لینک به صفحه‌ی ادمین -->
+    <a href="{% url 'admin_page' %}" class="back-icon" title="Back to Admin Page"></a>
     <div class="rectangle-82"></div>
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
@@ -64,16 +48,9 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      function fetchOrderData(filterType) {
-        let url = `/get-orders-data/`;
-        if (filterType !== 'custom') {
-          url += `?filter=${filterType}`;
-        }
-
-        $.getJSON(url, function(data) {
-          updateChart(data.labels, data.data);
-        });
-      }
+      // Fetch the initial data from the template
+      const labels = JSON.parse('{{ labels|escapejs }}');
+      const data = JSON.parse('{{ data|escapejs }}');
 
       function updateChart(labels, data) {
         const ctx = document.getElementById('orderChart').getContext('2d');
@@ -102,10 +79,9 @@
         });
       }
 
-      fetchOrderData(); // Fetch initial data
+      // Update the chart with the initial data
+      updateChart(labels, data);
     });
   </script>
 </body>
 </html>
-
-
