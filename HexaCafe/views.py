@@ -120,6 +120,8 @@ def add_to_cart(request, product_id):
 
     return redirect('product')
 
+from django.db import transaction
+
 @login_required
 def cart_detail(request):
     cart = get_object_or_404(Cart, user=request.user)
@@ -127,19 +129,20 @@ def cart_detail(request):
         form = DeliveryMethodForm(request.POST)
         if form.is_valid():
             delivery_method = form.cleaned_data['delivery_method']
-            order = Orders.objects.create(
-                username=request.user.username,
-                type=delivery_method,
-                date=timezone.now(),
-                open=True,
-            )
-            for item in cart.items.all():
-                Orders_Product.objects.create(
-                    order_id=order,
-                    product_id=item.product,
-                    quantity=item.quantity
+            with transaction.atomic():  # Ensure atomicity
+                order = Orders.objects.create(
+                    username=request.user.username,
+                    type=delivery_method,
+                    date=timezone.now(),
+                    open=True,
                 )
-            cart.items.all().delete()
+                for item in cart.items.all():
+                    Orders_Product.objects.create(
+                        order_id=order,
+                        product_id=item.product,
+                        quantity=item.quantity
+                    )
+                cart.items.all().delete()
             return redirect('order_success')
     else:
         form = DeliveryMethodForm()
@@ -155,12 +158,8 @@ def cart_detail(request):
             'item_total': item_total,
             'id': item.id
         })
-    
-    return render(request, 'shoppingcart.html', {
-        'cart_items': cart_items,
-        'cart_total': cart_total,
-        'form': form
-    })
+    return render(request, 'shoppingcart.html', {'cart': cart, 'form': form, 'cart_items': cart_items, 'cart_total': cart_total})
+
 
 
 @login_required
@@ -177,17 +176,18 @@ def order_success(request):
 
 @login_required
 def shopping_history(request):
-    orders = Orders.objects.filter(username=request.user).order_by('-date')
+    orders = Orders.objects.filter(username=request.user.username).order_by('-date')
 
     orders_with_totals = []
     for order in orders:
         order_total = 0
         items_with_totals = []
         for item in order.orders_product_set.all():
-            item_total = item.product.price * item.quantity
+            product = item.product_id
+            item_total = product.price * item.quantity
             order_total += item_total
             items_with_totals.append({
-                'product': item.product,
+                'product': product,
                 'quantity': item.quantity,
                 'item_total': item_total,
             })
@@ -196,7 +196,8 @@ def shopping_history(request):
             'items': items_with_totals,
             'order_total': order_total,
         })
-    return render(request, 'shopping-history.html', {'orders': orders})
+    return render(request, 'shopping-history.html', {'orders_with_totals': orders_with_totals})
+
 
 ######################################################################################
 

@@ -83,11 +83,11 @@ class CartItem(models.Model):
             self.adjust_ingredient_quantity(self.product, self.quantity)
         super().save(*args, **kwargs)
 
-    def adjust_ingredient_quantity(self, product, quantity_change):
+    def adjust_ingredient_quantity(self, product, quantity):
         product_ingredients = ProductIngredient.objects.filter(product=product)
         for product_ingredient in product_ingredients:
             ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * quantity_change
+            required_quantity = product_ingredient.quantity * quantity
             ingredient.quantity = F('quantity') - required_quantity
             ingredient.save()
         for product_ingredient in product_ingredients:
