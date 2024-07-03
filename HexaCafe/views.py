@@ -270,3 +270,38 @@ def menu_view(request):
     pp=Product.objects.all()
     context = {'products':pp}
     return render(request, 'product.html',context)
+
+######################################################################################
+
+# another approach of making the monitoring page
+
+#def get_product_orders_data(request):
+    # Process GET parameters for filtering
+#    product_id = request.GET.get('product_id')
+#    start_date = request.GET.get('start_date')
+#    end_date = request.GET.get('end_date')
+
+    # Initialize filter parameters
+#    filters = {'order_id__open': False}  # Filter only completed orders
+#    if product_id:
+#        filters['product_id_id'] = product_id
+#    if start_date:
+#        filters['order_id__date__gte'] = start_date
+#    if end_date:
+#        filters['order_id__date__lte'] = end_date
+
+    # Filter and aggregate orders
+#    order_products = Orders_Product.objects.filter(**filters)
+#    order_data = order_products.values('product_id__name').annotate(total_quantity=Sum('quantity'))
+
+    # Prepare data for Chart.js
+#    labels = [entry['product_id__name'] for entry in order_data]
+#    data = [entry['total_quantity'] for entry in order_data]
+#
+#    return JsonResponse({'labels': labels, 'data': data})
+
+#def monitor_orders(request):
+#    context = {
+#        'products': Product.objects.all(),
+#    }
+#   return render(request, 'monitor_orders.html', context)
