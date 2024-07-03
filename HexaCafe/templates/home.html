@@ -74,6 +74,9 @@
       transform: translateY(-50%);
       z-index: 10; 
     }
+    .group-2, .group-8 {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -84,8 +87,8 @@
         <div class="flex-row-a">
           <div class="solar-logout-outline" id="login-logo"></div>
           <div class="group"></div>
-          <div class="group-2"></div>
-          <div class="group-8"></div>
+          <div class="group-2" id="shopping-cart-icon"></div>
+          <div class="group-8" id="shopping-history-icon"></div>
           <div class="group-9"></div>
           <div class="gg-menu-round"><div class="group-1"></div></div>
         </div>
@@ -176,6 +179,14 @@
 
     document.getElementById('login-logo').addEventListener('click', function() {
       window.location.href = "{% url 'login' %}";
+    });
+
+    document.getElementById('shopping-cart-icon').addEventListener('click', function() {
+      window.location.href = "{% url 'shoppingcart' %}";
+    });
+
+    document.getElementById('shopping-history-icon').addEventListener('click', function() {
+      window.location.href = "{% url 'shopping-history' %}";
     });
 
     var swiper = new Swiper('.swiper-container', {
