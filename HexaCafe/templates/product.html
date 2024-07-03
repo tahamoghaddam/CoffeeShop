@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,89 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
-    <style>
-        .menu-container {
-            position: fixed;
-            top: 0;
-            left: -300px;
-            width: 300px;
-            height: 100%;
-            background-color: #D2B48C;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            transition: left 0.3s;
-            padding: 20px;
-            z-index: 1000;
-        }
-        .menu-container.active {
-            left: 0;
-        }
-        .menu-item {
-            margin: 15px 0;
-            font-size: 18px;
-            color: #fff;
-        }
-        .menu-item a {
-            color: #fff;
-            text-decoration: none;
-        }
-        .menu-item a:hover {
-            text-decoration: underline;
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-        }
-        .overlay.active {
-            display: block;
-        }
-        .swiper-container {
-            width: 100%;
-            height: 300px;
-            margin-top: 200px;
-            position: relative;
-        }
-        .swiper-slide {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 100px;
-        }
-        .swiper-slide img {
-            width: 300px;
-            height: 300px;
-            object-fit: cover;
-        }
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: #714024;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-        .rectangle-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .product-card {
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            margin: 20px 0;
-        }
-    </style>
+   
 </head>
 <body>
     <div class="main-container">
@@ -97,9 +16,8 @@
             <div class="design-placeholder">
                 <div class="flex-row-a">
                     <div class="solar-logout-outline" id="login-logo"></div>
-                    <div class="group"></div>
-                    <div class="group-2"></div>
-                    <div class="group-8"></div>
+                    <div class="group-2" id="shopping-cart-icon"></div>
+                    <div class="group-8" id="shopping-history-icon"></div>
                     <div class="group-9"></div>
                     <div class="gg-menu-round"><div class="group-1"></div></div>
                 </div>
@@ -214,6 +132,14 @@
 
         document.getElementById('login-logo').addEventListener('click', function() {
             window.location.href = "{% url 'login' %}";
+        });
+
+        document.getElementById('shopping-cart-icon').addEventListener('click', function() {
+            window.location.href = "{% url 'shoppingcart' %}";
+        });
+
+        document.getElementById('shopping-history-icon').addEventListener('click', function() {
+            window.location.href = "{% url 'shopping-history' %}";
         });
 
         var swiper = new Swiper('.swiper-container', {
