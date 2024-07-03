@@ -24,7 +24,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, unique=True, null=False, blank=False)
     price = models.PositiveIntegerField(null=False, blank=False)
     description = models.TextField()
-    image = models.ImageField(upload_to='', null=False, blank=False, default=None)
+    image = models.ImageField(upload_to='products/', null=False, blank=False, default=None)
     category = models.CharField(max_length=50, choices=[
         ('hot', 'Hot Drinks'),
         ('cold', 'Cold Drinks'),

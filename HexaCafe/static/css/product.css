@@ -214,6 +214,14 @@ html {
     text-align: center;
     margin: 20px auto;
 }
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
 .menu-container {
     position: fixed;
     top: 0;
@@ -225,23 +233,28 @@ html {
     transition: left 0.3s;
     padding: 20px;
     z-index: 1000;
-  }
-  .menu-container.active {
+}
+
+.menu-container.active {
     left: 0; /* Slide in from the left */
-  }
-  .menu-item {
+}
+
+.menu-item {
     margin: 15px 0;
     font-size: 18px;
     color: #fff;
-  }
-  .menu-item a {
+}
+
+.menu-item a {
     color: #fff;
     text-decoration: none;
-  }
-  .menu-item a:hover {
+}
+
+.menu-item a:hover {
     text-decoration: underline;
-  }
-  .overlay {
+}
+
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -250,7 +263,8 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
     display: none; /* Initially hidden */
-  }
-  .overlay.active {
+}
+
+.overlay.active {
     display: block; /* Show when active */
-  }
+}
