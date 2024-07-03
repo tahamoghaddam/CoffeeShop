@@ -1,4 +1,4 @@
-html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,6 @@ html>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
-   
 </head>
 <body>
     <div class="main-container">
@@ -36,75 +35,83 @@ html>
                 </span>
 
                 <div id="cold-drinks" class="rectangle-section">
-                    <h2 class="enjoy-your-time">Cold Drinks</h2>
-                    {% for product in products %}
-                    {% if product.category == "cold" %}
-                    <div class="product-card">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        <h3>{{ product.name }}</h3>
-                        <p>${{ product.price }}</p>
-                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
-                            {% csrf_token %}
-                            <input type="number" name="quantity" min="1" value="1" required>
-                            <button type="submit">Add to Cart</button>
-                        </form>
+                    <div class="section-title">Cold Drinks</div>
+                    <div class="product-grid">
+                        {% for product in products %}
+                        {% if product.category == "cold" %}
+                        <div class="product-card">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
 
                 <div id="hot-drinks" class="rectangle-section">
-                    <h2 class="enjoy-your-time">Hot Drinks</h2>
-                    {% for product in products %}
-                    {% if product.category == "hot" %}
-                    <div class="product-card">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        <h3>{{ product.name }}</h3>
-                        <p>${{ product.price }}</p>
-                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
-                            {% csrf_token %}
-                            <input type="number" name="quantity" min="1" value="1" required>
-                            <button type="submit">Add to Cart</button>
-                        </form>
+                    <div class="section-title">Hot Drinks</div>
+                    <div class="product-grid">
+                        {% for product in products %}
+                        {% if product.category == "hot" %}
+                        <div class="product-card">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
 
                 <div id="cakes" class="rectangle-section">
-                    <h2 class="enjoy-your-time">Cakes and Desserts</h2>
-                    {% for product in products %}
-                    {% if product.category == "cakes" %}
-                    <div class="product-card">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        <h3>{{ product.name }}</h3>
-                        <p>${{ product.price }}</p>
-                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
-                            {% csrf_token %}
-                            <input type="number" name="quantity" min="1" value="1" required>
-                            <button type="submit">Add to Cart</button>
-                        </form>
+                    <div class="section-title">Cakes and Desserts</div>
+                    <div class="product-grid">
+                        {% for product in products %}
+                        {% if product.category == "cakes" %}
+                        <div class="product-card">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
 
                 <div id="breakfasts" class="rectangle-section">
-                    <h2 class="enjoy-your-time">Breakfast</h2>
-                    {% for product in products %}
-                    {% if product.category == "breakfasts" %}
-                    <div class="product-card">
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        <h3>{{ product.name }}</h3>
-                        <p>${{ product.price }}</p>
-                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
-                            {% csrf_token %}
-                            <input type="number" name="quantity" min="1" value="1" required>
-                            <button type="submit">Add to Cart</button>
-                        </form>
+                    <div class="section-title">Breakfast</div>
+                    <div class="product-grid">
+                        {% for product in products %}
+                        {% if product.category == "breakfasts" %}
+                        <div class="product-card">
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>${{ product.price }}</p>
+                            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
                 </div>
             </div>
         </div>

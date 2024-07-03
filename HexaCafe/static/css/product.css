@@ -2,6 +2,9 @@
     --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei", "Source Han Sans CN", sans-serif;
 }
 
+
+/* Reset margin and padding for body and html */
+
 body,
 html {
     margin: 0;
@@ -10,6 +13,9 @@ html {
     width: 100%;
     overflow-x: hidden;
 }
+
+
+/* Background styling */
 
 .background {
     position: absolute;
@@ -21,6 +27,9 @@ html {
     background-size: cover;
     z-index: -1;
 }
+
+
+/* Inner container styling */
 
 .inner-container {
     position: relative;
@@ -35,10 +44,16 @@ html {
     padding-bottom: 100px;
 }
 
+
+/* Design placeholder styling */
+
 .design-placeholder {
     position: relative;
     width: 100%;
 }
+
+
+/* Flexbox for row alignment */
 
 .flex-row-a,
 .flex-row-c {
@@ -47,6 +62,9 @@ html {
     align-items: center;
     flex-wrap: wrap;
 }
+
+
+/* Icons and menu styling */
 
 .solar-logout-outline,
 .group,
@@ -113,6 +131,9 @@ html {
     z-index: 10;
 }
 
+
+/* Menu text styling */
+
 .menu {
     display: block;
     text-align: left;
@@ -125,48 +146,14 @@ html {
     left: 10px;
 }
 
+
+/* Button styling */
+
 .rectangle {
     width: 100%;
     max-width: 400px;
     height: 60px;
     cursor: pointer;
-    background: #714024;
-    border: none;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    margin: 20px auto;
-    text-align: center;
-}
-.rectangle-cold {
-    width: 100%;
-    max-width: 400px;
-    height: 60px;
-    cursor: pointer;
-    background: #5ECFFF;
-    border: none;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    margin: 20px auto;
-    text-align: center;
-}
-.rectangle-hot {
-    width: 100%;
-    max-width: 400px;
-    height: 60px;
-    cursor: pointer;
-    background: #D40000;
-    border: none;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    margin: 20px auto;
-    text-align: center;
-}
-.rectangle-cake {
-    width: 100%;
-    max-width: 400px;
-    height: 60px;
-    cursor: pointer;
-    background: #FFA5BF;
     border: none;
     border-top-right-radius: 30px;
     border-bottom-left-radius: 30px;
@@ -174,27 +161,51 @@ html {
     text-align: center;
 }
 
-.rectangle-br {
-    width: 100%;
-    max-width: 400px;
-    height: 60px;
-    cursor: pointer;
-    background: #FFE600;
-    border: none;
-    border-top-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    margin: 20px auto;
-    text-align: center;
+
+/* Section background colors */
+
+#cold-drinks .rectangle-section {
+    background: #D40000;
+    /* قرمز */
 }
-.enjoy-your-time {
+
+#hot-drinks .rectangle-section {
+    background: #5ECFFF;
+    /* آبی کمرنگ */
+}
+
+#cakes .rectangle-section {
+    background: #FFA5BF;
+    /* صورتی */
+}
+
+#breakfasts .rectangle-section {
+    background: #FFE600;
+    /* زرد */
+}
+
+
+/* Title styling */
+
+.section-title {
     display: block;
-    color: #ffffff;
+    color: #fefefe;
     font-family: Inter, var(--default-font-family);
     font-size: 24px;
     font-weight: 400;
     line-height: 60px;
+    text-align: center;
+    /* مرکز‌چین کردن عنوان */
+    margin: 20px auto;
+    /* مرکز‌چین کردن با استفاده از خودکار بودن حاشیه‌های چپ و راست */
+    background: #2797b3;
+    padding: 10px;
+    border: 2px solid #f6f0f0;
+    border-radius: 10px;
 }
 
+
+/* Welcome message styling */
 
 .welcome-message {
     text-align: center;
@@ -205,15 +216,49 @@ html {
     font-weight: 400;
 }
 
-.product-card {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+/* Rectangle section styling */
+
+.rectangle-section {
     padding: 20px;
-    width: 200px;
     text-align: center;
-    margin: 20px auto;
+    /* مرکز‌چین کردن محتوا درون بخش */
 }
+
+
+/* Product grid styling */
+
+.product-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Products displayed in a single line */
+    overflow-x: auto;
+    /* Allow horizontal scrolling */
+    justify-content: center;
+    /* Center products horizontally */
+    align-items: center;
+    /* Center products vertically */
+    gap: 20px;
+    /* Space between products */
+}
+
+
+/* Product card styling */
+
+.product-card {
+    background: #fcf6f6;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 200px;
+    /* Width of each product card */
+    text-align: center;
+    flex: 0 0 auto;
+    /* Prevent cards from shrinking */
+}
+
+
+/* Product image styling */
 
 .product-card img {
     width: 100%;
@@ -222,37 +267,63 @@ html {
     object-fit: cover;
 }
 
+
+/* Menu container styling */
+
 .menu-container {
     position: fixed;
     top: 0;
-    left: -300px; /* Initially hidden off-screen */
+    left: -300px;
+    /* Initially hidden off-screen */
     width: 300px;
     height: 100%;
-    background-color: #D2B48C; /* Light brown color */
+    background-color: #D2B48C;
+    /* Light brown color */
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
     transition: left 0.3s;
     padding: 20px;
     z-index: 1000;
 }
 
+
+/* Active state for menu container */
+
 .menu-container.active {
-    left: 0; /* Slide in from the left */
+    left: 0;
+    /* Slide in from the left */
 }
+
+
+/* Menu item styling */
 
 .menu-item {
     margin: 15px 0;
     font-size: 18px;
     color: #fff;
+    text-align: center;
+    border: 2px solid #fff;
+    /* White border */
+    border-radius: 15px;
+    /* Rounded corners */
+    padding: 10px;
+    /* Padding around text */
 }
 
+
+/* Menu item hover effect */
+
 .menu-item a {
-    color: #fff;
+    color: #f4f1f1;
     text-decoration: none;
+    display: block;
 }
 
 .menu-item a:hover {
     text-decoration: underline;
 }
+
+
+/* Overlay styling */
 
 .overlay {
     position: fixed;
@@ -262,9 +333,14 @@ html {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 999;
-    display: none; /* Initially hidden */
+    display: none;
+    /* Initially hidden */
 }
 
+
+/* Active state for overlay */
+
 .overlay.active {
-    display: block; /* Show when active */
+    display: block;
+    /* Show when active */
 }

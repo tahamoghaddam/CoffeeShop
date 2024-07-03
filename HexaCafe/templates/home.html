@@ -8,44 +8,7 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}">
   <style>
-    
-    .popular-products {
-      margin-top: 30px;
-      text-align: center; 
-    }
-
-    .products-grid {
-      display: flex; 
-      justify-content: center;
-      flex-wrap: nowrap; /* جلوگیری از شکستن به خطوط جدید */
-      overflow-x: auto; /* در صورت overflow اسکرول افقی نمایش دهد */
-      gap: 20px; /* فاصله بین محصولات */
-      padding: 10px; /* فاصله داخلی */
-    }
-
-    .product-card {
-      flex: 0 0 auto; 
-      background: #fff; 
-      border-radius: 10px; 
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-      text-align: center; 
-      padding: 10px;
-      width: 200px; 
-    }
-
-    .product-card img {
-      width: 100%; 
-      height: auto; 
-      border-radius: 10px; 
-    }
-
-    
-    .inner-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center; 
-    }
-
+    /* منوی کناری */
     .menu-container {
       position: fixed;
       top: 0;
@@ -78,6 +41,7 @@
       text-decoration: underline;
     }
 
+    /* Overlay برای منو */
     .overlay {
       position: fixed;
       top: 0;
@@ -91,6 +55,43 @@
 
     .overlay.active {
       display: block; /* Show when active */
+    }
+
+    /* سایر استایل‌ها */
+    .popular-products {
+      margin-top: 30px;
+      text-align: center; 
+    }
+
+    .products-grid {
+      display: flex; 
+      justify-content: center;
+      flex-wrap: nowrap; /* جلوگیری از شکستن به خطوط جدید */
+      overflow-x: auto; /* در صورت overflow اسکرول افقی نمایش دهد */
+      gap: 20px; /* فاصله بین محصولات */
+      padding: 10px; /* فاصله داخلی */
+    }
+
+    .product-card {
+      flex: 0 0 auto; 
+      background: #fff; 
+      border-radius: 10px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+      text-align: center; 
+      padding: 10px;
+      width: 200px; 
+    }
+
+    .product-card img {
+      width: 100%; 
+      height: auto; 
+      border-radius: 10px; 
+    }
+
+    .inner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
     }
 
     .swiper-container {
@@ -256,5 +257,3 @@
   </script>
 </body>
 </html>
-
-
