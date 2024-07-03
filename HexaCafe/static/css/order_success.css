@@ -8,12 +8,14 @@ body, html {
     width: 100%;
     height: 100%;
     font-family: Inter, var(--default-font-family);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main-container {
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     background-color: #fff;
@@ -33,7 +35,15 @@ body, html {
 .back-to-menu {
     display: inline-block;
     margin-top: 20px;
+    padding: 10px 20px;
     font-size: 16px;
     text-decoration: none;
-    color: #000;
+    color: #fff;
+    background-color: #A67B5B;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-menu:hover {
+    background-color: #65451F;
 }
