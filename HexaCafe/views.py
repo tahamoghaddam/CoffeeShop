@@ -125,7 +125,7 @@ def cart_detail(request):
             return redirect('order_success')
     else:
         form = DeliveryMethodForm()
-        
+
     cart_items = []
     cart_total = 0
     for item in cart.items.all():
@@ -154,6 +154,24 @@ def order_success(request):
 @login_required
 def shopping_history(request):
     orders = Orders.objects.filter(username=request.user).order_by('-date')
+
+    orders_with_totals = []
+    for order in orders:
+        order_total = 0
+        items_with_totals = []
+        for item in order.orders_product_set.all():
+            item_total = item.product.price * item.quantity
+            order_total += item_total
+            items_with_totals.append({
+                'product': item.product,
+                'quantity': item.quantity,
+                'item_total': item_total,
+            })
+        orders_with_totals.append({
+            'order': order,
+            'items': items_with_totals,
+            'order_total': order_total,
+        })
     return render(request, 'shopping-history.html', {'orders': orders})
 
 ######################################################################################
