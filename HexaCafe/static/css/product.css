@@ -209,6 +209,10 @@ html {
 }
 
 .section-title2 {
+    width: 400px;
+    height: 40px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
     display: block;
     color: #fefefe;
     font-family: Inter, var(--default-font-family);
@@ -226,6 +230,10 @@ html {
 }
 
 .section-title3 {
+    width: 400px;
+    height: 40px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
     display: block;
     color: #fefefe;
     font-family: Inter, var(--default-font-family);
@@ -242,6 +250,10 @@ html {
     border-radius: 10px;
 }
 .section-title4 {
+    width: 400px;
+    height: 40px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
     display: block;
     color: #fefefe;
     font-family: Inter, var(--default-font-family);
