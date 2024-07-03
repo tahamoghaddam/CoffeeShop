@@ -93,11 +93,13 @@ def add_product(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
+    
 
     if not CartItem.check_ingredient_availability(product, 1):
         raise ValidationError("Not enough ingredients to add this product to the cart.")
-
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
         cart_item.quantity += 1
     cart_item.save()
@@ -138,7 +140,7 @@ def cart_detail(request):
             'item_total': item_total,
             'id': item.id
         })
-    return render(request, 'shoppingcart.html', {'cart': cart, 'form': form})
+    return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'cart_total': cart_total , 'form':form})
 
 @login_required
 def remove_from_cart(request, item_id):
