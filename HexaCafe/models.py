@@ -59,10 +59,21 @@ class Orders_Product(models.Model):
         if not self.can_fulfill_order():
             raise ValidationError("Not enough ingredients to fulfill the order.")
         super().save(*args, **kwargs)
-        CartItem.adjust_ingredient_quantity(self.product_id, self.quantity)
+        self.adjust_ingredient_quantity(self.product_id, self.quantity)
 
     def can_fulfill_order(self):
         return CartItem.check_ingredient_availability(self.product_id, self.quantity)
+
+    @staticmethod
+    def adjust_ingredient_quantity(product, quantity_change):
+        product_ingredients = ProductIngredient.objects.filter(product=product)
+        for product_ingredient in product_ingredients:
+            ingredient = product_ingredient.ingredient
+            required_quantity = product_ingredient.quantity * quantity_change
+            ingredient.quantity = F('quantity') - required_quantity
+            ingredient.save()
+        for product_ingredient in product_ingredients:
+            product_ingredient.ingredient.refresh_from_db()
 
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -77,13 +88,14 @@ class CartItem(models.Model):
     def save(self, *args, **kwargs):
         if self.pk:
             # Update the quantity of ingredients
-            CartItem.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
+            self.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
         else:
             # Reduce the quantity of ingredients
-            CartItem.adjust_ingredient_quantity(self.product, self.quantity)
+            self.adjust_ingredient_quantity(self.product, self.quantity)
         super().save(*args, **kwargs)
 
-    def adjust_ingredient_quantity( product, quantity_change):
+    @staticmethod
+    def adjust_ingredient_quantity(product, quantity_change):
         product_ingredients = ProductIngredient.objects.filter(product=product)
         for product_ingredient in product_ingredients:
             ingredient = product_ingredient.ingredient
@@ -104,7 +116,7 @@ class CartItem(models.Model):
         return True
 
     def delete(self, *args, **kwargs):
-        CartItem.adjust_ingredient_quantity(self.product, -self.quantity)
+        self.adjust_ingredient_quantity(self.product, -self.quantity)
         super().delete(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):

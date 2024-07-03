@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.db.models import Count, Sum
 from datetime import datetime, timedelta
 import json
+from django.db import transaction
 
 ######################################################################################
 
@@ -93,19 +94,18 @@ def add_product(request):
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
-    
 
     if not CartItem.check_ingredient_availability(product, 1):
         raise ValidationError("Not enough ingredients to add this product to the cart.")
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity', 1))
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-    if not created:
-        cart_item.quantity += 1
-    cart_item.save()
+        if not created:
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = quantity
+        cart_item.save()
     return redirect('shoppingcart')
-
-from django.db import transaction
 
 @login_required
 def cart_detail(request):
@@ -144,8 +144,6 @@ def cart_detail(request):
             'id': item.id
         })
     return render(request, 'shoppingcart.html', {'cart': cart, 'form': form, 'cart_items': cart_items, 'cart_total': cart_total})
-
-
 
 @login_required
 def remove_from_cart(request, item_id):
