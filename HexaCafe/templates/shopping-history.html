@@ -6,23 +6,22 @@
   <title>Hexa Cafe</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
   {% load static %}
-  {% load custom_filters %}
   <link rel="stylesheet" href="{% static 'css/shopping-history.css' %}" />
 </head>
 <body>
   <div class="main-container">
     <div class="rectangle">
       <span class="shopping-history">Your Shopping History</span>
-      <a href="{% url 'menu' %}" class="back-to-menu">Back to Menu</a>
+      <a href="{% url 'product' %}" class="back-to-menu">Back to Menu</a>
     </div>
     {% if user.is_authenticated %}
-      {% if orders %}
-        {% for order in orders %}
+      {% if orders_with_totals %}
+        {% for order_data in orders_with_totals %}
           <div class="rectangle-2">
             <div class="order-details">
-              <span class="order-date">Order Date: {{ order.date }}</span>
-              <span class="order-total">Total: ${{ order.total }}</span>
-              <span class="order-status">Status: {{ order.status }}</span>
+              <span class="order-date">Order Date: {{ order_data.order.date }}</span>
+              <span class="order-total">Total: ${{ order_data.order_total }}</span>
+              <span class="order-status">Status: {{ order_data.order.status }}</span>
             </div>
             <table class="order-items">
               <thead>
@@ -34,12 +33,12 @@
                 </tr>
               </thead>
               <tbody>
-                {% for item in order.items.all %}
+                {% for item in order_data.items %}
                   <tr>
                     <td>{{ item.product.name }}</td>
                     <td>${{ item.product.price }}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>${{ item.product.price|multiply:item.quantity }}</td>
+                    <td>${{ item.item_total }}</td>
                   </tr>
                 {% endfor %}
               </tbody>
@@ -55,5 +54,6 @@
   </div>
 </body>
 </html>
+
 
 
