@@ -188,6 +188,10 @@ html {
 /* Title styling */
 
 .section-title1 {
+    width: 400px;
+    height: 40px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     display: block;
     color: #fefefe;
     font-family: Inter, var(--default-font-family);
