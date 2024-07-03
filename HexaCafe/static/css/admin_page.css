@@ -1,3 +1,5 @@
+/* استایل برای کل صفحه */
+
 .main-container {
     position: relative;
     width: 1450px;
@@ -5,6 +7,26 @@
     left: 0px;
     top: 0px;
     background: #FFFFFF;
+}
+
+
+/* استایل برای آیکون "Back" */
+
+.back-icon {
+    position: absolute;
+    top: 40px;
+    /* تنظیم برای وسط قرار دادن در نوار */
+    left: 20px;
+    text-decoration: none;
+}
+
+.back-icon img {
+    width: 40px;
+    /* تنظیم عرض تصویر */
+    height: 40px;
+    /* تنظیم ارتفاع تصویر */
+    filter: invert(100%);
+    /* تغییر رنگ به مشکی */
 }
 
 
@@ -61,6 +83,7 @@
     text-align: center;
     color: #000000;
     padding-top: 20px;
+    text-decoration: none;
 }
 
 .rectangle-85 {
@@ -82,6 +105,7 @@
     text-align: center;
     color: #000000;
     padding-top: 12px;
+    text-decoration: none;
 }
 
 .rectangle-101 {
@@ -147,143 +171,37 @@
     background: rgba(217, 217, 217, 0.4);
 }
 
-.rectangle-153 {
+.rectangle-86 {
     position: relative;
-    width: 200px;
-    height: 40px;
-    left: 845px;
-    top: 0px;
-    background: #A97F61;
-}
-
-.rectangle-154 {
-    position: relative;
-    width: 200px;
-    height: 40px;
-    left: 845px;
-    top: 0px;
+    width: 100%;
+    height: 100%;
     background: #EBE0D9;
 }
 
-.filter {
-    position: absolute;
-    width: 120px;
-    height: 20px;
-    left: 860px;
-    top: 10px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 24px;
-    display: flex;
-    align-items: flex-end;
-    text-align: center;
-    color: #000000;
-}
 
-.ellipse-35 {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    left: 860px;
-    top: 50px;
-    background: #C8B5B5;
-}
+/* استایل برای "Reports" مشابه با "Add Product" */
 
-.yearly {
-    position: absolute;
-    width: 100px;
-    height: 15px;
-    left: 890px;
-    top: 50px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: flex-end;
-    text-align: center;
-    color: #000000;
-}
-
-.rectangle-151 {
-    position: absolute;
-    width: 200px;
-    height: 40px;
-    left: 845px;
-    top: 80px;
-    background: #EBE0D9;
-}
-
-.rectangle-152 {
-    position: absolute;
-    width: 200px;
-    height: 40px;
-    left: 845px;
-    top: 120px;
-    background: #EBE0D9;
-}
-
-.ellipse-33 {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    left: 860px;
-    top: 85px;
-    background: #C8B5B5;
-}
-
-.monthly {
-    position: absolute;
-    width: 100px;
-    height: 15px;
-    left: 890px;
-    top: 85px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    color: #000000;
-}
-
-.ellipse-34 {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    left: 860px;
-    top: 120px;
-    background: #C8B5B5;
-}
-
-.daily {
-    position: absolute;
-    width: 100px;
-    height: 15px;
-    left: 890px;
-    top: 120px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
-}
-
-.menu-container .dropdown-content .sub-category {
-    display: none;
-    padding-left: 20px;
-}
-
-.menu-container .dropdown-content .sub-category.show {
+.reports {
     display: block;
+    width: 100%;
+    height: 31px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #000000;
+    padding-top: 12px;
+    text-decoration: none;
+    background: #A97F61;
+    /* همان پس‌زمینه برای "Reports" */
+}
+
+.reports:hover {
+    background-color: #A97F61;
+    /* رنگ ثابت هنگام hover */
+    color: #000000;
 }
 
 .product {

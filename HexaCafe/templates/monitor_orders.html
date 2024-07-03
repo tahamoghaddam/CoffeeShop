@@ -9,26 +9,35 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
+  <style>
+    .back-icon {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 30px; /* اندازه آیکون */
+      height: 30px; /* اندازه آیکون */
+      background: url('{% static 'images/back.png' %}') no-repeat center center;
+      background-size: contain;
+      cursor: pointer;
+      z-index: 1000; /* برای اطمینان از بالاتر بودن نسبت به سایر عناصر */
+    }
+    .main-container {
+      position: relative; /* برای تنظیم موقعیت آیکون درون کانتینر */
+    }
+  </style>
 </head>
 <body>
   <div class="main-container">
+    <!-- Back Icon -->
+    <a href="{% url 'admin_page' %}" class="back-icon" title="Back to Admin Page"></a> <!-- لینک به صفحه‌ی ادمین -->
     <div class="rectangle-82"></div>
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
       <div class="rectangle-84">
-        <span class="inventory-control">Inventory Control</span>
+        <a href="{% url 'inventory' %}" class="inventory-control">Inventory Control</a> <!-- لینک به صفحه‌ی inventory -->
       </div>
       <div class="rectangle-85">
         <a href="{% url 'addproduct' %}" class="add-product">Add Product</a>
-      </div>
-      <div class="rectangle-101 menu-container">
-        <a href="#" class="menu">Menu</a>
-        <div class="dropdown-content">
-          <a href="#" data-category="hot-drinks">Hot Drinks</a>
-          <a href="#" data-category="cold-drinks">Cold Drinks</a>
-          <a href="#" data-category="cakes-desserts">Cakes and Desserts</a>
-          <a href="#" data-category="breakfast">Breakfast</a>
-        </div>
       </div>
     </div>
     <div class="content">
@@ -98,5 +107,4 @@
   </script>
 </body>
 </html>
-
 

@@ -9,7 +9,6 @@ from django.utils import timezone
 from django.db.models import Count, Sum
 from datetime import datetime, timedelta
 import json
-from django.contrib import messages
 
 ######################################################################################
 
@@ -95,30 +94,16 @@ def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
     
-    if request.method == 'POST':
-        quantity = int(request.POST.get('quantity'))
-        
-        # Check ingredient availability
-        if not CartItem.check_ingredient_availability(product, quantity):
-            messages.error(request, 'Not enough ingredients to add this item to your cart.')
-            return redirect('product')  # Or redirect to the same product page
-        
-        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-        
-        if not created:
-            # Update existing item quantity and check ingredient availability again
-            new_quantity = cart_item.quantity + quantity
-            if not CartItem.check_ingredient_availability(product, new_quantity):
-                messages.error(request, 'Not enough ingredients to increase the quantity of this item.')
-                return redirect('shoppingcart')
-            cart_item.quantity = new_quantity
-        else:
-            cart_item.quantity = quantity
-        
-        cart_item.save()
-        return redirect('shoppingcart')
 
-    return redirect('product')
+    if not CartItem.check_ingredient_availability(product, 1):
+        raise ValidationError("Not enough ingredients to add this product to the cart.")
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    if not created:
+        cart_item.quantity += 1
+    cart_item.save()
+    return redirect('shoppingcart')
 
 from django.db import transaction
 
@@ -158,9 +143,13 @@ def cart_detail(request):
             'item_total': item_total,
             'id': item.id
         })
+<<<<<<< HEAD
     return render(request, 'shoppingcart.html', {'cart': cart, 'form': form, 'cart_items': cart_items, 'cart_total': cart_total})
 
 
+=======
+    return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'cart_total': cart_total , 'form':form})
+>>>>>>> baa0f62a7bdf0407557d02665d82e18de2be47a7
 
 @login_required
 def remove_from_cart(request, item_id):
@@ -170,7 +159,7 @@ def remove_from_cart(request, item_id):
 
 @login_required
 def order_success(request):
-    return render(request, 'order_success.html')
+    return render(request, 'cart/order_success.html')
 
 ######################################################################################
 

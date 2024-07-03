@@ -10,84 +10,31 @@
 </head>
 <body>
   <div class="main-container">
+    <a href="{% url 'login' %}" class="back-icon">
+      <img src="{% static 'images/as.png' %}" alt="Back">
+    </a>
     <div class="rectangle-82"></div>
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
       <div class="rectangle-84">
-        <span class="inventory-control">Inventory Control</span>
+        <a href="{% url 'inventory' %}" class="inventory-control">Inventory Control</a>
       </div>
       <div class="rectangle-85">
         <a href="{% url 'addproduct' %}" class="add-product">Add Product</a>
       </div>
-      <div class="rectangle-101 menu-container">
-        <a href="#" class="menu">Menu</a>
-        <div class="dropdown-content">
-          <a href="#" data-category="hot-drinks">Hot Drinks</a>
-          <a href="#" data-category="cold-drinks">Cold Drinks</a>
-          <a href="#" data-category="cakes-desserts">Cakes and Desserts</a>
-          <a href="#" data-category="breakfast">Breakfast</a>
-        </div>
+      <div class="rectangle-101">
+        <a href="{% url 'monitor_orders' %}" class="reports">Reports</a>
       </div>
     </div>
     <div class="content">
-      <div class="rectangle-153"></div>
-      <span class="filter">Filter</span>
-      <div class="rectangle-154"></div>
-      <div class="ellipse-35"></div>
-      <span class="yearly">Yearly</span>
-      <div class="rectangle-151"></div>
-      <div class="ellipse-33"></div>
-      <span class="monthly">Monthly</span>
-      <div class="rectangle-152"></div>
-      <div class="ellipse-34"></div>
-      <span class="daily">Daily</span>
       <div class="rectangle-86">
         <div id="product-list"></div>
       </div>
     </div>
   </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuContainer = document.querySelector('.menu-container');
-      const menuLink = document.querySelector('.menu');
-      const dropdownLinks = document.querySelectorAll('.dropdown-content a');
-      const productList = document.getElementById('product-list');
-
-      menuLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        menuContainer.classList.toggle('show');
-      });
-
-      dropdownLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-          event.preventDefault();
-          const category = this.getAttribute('data-category');
-          fetchProducts(category);
-        });
-      });
-
-      function fetchProducts(category) {
-        fetch(`/get-products/${category}/`)
-          .then(response => response.json())
-          .then(data => {
-            productList.innerHTML = '';
-            data.products.forEach(product => {
-              const productDiv = document.createElement('div');
-              productDiv.classList.add('product');
-              productDiv.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <p>Price: ${product.price}</p>
-                <img src="${product.image}" alt="${product.name}">
-              `;
-              productList.appendChild(productDiv);
-            });
-          });
-      }
-    });
-  </script>
 </body>
 </html>
+
 
 
 
