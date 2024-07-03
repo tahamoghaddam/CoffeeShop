@@ -8,6 +8,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.db.models import Count, Sum
 from datetime import datetime, timedelta
+import json
 
 ######################################################################################
 
@@ -213,30 +214,35 @@ def ingredient_success(request):
 
 ######################################################################################
 
-def order_monitor(request):
-    return render(request, 'order_monitor.html')
+def monitor_orders(request):
+    # Process GET parameters for filtering
+    product_id = request.GET.get('product_id')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
 
-def get_orders_data(request):
-    filter_type = request.GET.get('filter', 'daily')
-    today = datetime.today()
-    
-    if filter_type == 'daily':
-        start_date = today - timedelta(days=1)
-    elif filter_type == 'weekly':
-        start_date = today - timedelta(weeks=1)
-    elif filter_type == 'monthly':
-        start_date = today - timedelta(days=30)
-    else:
-        start_date = today - timedelta(days=1)
+    # Initialize filter parameters
+    filters = {}
+    if product_id:
+        filters['product_id_id'] = product_id
+    if start_date:
+        filters['order_id__date__gte'] = start_date
+    if end_date:
+        filters['order_id__date__lte'] = end_date
 
-    orders = Orders_Product.objects.filter(order_id__timestamp__gte=start_date).values('product_id__name').annotate(total_quantity=Sum('quantity'))
+    # Filter and aggregate orders
+    order_products = Orders_Product.objects.filter(**filters)
+    order_data = order_products.values('product_id__name').annotate(total_quantity=Sum('quantity'))
 
-    data = {
-        'labels': [order['product_id__name'] for order in orders],
-        'data': [order['total_quantity'] for order in orders],
+    # Prepare data for Chart.js
+    labels = [entry['product_id__name'] for entry in order_data]
+    data = [entry['total_quantity'] for entry in order_data]
+
+    context = {
+        'products': Product.objects.all(),
+        'labels': json.dumps(labels),
+        'data': json.dumps(data)
     }
-
-    return JsonResponse(data)
+    return render(request, 'monitor_orders.html', context)
 
 ######################################################################################
 

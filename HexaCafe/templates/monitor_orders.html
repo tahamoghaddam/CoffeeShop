@@ -34,6 +34,22 @@
     <div class="content">
       <div class="rectangle-153"></div>
       <span class="filter">Filter</span>
+      <form method="GET" id="filter-form">
+        <div class="filter-options">
+          <label for="product_id">Product:</label>
+          <select name="product_id" id="product_id">
+            <option value="">All</option>
+            {% for product in products %}
+              <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+          </select>
+          <label for="start_date">Start Date:</label>
+          <input type="date" name="start_date" id="start_date">
+          <label for="end_date">End Date:</label>
+          <input type="date" name="end_date" id="end_date">
+          <button type="submit">Filter</button>
+        </div>
+      </form>
       <div class="rectangle-154"></div>
       <div class="ellipse-35"></div>
       <span class="yearly" data-filter="yearly">Yearly</span>
@@ -50,16 +66,25 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const filters = document.querySelectorAll('.filter span');
+      const filters = document.querySelectorAll('.filter-options button, .yearly, .monthly, .daily');
       filters.forEach(filter => {
         filter.addEventListener('click', function() {
-          const filterType = this.getAttribute('data-filter');
+          const filterType = this.getAttribute('data-filter') || 'custom';
           fetchOrderData(filterType);
         });
       });
 
-      function fetchOrderData(filterType = 'daily') {
-        $.getJSON(`/get-orders-data/?filter=${filterType}`, function(data) {
+      function fetchOrderData(filterType) {
+        let url = `/get-orders-data/`;
+        if (filterType !== 'custom') {
+          url += `?filter=${filterType}`;
+        } else {
+          const form = document.getElementById('filter-form');
+          const formData = new FormData(form);
+          url += `?product_id=${formData.get('product_id')}&start_date=${formData.get('start_date')}&end_date=${formData.get('end_date')}`;
+        }
+
+        $.getJSON(url, function(data) {
           updateChart(data.labels, data.data);
         });
       }
@@ -91,7 +116,7 @@
         });
       }
 
-      fetchOrderData();
+      fetchOrderData('custom'); // Fetch initial data with default custom filter
     });
   </script>
 </body>
