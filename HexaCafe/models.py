@@ -77,17 +77,17 @@ class CartItem(models.Model):
     def save(self, *args, **kwargs):
         if self.pk:
             # Update the quantity of ingredients
-            self.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
+            CartItem.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
         else:
             # Reduce the quantity of ingredients
-            self.adjust_ingredient_quantity(self.product, self.quantity)
+            CartItem.adjust_ingredient_quantity(self.product, self.quantity)
         super().save(*args, **kwargs)
 
-    def adjust_ingredient_quantity(self, product, quantity):
+    def adjust_ingredient_quantity( product, quantity_change):
         product_ingredients = ProductIngredient.objects.filter(product=product)
         for product_ingredient in product_ingredients:
             ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * quantity
+            required_quantity = product_ingredient.quantity * quantity_change
             ingredient.quantity = F('quantity') - required_quantity
             ingredient.save()
         for product_ingredient in product_ingredients:
@@ -104,7 +104,7 @@ class CartItem(models.Model):
         return True
 
     def delete(self, *args, **kwargs):
-        self.adjust_ingredient_quantity(self.product, -self.quantity)
+        CartItem.adjust_ingredient_quantity(self.product, -self.quantity)
         super().delete(*args, **kwargs)
 
     def __init__(self, *args, **kwargs):

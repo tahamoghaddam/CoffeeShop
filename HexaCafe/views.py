@@ -143,13 +143,9 @@ def cart_detail(request):
             'item_total': item_total,
             'id': item.id
         })
-<<<<<<< HEAD
     return render(request, 'shoppingcart.html', {'cart': cart, 'form': form, 'cart_items': cart_items, 'cart_total': cart_total})
 
 
-=======
-    return render(request, 'shoppingcart.html', {'cart_items': cart_items, 'cart_total': cart_total , 'form':form})
->>>>>>> baa0f62a7bdf0407557d02665d82e18de2be47a7
 
 @login_required
 def remove_from_cart(request, item_id):
