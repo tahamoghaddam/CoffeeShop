@@ -34,7 +34,7 @@
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
       <div class="rectangle-84">
-        <span class="inventory-control">Inventory Control</span>
+        <a href="{% url 'inventory' %}" class="inventory-control">Inventory Control</a>
       </div>
       <div class="rectangle-85">
         <a href="{% url 'addproduct' %}" class="add-product">Add Product</a>
@@ -65,9 +65,9 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       function fetchOrderData(filterType) {
-        let url = `/get-orders-data/`;
+        let url = /get-orders-data/;
         if (filterType !== 'custom') {
-          url += `?filter=${filterType}`;
+          url += ?filter=${filterType};
         }
 
         $.getJSON(url, function(data) {
@@ -107,5 +107,6 @@
   </script>
 </body>
 </html>
+
 
 
