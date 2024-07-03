@@ -119,7 +119,7 @@ def cart_detail(request):
                     username=request.user.username,
                     type=delivery_method,
                     date=timezone.now(),
-                    open=True,
+                    open=False,  # Set open to False when finalizing the order
                 )
                 for item in cart.items.all():
                     Orders_Product.objects.create(
@@ -155,7 +155,7 @@ def remove_from_cart(request, item_id):
 
 @login_required
 def order_success(request):
-    return render(request, 'cart/order_success.html')
+    return render(request, 'order_success.html')
 
 ######################################################################################
 
@@ -230,7 +230,7 @@ def monitor_orders(request):
     end_date = request.GET.get('end_date')
 
     # Initialize filter parameters
-    filters = {}
+    filters = {'order_id__open': False}  # Filter only completed orders
     if product_id:
         filters['product_id_id'] = product_id
     if start_date:
