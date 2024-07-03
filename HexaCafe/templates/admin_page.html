@@ -8,11 +8,26 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/admin_page.css' %}">
 </head>
+<style>
+  .back-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px; /* اندازه آیکون */
+    height: 30px; /* اندازه آیکون */
+    background: url('{% static 'images/exiticon.png' %}') no-repeat center center;
+    background-size: contain;
+    cursor: pointer;
+    z-index: 1000; /* برای اطمینان از بالاتر بودن نسبت به سایر عناصر */
+  }
+  .main-container {
+    position: relative; /* برای تنظیم موقعیت آیکون درون کانتینر */
+  }
+</style>
 <body>
   <div class="main-container">
-    <a href="{% url 'login' %}" class="back-icon">
-      <img src="{% static 'images/as.png' %}" alt="Back">
-    </a>
+    <!-- لینک بازگشت به صفحه ورود -->
+    <a href="{% url 'login' %}" class="back-icon" title="Back to login"></a>
     <div class="rectangle-82"></div>
     <div class="mingcute-exit-line"></div>
     <div class="sidebar">
@@ -34,7 +49,3 @@
   </div>
 </body>
 </html>
-
-
-
-
