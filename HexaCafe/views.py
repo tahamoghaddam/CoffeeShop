@@ -155,8 +155,7 @@ def remove_from_cart(request, item_id):
 
 @login_required
 def order_success(request):
-    return render(request, 'cart/order_success.html')
-
+    return render(request, 'order_success.html')
 ######################################################################################
 
 @login_required
