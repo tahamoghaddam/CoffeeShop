@@ -55,21 +55,11 @@ def home(request):
         except Product.DoesNotExist:
             continue
     
-    # Categories
-    categories = {
-        'hot': 'Hot Drinks',
-        'cold': 'Cold Drinks',
-        'cakes': 'Cakes & Desserts',
-        'breakfasts': 'Breakfast'
-    }
-    products = Product.objects.all()
-
     context = {
         'popular_products': popular_products_details,
-        'categories': categories.items(),
-        'products': products,
     }
     return render(request, 'home.html', context)
+
 
 
 @login_required

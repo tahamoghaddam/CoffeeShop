@@ -2,7 +2,8 @@ from django.urls import path
 from django.contrib import admin
 from . import views
 from .views import signup,user_login, add_product, home, admin_view, inventory_view, add_ingredient, update_ingredient, ingredient_success,shopping_history,cart_detail
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +32,6 @@ urlpatterns = [
     path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('order_success/', views.order_success, name='order_success'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

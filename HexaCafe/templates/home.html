@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -109,9 +110,9 @@
           <div class="products-grid">
             {% for product in popular_products %}
             <div class="product-card">
-              <img src="{{ product.product__image.url }}" alt="{{ product.product__name }}">
-              <h3>{{ product.product__name }}</h3>
-              <p>${{ product.product__price }}</p>
+              <img src="{{ product.product.image.url }}" alt="{{ product.product.name }}">
+              <h3>{{ product.product.name }}</h3>
+              <p>${{ product.product.price }}</p>
               <p>Ordered: {{ product.total_quantity }}</p>
             </div>
             {% endfor %}
@@ -196,4 +197,3 @@
   </script>
 </body>
 </html>
-
