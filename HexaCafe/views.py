@@ -125,6 +125,18 @@ def cart_detail(request):
             return redirect('order_success')
     else:
         form = DeliveryMethodForm()
+        
+    cart_items = []
+    cart_total = 0
+    for item in cart.items.all():
+        item_total = item.product.price * item.quantity
+        cart_total += item_total
+        cart_items.append({
+            'product': item.product,
+            'quantity': item.quantity,
+            'item_total': item_total,
+            'id': item.id
+        })
     return render(request, 'shoppingcart.html', {'cart': cart, 'form': form})
 
 @login_required

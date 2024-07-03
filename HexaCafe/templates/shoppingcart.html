@@ -33,7 +33,7 @@
       <a href="{% url 'menu' %}"><span class="back-to-menu">Back to Menu</span></a>
     </div>
     {% if user.is_authenticated %}
-      {% if cart.items.all %}
+      {% if cart_items %}
         <form method="post">
           {% csrf_token %}
           <table>
@@ -47,12 +47,12 @@
               </tr>
             </thead>
             <tbody>
-              {% for item in cart.items.all %}
+              {% for item in cart_items %}
                 <tr>
                   <td>{{ item.product.name }}</td>
                   <td>${{ item.product.price }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>${{ item.product.price|multiply:item.quantity }}</td>
+                  <td>${{ item.item_total }}</td>
                   <td>
                     <a href="{% url 'remove_from_cart' item.id %}">Remove</a>
                   </td>
@@ -60,7 +60,7 @@
               {% endfor %}
             </tbody>
           </table>
-          <h3>Total: ${{ cart.items.all|sum:"product.price" }}</h3>
+          <h3>Total: ${{ cart_total }}</h3>
           <div class="delivery-method">
             <h3>Select Delivery Method</h3>
             {{ form.delivery_method }}
@@ -76,3 +76,4 @@
   </div>
 </body>
 </html>
+
