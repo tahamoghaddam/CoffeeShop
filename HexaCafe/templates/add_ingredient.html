@@ -9,6 +9,8 @@
         --border-color: #ccc;
         --button-background: #4CAF50;
         --button-hover-background: #45a049;
+        --back-button-background: #6f4f28; /* Dark brown */
+        --back-button-hover-background: #5b3a20; /* Darker brown */
     }
 
     /* Global Styles */
@@ -31,18 +33,23 @@
         position: relative;
     }
 
-    .back-icon {
+    .back-button {
         position: absolute;
         top: 15px;
         left: 15px;
-        width: 35px;
-        height: 35px;
+        padding: 10px 20px;
+        background-color: var(--back-button-background);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
         cursor: pointer;
-        transition: transform 0.3s ease;
     }
 
-    .back-icon:hover {
-        transform: scale(1.1);
+    .back-button:hover {
+        background-color: var(--back-button-hover-background);
     }
 
     .title {
@@ -118,9 +125,7 @@
 </style>
 
 <div class="rectangle">
-    <a href="{% url 'inventory' %}">
-        <img src="../images/back.png" alt="Back" class="back-icon">
-    </a>
+    <a href="{% url 'inventory' %}" class="back-button">Back</a>
     <h1 class="title">Add New Ingredient</h1>
 </div>
 <div class="flex-row-d">
@@ -137,4 +142,3 @@
     </div>
 </div>
 {% endblock %}
-

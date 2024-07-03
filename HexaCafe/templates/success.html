@@ -8,6 +8,8 @@
         --light-background: #f9f9f9;
         --card-background: #ffffff;
         --shadow-color: rgba(0, 0, 0, 0.1);
+        --back-button-background: #6f4f28; /* Dark brown */
+        --back-button-hover-background: #5b3a20; /* Darker brown */
     }
 
     /* Global Styles */
@@ -29,18 +31,24 @@
         position: relative;
     }
 
-    .back-icon {
+    .back-button {
         position: absolute;
         top: 15px;
         left: 15px;
-        width: 35px;
-        height: 35px;
+        padding: 10px 20px;
+        background-color: var(--back-button-background);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
         cursor: pointer;
-        background-image: url("../images/back.png");
+        text-align: center;
     }
 
-    .back-icon:hover {
-        transform: scale(1.1);
+    .back-button:hover {
+        background-color: var(--back-button-hover-background);
     }
 
     .flex-row-d {
@@ -79,9 +87,7 @@
 </style>
 
 <div class="rectangle">
-    <a href="{% url 'add_ingredient' %}"></a>
-    <div class ="back-icon"></div>
-    
+    <a href="{% url 'inventory' %}" class="back-button">Back</a>
 </div>
 <div class="flex-row-d">
     <div class="rectangle-2">
@@ -94,3 +100,5 @@
     </div>
 </div>
 {% endblock %}
+
+
