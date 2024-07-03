@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ValidationError
 from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, ProductIngredientFormSet, IngredientForm, UpdateIngredientForm,DeliveryMethodForm
 from .models import Ingredient, Product, Cart, CartItem, Orders, Orders_Product
@@ -10,6 +11,11 @@ from django.db.models import Count, Sum
 from datetime import datetime, timedelta
 import json
 from django.db import transaction
+
+######################################################################################
+
+def admin_required(user):
+    return user.is_superuser
 
 ######################################################################################
 
@@ -64,13 +70,13 @@ def home(request):
 
 
 
-@login_required
+@user_passes_test(admin_required)
 def admin_view(request):
     return render(request, 'admin_page.html')
 
 ######################################################################################
 
-@login_required
+@user_passes_test(admin_required)
 def add_product(request):
     if request.method == "POST":
         product_form = ProductForm(request.POST, request.FILES)
@@ -184,10 +190,13 @@ def shopping_history(request):
 
 ######################################################################################
 
+@user_passes_test(admin_required)
 def inventory_view(request):
     ingredients = Ingredient.objects.all()
     return render(request, 'inventory.html', {'ingredients': ingredients})
 
+
+@user_passes_test(admin_required)
 def add_ingredient(request):
     if request.method == 'POST':
         form = IngredientForm(request.POST)
@@ -198,6 +207,7 @@ def add_ingredient(request):
         form = IngredientForm()
     return render(request, 'add_ingredient.html', {'form': form})
 
+@user_passes_test(admin_required)
 def update_ingredient(request, name):
     try:
         ingredient = Ingredient.objects.get(name=name)
@@ -215,12 +225,14 @@ def update_ingredient(request, name):
         form = UpdateIngredientForm(initial={'name': ingredient.name, 'new_quantity': ingredient.quantity})
     return render(request, 'update_ingredient.html', {'form': form, 'ingredient': ingredient})
 
+@user_passes_test(admin_required)
 def ingredient_success(request):
     return render(request, 'success.html')
 
 
 ######################################################################################
 
+@user_passes_test(admin_required)
 def monitor_orders(request):
     # Process GET parameters for filtering
     product_id = request.GET.get('product_id')
@@ -253,6 +265,7 @@ def monitor_orders(request):
 
 ######################################################################################
 
+@login_required
 def menu_view(request):
     pp=Product.objects.all()
     context = {'products':pp}
