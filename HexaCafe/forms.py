@@ -98,6 +98,6 @@ OrdersProductFormSet = forms.inlineformset_factory(Orders, Orders_Product, form=
 class DeliveryMethodForm(forms.Form):
     DELIVERY_CHOICES = [
         (True, 'Takeout'),
-        (False, 'Delivery'),
+        (False, 'Eat in'),
     ]
     delivery_method = forms.ChoiceField(choices=DELIVERY_CHOICES, widget=forms.RadioSelect)
