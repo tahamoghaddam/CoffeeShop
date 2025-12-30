@@ -1,42 +1,47 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.decorators import user_passes_test
-from django.core.exceptions import ValidationError
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, ProductForm, ProductIngredientFormSet, IngredientForm, UpdateIngredientForm,DeliveryMethodForm
-from .models import Ingredient, Product, Cart, CartItem, Orders, Orders_Product
-from django.http import JsonResponse
-from django.utils import timezone
-from django.db.models import Count, Sum
-from datetime import datetime, timedelta
 import json
-from django.db import transaction
+from datetime import datetime, timedelta
 
-######################################################################################
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from django.db import transaction
+from django.db.models import Sum, Count
+from django.utils import timezone
+from django.http import JsonResponse
+
+from .forms import (
+    CustomUserCreationForm, CustomAuthenticationForm, ProductForm, 
+    ProductIngredientFormSet, IngredientForm, UpdateIngredientForm, DeliveryMethodForm
+)
+from .models import Ingredient, Product, Cart, CartItem, Order, OrderProduct
+
+# --- Helpers ---
 
 def admin_required(user):
     return user.is_superuser
 
-######################################################################################
+# --- Authentication ---
 
 def signup(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user)  # Use auth_login to avoid conflict
+            auth_login(request, user)
+            messages.success(request, "Account created successfully!")
             return redirect('login')
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-def user_login(request):  # Rename the function to avoid conflict
+def user_login(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
-            auth_login(request, user)  # Use auth_login to avoid conflict
-            if user.is_staff:
+            auth_login(request, user)
+            if user.is_staff or user.is_superuser:
                 return redirect('admin_page')
             else:
                 return redirect('home')
@@ -44,73 +49,63 @@ def user_login(request):  # Rename the function to avoid conflict
         form = CustomAuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-######################################################################################
+# --- Storefront ---
 
 @login_required
 def home(request):
-    # Annotate Orders_Product to get the total quantity ordered for each product
-    popular_products = Orders_Product.objects.values('product_id').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
+    """
+    Renders the home page with the top 5 popular products.
+    """
+    popular_products = (
+        OrderProduct.objects.values('product', 'product__name', 'product__price', 'product__image')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('-total_quantity')[:5]
+    )
     
-    # Fetch the actual product details for the popular products
     popular_products_details = []
     for item in popular_products:
         try:
-            product = Product.objects.get(id=item['product_id'])
+            p = Product.objects.get(id=item['product'])
             popular_products_details.append({
-                'product': product,
+                'product': p,
                 'total_quantity': item['total_quantity']
             })
         except Product.DoesNotExist:
             continue
-    
-    context = {
-        'popular_products': popular_products_details,
-    }
-    return render(request, 'home.html', context)
 
+    return render(request, 'home.html', {'popular_products': popular_products_details})
 
+@login_required
+def menu_view(request):
+    products = Product.objects.all()
+    return render(request, 'product.html', {'products': products})
 
-@user_passes_test(admin_required)
-def admin_view(request):
-    return render(request, 'admin_page.html')
-
-######################################################################################
-
-@user_passes_test(admin_required)
-def add_product(request):
-    if request.method == "POST":
-        product_form = ProductForm(request.POST, request.FILES)
-        formset = ProductIngredientFormSet(request.POST)
-
-        if product_form.is_valid() and formset.is_valid():
-            product = product_form.save()
-            formset.instance = product
-            formset.save()
-            return redirect('product')  # Replace 'success_url' with your desired redirect
-
-    else:
-        product_form = ProductForm()
-        formset = ProductIngredientFormSet()
-
-    return render(request, 'addproduct.html', {'product_form': product_form, 'formset': formset})
-
-######################################################################################
+# --- Cart Logic ---
 
 @login_required
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart, _ = Cart.objects.get_or_create(user=request.user)
 
-    if not CartItem.check_ingredient_availability(product, 1):
-        raise ValidationError("Not enough ingredients to add this product to the cart.")
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity', 1))
+        
+        # Check availability before adding to cart
+        if not product.check_availability(quantity):
+            messages.error(request, f"Sorry, we do not have enough ingredients for {quantity}x {product.name}.")
+            return redirect('product') # Redirect to menu/product page
+
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+        
         if not created:
             cart_item.quantity += quantity
         else:
             cart_item.quantity = quantity
+        
         cart_item.save()
+        messages.success(request, f"Added {quantity} x {product.name} to cart.")
+        return redirect('shoppingcart')
+
     return redirect('shoppingcart')
 
 @login_required
@@ -120,20 +115,32 @@ def cart_detail(request):
         form = DeliveryMethodForm(request.POST)
         if form.is_valid():
             delivery_method = form.cleaned_data['delivery_method']
-            with transaction.atomic():  # Ensure atomicity
-                order = Orders.objects.create(
-                    username=request.user.username,
-                    type=delivery_method,
-                    date=timezone.now(),
-                    open=False,  # Set open to False when finalizing the order
+            
+            with transaction.atomic():
+                # 1. Create Order
+                order = Order.objects.create(
+                    user=request.user,
+                    is_takeout=delivery_method, # Assuming delivery_method maps to boolean or handled by choices
+                    # Note: delivery_method in form isChoiceField with True/False.
                 )
+                
+                # 2. Create OrderProducts (Deduction happens in OrderProduct.save)
                 for item in cart.items.all():
-                    Orders_Product.objects.create(
-                        order_id=order,
-                        product_id=item.product,
+                    # Check availability again just in case (optional but good)
+                    if not item.product.check_availability(item.quantity):
+                         messages.error(request, f"Ingredients run out for {item.product.name} during checkout.")
+                         raise ValidationError("Stock changed during checkout") # Rollback
+
+                    OrderProduct.objects.create(
+                        order=order,
+                        product=item.product,
                         quantity=item.quantity
                     )
+                
+                # 3. Clear Cart
                 cart.items.all().delete()
+                
+            messages.success(request, "Order placed successfully!")
             return redirect('order_success')
     else:
         form = DeliveryMethodForm()
@@ -149,34 +156,41 @@ def cart_detail(request):
             'item_total': item_total,
             'id': item.id
         })
-    return render(request, 'shoppingcart.html', {'cart': cart, 'form': form, 'cart_items': cart_items, 'cart_total': cart_total})
+    
+    return render(request, 'shoppingcart.html', {
+        'cart': cart, 
+        'form': form, 
+        'cart_items': cart_items, 
+        'cart_total': cart_total
+    })
 
 @login_required
 def remove_from_cart(request, item_id):
     cart_item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     cart_item.delete()
-    return redirect('cart_detail')
+    return redirect('shoppingcart') # Ensure consistent redirect name
 
 @login_required
 def order_success(request):
     return render(request, 'order_success.html')
 
-######################################################################################
+# --- Shopping History ---
 
 @login_required
 def shopping_history(request):
-    orders = Orders.objects.filter(username=request.user.username).order_by('-date')
+    # Filter by user object
+    orders = Order.objects.filter(user=request.user).order_by('-timestamp')
 
     orders_with_totals = []
     for order in orders:
         order_total = 0
         items_with_totals = []
-        for item in order.orders_product_set.all():
-            product = item.product_id
-            item_total = product.price * item.quantity
+        # Access items via related_name='items' from Order model
+        for item in order.items.all():
+            item_total = item.subtotal
             order_total += item_total
             items_with_totals.append({
-                'product': product,
+                'product': item.product,
                 'quantity': item.quantity,
                 'item_total': item_total,
             })
@@ -187,14 +201,33 @@ def shopping_history(request):
         })
     return render(request, 'shopping-history.html', {'orders_with_totals': orders_with_totals})
 
+# --- Admin & Inventory ---
 
-######################################################################################
+@user_passes_test(admin_required)
+def admin_view(request):
+    return render(request, 'admin_page.html')
 
 @user_passes_test(admin_required)
 def inventory_view(request):
-    ingredients = Ingredient.objects.all()
+    ingredients = Ingredient.objects.all().order_by('name')
     return render(request, 'inventory.html', {'ingredients': ingredients})
 
+@user_passes_test(admin_required)
+def add_product(request):
+    if request.method == "POST":
+        product_form = ProductForm(request.POST, request.FILES)
+        formset = ProductIngredientFormSet(request.POST)
+
+        if product_form.is_valid() and formset.is_valid():
+            product = product_form.save()
+            formset.instance = product
+            formset.save()
+            return redirect('product')
+    else:
+        product_form = ProductForm()
+        formset = ProductIngredientFormSet()
+
+    return render(request, 'addproduct.html', {'product_form': product_form, 'formset': formset})
 
 @user_passes_test(admin_required)
 def add_ingredient(request):
@@ -209,16 +242,11 @@ def add_ingredient(request):
 
 @user_passes_test(admin_required)
 def update_ingredient(request, name):
-    try:
-        ingredient = Ingredient.objects.get(name=name)
-    except Ingredient.DoesNotExist:
-        return redirect('inventory_view')
-
+    ingredient = get_object_or_404(Ingredient, name=name)
     if request.method == 'POST':
         form = UpdateIngredientForm(request.POST)
         if form.is_valid():
-            new_quantity = form.cleaned_data['new_quantity']
-            ingredient.quantity = new_quantity
+            ingredient.quantity = form.cleaned_data['new_quantity']
             ingredient.save()
             return redirect('success')
     else:
@@ -229,31 +257,31 @@ def update_ingredient(request, name):
 def ingredient_success(request):
     return render(request, 'success.html')
 
-
-######################################################################################
-
 @user_passes_test(admin_required)
 def monitor_orders(request):
-    # Process GET parameters for filtering
+    """
+    Admin view to monitor completed orders with filtering options.
+    """
     product_id = request.GET.get('product_id')
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
 
-    # Initialize filter parameters
-    filters = {'order_id__open': False}  # Filter only completed orders
+    filters = {'order__is_open': False}
+    
     if product_id:
-        filters['product_id_id'] = product_id
+        filters['product_id'] = product_id
     if start_date:
-        filters['order_id__date__gte'] = start_date
+        filters['order__timestamp__gte'] = start_date
     if end_date:
-        filters['order_id__date__lte'] = end_date
+        filters['order__timestamp__lte'] = end_date
+    
+    order_data = (
+        OrderProduct.objects.filter(**filters)
+        .values('product__name')
+        .annotate(total_quantity=Sum('quantity'))
+    )
 
-    # Filter and aggregate orders
-    order_products = Orders_Product.objects.filter(**filters)
-    order_data = order_products.values('product_id__name').annotate(total_quantity=Sum('quantity'))
-
-    # Prepare data for Chart.js
-    labels = [entry['product_id__name'] for entry in order_data]
+    labels = [entry['product__name'] for entry in order_data]
     data = [entry['total_quantity'] for entry in order_data]
 
     context = {
@@ -262,46 +290,3 @@ def monitor_orders(request):
         'data': json.dumps(data)
     }
     return render(request, 'monitor_orders.html', context)
-
-######################################################################################
-
-@login_required
-def menu_view(request):
-    pp=Product.objects.all()
-    context = {'products':pp}
-    return render(request, 'product.html',context)
-
-######################################################################################
-
-# another approach of making the monitoring page
-
-#def get_product_orders_data(request):
-    # Process GET parameters for filtering
-#    product_id = request.GET.get('product_id')
-#    start_date = request.GET.get('start_date')
-#    end_date = request.GET.get('end_date')
-
-    # Initialize filter parameters
-#    filters = {'order_id__open': False}  # Filter only completed orders
-#    if product_id:
-#        filters['product_id_id'] = product_id
-#    if start_date:
-#        filters['order_id__date__gte'] = start_date
-#    if end_date:
-#        filters['order_id__date__lte'] = end_date
-
-    # Filter and aggregate orders
-#    order_products = Orders_Product.objects.filter(**filters)
-#    order_data = order_products.values('product_id__name').annotate(total_quantity=Sum('quantity'))
-
-    # Prepare data for Chart.js
-#    labels = [entry['product_id__name'] for entry in order_data]
-#    data = [entry['total_quantity'] for entry in order_data]
-#
-#    return JsonResponse({'labels': labels, 'data': data})
-
-#def monitor_orders(request):
-#    context = {
-#        'products': Product.objects.all(),
-#    }
-#   return render(request, 'monitor_orders.html', context)

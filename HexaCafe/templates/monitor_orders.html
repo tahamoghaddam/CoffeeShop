@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +27,8 @@
       --form-margin: 10px 0;
     }
 
-    body, html {
+    body,
+    html {
       margin: 0;
       padding: 0;
       width: 100%;
@@ -55,7 +57,8 @@
       width: 57px;
       height: 46px;
       left: 30px;
-      bottom: 100px; /* Adjusted for placement */
+      bottom: 100px;
+      /* Adjusted for placement */
     }
 
     .sidebar {
@@ -98,7 +101,8 @@
 
     .rectangle-86 {
       width: 100%;
-      height: calc(100% - 300px); /* Adjusted height to fit content */
+      height: calc(100% - 300px);
+      /* Adjusted height to fit content */
       background: var(--dropdown-background);
       border-radius: var(--form-border-radius);
       padding: var(--form-padding);
@@ -138,7 +142,8 @@
       border: none;
       cursor: pointer;
       font-size: 18px;
-      transition: background-color 0s; /* No color change on hover */
+      transition: background-color 0s;
+      /* No color change on hover */
     }
 
     .back-button {
@@ -157,12 +162,14 @@
       display: inline-block;
       z-index: 10;
     }
+
     .back-button:hover {
-      background-color: var(--button-background); /* Same color on hover */
+      background-color: var(--button-background);
+      /* Same color on hover */
     }
-  
   </style>
 </head>
+
 <body>
   <div class="main-container">
     <!-- Back Button -->
@@ -188,7 +195,7 @@
           <select name="product_id" id="product_id">
             <option value="">All</option>
             {% for product in products %}
-              <option value="{{ product.id }}">{{ product.name }}</option>
+            <option value="{{ product.id }}">{{ product.name }}</option>
             {% endfor %}
           </select>
           <label for="start_date">Start Date:</label>
@@ -206,47 +213,42 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      function fetchOrderData(filterType) {
-        let url = '/get-orders-data/';
-        if (filterType !== 'custom') {
-          url += `?filter=${filterType}`;
-        }
+    document.addEventListener('DOMContentLoaded', function () {
+      // Use data passed from the Django view context
+      const labels = {{ labels| safe
+    }};
+    const data = {{ data| safe }};
 
-        $.getJSON(url, function(data) {
-          updateChart(data.labels, data.data);
-        });
+    updateChart(labels, data);
+
+    function updateChart(labels, data) {
+      const ctx = document.getElementById('orderChart').getContext('2d');
+      if (window.orderChart) {
+        window.orderChart.destroy();
       }
-
-      function updateChart(labels, data) {
-        const ctx = document.getElementById('orderChart').getContext('2d');
-        if (window.orderChart) {
-          window.orderChart.destroy();
-        }
-        window.orderChart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: '# of Orders',
-              data: data,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true
-              }
+      window.orderChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '# of Orders',
+            data: data,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
             }
           }
-        });
-      }
-
-      fetchOrderData(); // Fetch initial data
+        }
+      });
+    }
     });
   </script>
 </body>
+
 </html>

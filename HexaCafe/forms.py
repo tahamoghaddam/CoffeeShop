@@ -1,54 +1,53 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Ingredient, Product, ProductIngredient, Orders, Orders_Product, CartItem
-from django.db.models import F
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import get_user_model
+from .models import Ingredient, Product, ProductIngredient, Order, OrderProduct, CartItem
 
+# --- User Authentication ---
 
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     phone_number = forms.CharField(max_length=15, required=False)
-
-    class Meta:
+    
+    class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ('username', 'email', 'phone_number', 'password1', 'password2')
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = forms.CharField(label='Email or Username')
+    username = forms.CharField(label='Email or Username', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
-    def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        password = cleaned_data.get('password')
+    # Default authentication form 'clean' method handles authentication, 
+    # but the previous code had custom logic.
+    # We'll stick to standard behavior unless custom auth is strictly required. 
+    # The previous code required 'is_active', which standard does too.
+    # We will keep it simple.
 
-        user = authenticate(username=username, password=password)
-        if not user or not user.is_active:
-            raise forms.ValidationError("Invalid login. Please try again.")
-
-        return cleaned_data
-
-
+# --- Product & Ingredient Management (Admin) ---
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'price', 'description', 'image', 'category']
-        
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+            'category': forms.Select(attrs={'class': 'form-select'}),
+        }
 
 class ProductIngredientForm(forms.ModelForm):
     class Meta:
         model = ProductIngredient
         fields = ['ingredient', 'quantity']
+        widgets = {
+            'ingredient': forms.Select(attrs={'class': 'form-select'}),
+            'quantity': forms.NumberInput(attrs={'step': '0.1', 'class': 'form-control'}),
+        }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['ingredient'].queryset = Ingredient.objects.all()
-
-ProductIngredientFormSet = forms.inlineformset_factory(Product, ProductIngredient, form=ProductIngredientForm, extra=1)
-
-
+# Formset for adding ingredients while creating a product
+ProductIngredientFormSet = forms.inlineformset_factory(
+    Product, ProductIngredient, form=ProductIngredientForm, extra=1, can_delete=True
+)
 
 class IngredientForm(forms.ModelForm):
     class Meta:
@@ -56,48 +55,43 @@ class IngredientForm(forms.ModelForm):
         fields = ['name', 'quantity']
 
 class UpdateIngredientForm(forms.Form):
-    name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    new_quantity = forms.FloatField()
+    name = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly', 'class': 'form-control-plaintext'}))
+    new_quantity = forms.FloatField(label="New Stock Level", widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
-
-class OrdersForm(forms.ModelForm):
-    class Meta:
-        model = Orders
-        fields = ['username', 'type', 'date', 'open']
-
-class OrdersProductForm(forms.ModelForm):
-    class Meta:
-        model = Orders_Product
-        fields = ['quantity', 'product_id', 'order_id']
-
-    def clean(self):
-        cleaned_data = super().clean()
-        product = cleaned_data.get('product_id')
-        quantity = cleaned_data.get('quantity')
-
-        if product and quantity and not CartItem.check_ingredient_availability(product, quantity):
-            raise ValidationError("Not enough ingredients to fulfill the order.")
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        order_product = super().save(commit=False)
-        product = order_product.product_id
-        quantity = order_product.quantity
-
-        if commit:
-            order_product.save()
-            CartItem.adjust_ingredient_quantity(product, quantity)
-
-        return order_product
-
-OrdersProductFormSet = forms.inlineformset_factory(Orders, Orders_Product, form=OrdersProductForm, extra=1)
-
-
+# --- Ordering & Checkout ---
 
 class DeliveryMethodForm(forms.Form):
     DELIVERY_CHOICES = [
         (True, 'Takeout'),
-        (False, 'Eat in'),
+        (False, 'Eat-in'),
     ]
-    delivery_method = forms.ChoiceField(choices=DELIVERY_CHOICES, widget=forms.RadioSelect)
+    delivery_method = forms.ChoiceField(
+        choices=DELIVERY_CHOICES, 
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        initial=True
+    )
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['user', 'is_takeout', 'is_open']
+        # Note: 'timestamp' is auto_now_add, not editable.
+
+class OrderProductForm(forms.ModelForm):
+    class Meta:
+        model = OrderProduct
+        fields = ['quantity', 'product', 'order']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        product = cleaned_data.get('product')
+        quantity = cleaned_data.get('quantity')
+
+        # Logic moved to model or view, but we can keep validation here.
+        if product and quantity:
+             if not product.check_availability(quantity):
+                 raise ValidationError(f"Insufficient ingredients to make {quantity}x {product.name}.")
+        return cleaned_data
+
+# Formset might not be used directly in views I saw, but good to update.
+OrderProductFormSet = forms.inlineformset_factory(Order, OrderProduct, form=OrderProductForm, extra=1)

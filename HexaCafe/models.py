@@ -3,21 +3,19 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core import validators
 from django.db.models import F
-from django.contrib.auth.models import AbstractUser
-from django.db import models
 from django.conf import settings
-from django.db import models
-from django.db.models import F
-
 
 class Storage(models.Model):
-    id = models.AutoField(primary_key= True)
-    name = models.CharField(max_length=255 , unique= True , null= False , blank= False)
-    amount = models.PositiveIntegerField(null= False , blank= False , validators= [validators.MinValueValidator(0,"error")])
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255, unique=True, null=False, blank=False)
+    amount = models.PositiveIntegerField(null=False, blank=False, validators=[validators.MinValueValidator(0, "error")])
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100, unique=True, null=False, blank=False, primary_key=True)
     quantity = models.FloatField()
+
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,50 +31,57 @@ class Product(models.Model):
     ])
     ingredients = models.ManyToManyField(Ingredient, through='ProductIngredient')
 
+    def __str__(self):
+        return self.name
+
+    def check_availability(self, quantity):
+        for pi in self.productingredient_set.all():
+            if pi.ingredient.quantity < (pi.quantity * quantity):
+                return False
+        return True
+
 class ProductIngredient(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.FloatField()
 
-class Orders(models.Model):
-    order_id = models.AutoField(primary_key=True, unique=True)
-    username = models.CharField(max_length=255)
-    type = models.BooleanField(default=True)  # is 1 if the order is take out and 0 if not.
-    date = models.DateField(auto_created=True, default=timezone.now)
-    timestamp = models.DateTimeField(default=timezone.now)
-    open = models.BooleanField(default=True)
-
-    def overall_price(self):
-        return sum(item.product_id.price * item.quantity for item in self.orders_product_set.all())
-
-class Orders_Product(models.Model):
+class Order(models.Model):
     id = models.AutoField(primary_key=True)
-    quantity = models.IntegerField()
-    product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-    order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders', null=True)
+    is_takeout = models.BooleanField(default=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_open = models.BooleanField(default=True)
+
+    @property
+    def total_price(self):
+        return sum(item.subtotal for item in self.items.all())
+    
+    class Meta:
+        verbose_name_plural = "Orders"
+
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    @property
+    def subtotal(self):
+        return self.product.price * self.quantity
 
     def save(self, *args, **kwargs):
-        if not self.can_fulfill_order():
-            raise ValidationError("Not enough ingredients to fulfill the order.")
+        # Deduct ingredients ONLY when the order item is first created
+        if not self.pk:
+            self.reduce_ingredients()
         super().save(*args, **kwargs)
-        self.adjust_ingredient_quantity(self.product_id, self.quantity)
 
-    def can_fulfill_order(self):
-        return CartItem.check_ingredient_availability(self.product_id, self.quantity)
-
-    @staticmethod
-    def adjust_ingredient_quantity(product, quantity_change):
-        product_ingredients = ProductIngredient.objects.filter(product=product)
-        for product_ingredient in product_ingredients:
-            ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * quantity_change
-            ingredient.quantity = F('quantity') - required_quantity
-            ingredient.save()
-        for product_ingredient in product_ingredients:
-            product_ingredient.ingredient.refresh_from_db()
+    def reduce_ingredients(self):
+        for pi in self.product.productingredient_set.all():
+            Ingredient.objects.filter(name=pi.ingredient.name).update(
+                quantity=F('quantity') - (pi.quantity * self.quantity)
+            )
 
 class Cart(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -85,40 +90,5 @@ class CartItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
-    def save(self, *args, **kwargs):
-        if self.pk:
-            # Update the quantity of ingredients
-            self.adjust_ingredient_quantity(self.product, self.quantity - self.__original_quantity)
-        else:
-            # Reduce the quantity of ingredients
-            self.adjust_ingredient_quantity(self.product, self.quantity)
-        super().save(*args, **kwargs)
-
-    @staticmethod
-    def adjust_ingredient_quantity(product, quantity_change):
-        product_ingredients = ProductIngredient.objects.filter(product=product)
-        for product_ingredient in product_ingredients:
-            ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * quantity_change
-            ingredient.quantity = F('quantity') - required_quantity
-            ingredient.save()
-        for product_ingredient in product_ingredients:
-            product_ingredient.ingredient.refresh_from_db()
-
-    @staticmethod
-    def check_ingredient_availability(product, quantity):
-        product_ingredients = ProductIngredient.objects.filter(product=product)
-        for product_ingredient in product_ingredients:
-            ingredient = product_ingredient.ingredient
-            required_quantity = product_ingredient.quantity * quantity
-            if ingredient.quantity < required_quantity:
-                return False
-        return True
-
-    def delete(self, *args, **kwargs):
-        self.adjust_ingredient_quantity(self.product, -self.quantity)
-        super().delete(*args, **kwargs)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.__original_quantity = self.quantity
+    # Simplified CartItem: Do NOT reserve stock. Check availability on 'add' and 'checkout'.
+    # This avoids complex reserve/release logic.
